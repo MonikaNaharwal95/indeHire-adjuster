@@ -1,0 +1,22 @@
+<inde-dialog #equipmentPictureViewDialog [header]="meta?.IH_EquipImgUpload_UpldImg" [dialogWidth]="700" (negativeButtonClickEvent)="closeEquipmentDialog()">
+    <div class="note-equipment"><span>*</span>{{meta?.IH_EquipImgUpload_FileTypeSize}}</div>
+    <div *ngIf="!isLoader" class="content-wrapper">
+        <div class="no-item" *ngIf="equipmentList.length === 0">{{meta?.IH_EquipImgUpload_NoImgDisplay}}</div>
+        <div class="check-box" *ngFor="let equipment of equipmentList;">
+            <label class="k-checkbox-label" [for]="equipment.equipmentTypeID">{{ equipment?.equipmentName }}</label>
+            <div class="status">
+                <span *ngIf="equipment.statusType === 'Approved'"><i class="fas fa-check-circle"></i></span>
+                <span *ngIf="equipment.statusType === 'Pending'"><i class="fas fa-exclamation-circle"></i></span>
+                <span *ngIf="equipment.statusType === 'Rejected'"><i class="fas fa-times-circle"></i></span>
+            </div>
+            <div class="no-image" *ngIf="equipment.equipmentDocuments.length === 0"><i class="fas fa-image"></i>
+                <div class="text">{{meta?.IH_EquipImgUpload_NoDocUpload}}</div>
+            </div>
+            <div class="image-list" *ngFor="let doc of equipment.equipmentDocuments;index as i">
+                <div class="image-section">
+                    <img [src]="doc.documentPath" width="300" *ngIf="doc.documentPath">
+                </div>
+            </div>
+        </div>
+    </div>
+</inde-dialog>

@@ -1,0 +1,75 @@
+@import "./../../../../styles/mixin";
+@import "./../../../../styles/variable";
+.card {
+    padding: 15px;
+    h2 {
+        @include content-style($font-card-header, $colorPrimary, $semibold);
+        margin: 0px 0px 15px;
+    }
+}
+
+.card-inner {
+    .category {
+        width: 100%;
+    }
+    .dropdown {
+        max-width: 220px;
+        margin-bottom: 15px;
+    }
+    .input-field {
+        padding: 5px;
+        border: 1px solid $borderColor;
+        display: flex;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        label {
+            display: inline-block;
+            margin-right: 10px;
+            @include content-style($font-extra-small, $colorBlueLight, $semibold);
+            align-self: center;
+            min-width: 30px;
+        }
+        input {
+            width: 100%;
+            border: 0;
+            height: 22px;
+            &:focus {
+                box-shadow: none;
+            }
+        }
+    }
+    .subject {
+        // input {
+        //     padding-left: 110px;
+        // }
+        label {
+            width: 60px
+        }
+    }
+    .btn-container {
+        margin-top: 15px;
+        float: right;
+        .rep {
+            @include indeButton($color: $colorAccent, $dark: $colorAccentDark);
+            width: auto;
+            margin-left: 10px;
+        }
+        .del {
+            @include indeOutlineButton($color: $colorBlueLight, $dark: $colorBlueLight);
+        }
+        .rep,
+        .del {
+            padding: 3px 20px;
+            font-size: $font-small;
+        }
+    }
+}
+
+.client-checkbox {
+    margin: 12px 0px;
+}
+
+.error-custom {
+    margin-top: -15px;
+    padding-bottom: 12px;
+}

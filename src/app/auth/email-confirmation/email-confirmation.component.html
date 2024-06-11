@@ -1,0 +1,27 @@
+<div class="wrapper">
+  <div class="data-wrap" *ngIf="metaData">
+    <div class="login-container">
+      <img class="logo" [src]="'./../../../assets/crawford_logo_color.png'" />
+      <div class="logo-name">{{ metaData.IH_Email_Verification_CIS }}</div>
+      <div class="shad-card">
+        <i class="far fa-check-circle fa-4x"></i>
+        <h3 class="title">{{ metaData.IH_Email_Verification_Page_Header }}</h3>
+        <div class="first-line">
+          {{ metaData.IH_Email_Verification_Page_Middle }} <b>{{ email }}</b>
+        </div>
+        <div class="second-line">
+          {{ metaData.IH_Email_Verification_Page_Footer }}
+        </div>
+        <button *ngIf="!success" type="submit" class="btn" (click)="resendVerificationEmail()">
+          {{ metaData.IH_Email_Verification_Resend_Button }}
+          <i *ngIf="loader" class="fas fa-sync spin"></i>
+        </button>
+        <div class="flex success" *ngIf="success">
+          <i class="fas fa-check-circle"></i>
+          {{ success }}
+        </div>
+      </div>
+    </div>
+    <inde-footer></inde-footer>
+  </div>
+</div>

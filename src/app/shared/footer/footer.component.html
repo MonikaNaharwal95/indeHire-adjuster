@@ -1,0 +1,9 @@
+<div class="footer-bottom" *ngIf="metadata">
+    <span>
+        &copy; {{metadata?.IH_Footer_2020_IndeHire}} {{metadata?.IH_Footer_All_Rights_Reserved}} 
+        <a [href]="policyRoute" target="_blank">{{metadata?.IH_Footer_Privacy_Policy}}</a> | 
+        <a [href]="termsRoute" target="_blank">{{metadata?.IH_Footer_Terms_Conditions}}</a> | 
+        <a [href]="faqRoute" target="_blank">{{metadata?.IH_Footer_FAQs}}</a>
+    </span>
+    <span class="version">v {{ appVersion }}</span>
+</div>

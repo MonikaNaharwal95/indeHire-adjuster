@@ -1,0 +1,493 @@
+<div class="preferences" #pref>
+  <div class="shad-card">
+    <div class="heading profile">
+      <div class="title">
+        <label>{{metaData.IH_AdjusterPage_Profile_Completion}}</label>
+        <kendo-progressbar class="pro-bar" [value]="publicView.profilecompletionValue" [label]="labelprogress">
+        </kendo-progressbar>
+      </div>
+    </div>
+
+    <div class="heading profile">
+      <div class="reject-rsn-red" *ngIf="publicView.fountainStage=='Rejected' ||
+        publicView.fountainStage=='On Hold'">
+        <div>{{metaData.IH_AdjusterPage_OverallStatus}}: {{publicView.fountainStage}}</div>
+        <div>{{metaData.IH_AdjusterPage_Reason}}: {{publicView.rejection_Reason}}</div>
+      </div>
+      <div class="reject-rsn-green" *ngIf="publicView.isVerified && publicView.isAcceptAgreement==true ">
+        <div>{{metaData.IH_AdjusterPage_OverallStatus}}: {{metaData.IH_AdjusterPage_Verified}}</div>
+        <!-- <div>{{metaData.IH_AdjusterPage_Reason}}: {{publicView.rejection_Reason}}</div> -->
+      </div>
+      <div class="ver-ttl">{{metaData.IH_AdjusterPage_Verification}}</div>
+
+      <div class="links" [class.pointerNone]="isProfilePic || publicView.profileImageID">
+        <span>
+          <span *ngIf="isProfilePic || publicView.profileImageID" class="margin-left"
+            title="{{metaData.IH_AdjusterPage_Verified_Msg}}" kendoTooltip tooltipClass="g-tooltip" position="left">
+            <img src="./../../../../assets/Verified.svg">
+          </span>
+          <span *ngIf="!isProfilePic && !publicView.profileImageID" class="margin-left"
+            title="{{metaData.IH_AdjusterPage_Pending_Msg}}" kendoTooltip tooltipClass="g-tooltip" position="left">
+            <img src="./../../../../assets/Pending.svg">
+          </span>
+        </span>
+        <label>{{metaData.IH_AdjusterPage_Profile_Picture}}
+          <input type="file" accept="image/*" id="fileLoader" style="display:
+            none;" (change)="validateImage($event);">
+          <i *ngIf="imageLoader" class="fas fa-sync spin"></i>
+        </label>
+      </div>
+
+      <div class="links" *ngIf="false">
+        <span *ngFor="let ins of statusArray">
+          <span *ngIf="publicView.insuranceStatus==ins.condition" class="margin-left" [title]="ins.insMsg" kendoTooltip
+            tooltipClass="g-tooltip" position="left">
+            <img [src]='ins.src' [class.rej-width]='publicView.insuranceStatus=="REJ"'>
+          </span>
+        </span>
+        <label (click)="insuranceVerificationClick()"
+          [class.pointerNone]="publicView.insuranceStatus!=='PND'">{{metaData.IH_AdjusterPage_Insurance_Verification}}</label>
+      </div>
+      <div class="links" *ngIf="publicView.contractorTypeMappingViews[0].contractorTypeID !=='CTLA'">
+        <span *ngFor="let npn of statusArray">
+          <span *ngIf="publicView.npnStatus==npn.condition" class="margin-left" [title]="npn.msg" kendoTooltip
+            tooltipClass="g-tooltip" position="left">
+            <img [src]='npn.src' [class.rej-width]='publicView.npnStatus=="REJ"'>
+          </span>
+        </span>
+        <label (click)="npnCheckClick()"
+          [class.pointerNone]="publicView.npnStatus!=='PND'">{{metaData.IH_AdjusterPage_NPN}}
+        </label>
+      </div>
+      <!-- <div class="links" >
+        <span *ngFor="let xact of statusArray">
+            <span *ngIf="publicView.xactStatus==xact.condition" class="margin-left" [title]="xact.msg" kendoTooltip tooltipClass="g-tooltip" position="left">
+            <img  [src]='xact.src' [class.rej-width]='publicView.xactStatus=="REJ"'>
+            </span>
+        </span>
+        <label (click)="xactwareClick()" [class.pointerNone]="publicView.xactStatus!=='PND'">{{metaData.IH_AdjusterPage_Xactimate_Configuration}}</label>
+      </div> -->
+      <div class="links">
+        <span *ngFor="let back of statusArray">
+          <span *ngIf="publicView.ssnStatus==back.condition" class="margin-left" [title]="back.msg" kendoTooltip
+            tooltipClass="g-tooltip" position="left">
+            <img [src]='back.src' [class.rej-width]='publicView.ssnStatus=="REJ"
+              '>
+          </span>
+        </span>
+        <label (click)="backgroundCheckClick()"
+          [class.pointerNone]="publicView.ssnStatus!=='PND'">{{metaData.IH_AdjusterPage_Background_Check}}</label>
+      </div>
+      <div class="links">
+        <span>
+          <span *ngIf="publicView.isAcceptAgreement" class="margin-left"
+            title="{{metaData.IH_AdjusterPage_Verified_Msg}}" kendoTooltip tooltipClass="g-tooltip" position="left">
+            <img src="./../../../../assets/Verified.svg">
+          </span>
+
+          <span *ngIf="!publicView.isAcceptAgreement" class="margin-left"
+            title="{{metaData.IH_AdjusterPage_Pending_Msg}}" kendoTooltip tooltipClass="g-tooltip" position="left">
+            <img src="./../../../../assets/Pending.svg">
+          </span>
+
+        </span>
+        <!-- (publicView.profileImageID=='0' || publicView.ssnStatus!=='VER' || publicView.npnStatus!=='VER' || publicView.insuranceStatus!=='VER') -->
+        <label [class.pointerNone]="(!publicView.isVerified || publicView.isAcceptAgreement)"
+          (click)="editAcceptAgreement()">{{metaData.IH_AdjusterPage_ContractorAgreement}}</label>
+        <i *ngIf="publicView.isAcceptAgreement" (click)="getpdfDocument('download')" class="fas fa-download
+          agreement-download"></i>
+      </div>
+
+    </div>
+
+    <div class="heading profile">
+      <div class="title">
+        <label>{{metaData.IH_AdjusterPage_Visibilty}}: </label>
+        <!-- <div class="margin-left" kendoTooltip tooltipClass="g-tooltip" position="left" filter="img"
+          [tooltipTemplate]="template" style="display: inline-block;">
+          <img class='pointer' src="./../../../../assets/information.svg">
+        </div> -->
+
+        <div class="visi-pos">
+          <label class="switch-profile-label">{{metaData.IH_AdjusterPage_Private}}</label>
+          <!-- Before Visibility true-->
+          <label *ngIf="!publicView.isAcceptAgreement" class="margin-left" kendoTooltip tooltipClass="g-tooltip" position="right"
+            title="{{metaData.IH_AdjusterPage_Top_Banner}}">
+            <label>
+              <kendo-switch [class.pointerNone]="
+              ((!publicView.isProfilePublic && publicView.isAdminAction) || !publicView.isAcceptAgreement || !publicView.isVerified)" class="switch-profile" [onLabel]="' '" [offLabel]="' '"
+                [(ngModel)]="publicView.isProfilePublic" (valueChange)="profileVisibility_func()">
+              </kendo-switch>
+            </label>
+          </label>
+         <!-- Before Visibility true-->
+         <!-- After Visibility true-->
+          <!-- Profile Is  Private-->
+         <label *ngIf="publicView.isAcceptAgreement && (!publicView.isProfilePublic && !publicView.isAdminAction)" class="margin-left" kendoTooltip tooltipClass="g-tooltip" position="right"
+            title="{{metaData.IH_AdjusterPage_ProfilePrivate}}">
+            <label>
+              <kendo-switch [class.pointerNone]="
+              ((!publicView.isProfilePublic && publicView.isAdminAction) || !publicView.isAcceptAgreement || !publicView.isVerified)" class="switch-profile" [onLabel]="' '" [offLabel]="' '"
+                [(ngModel)]="publicView.isProfilePublic" (valueChange)="profileVisibility_func()">
+              </kendo-switch>
+            </label>
+        </label>
+            <!--  Profile Is  Private-->
+            <!-- Admin Made Private-->
+        <label *ngIf="(!publicView.isProfilePublic && publicView.isAdminAction) && publicView.isAcceptAgreement  && publicView.isVerified" class="margin-left" kendoTooltip tooltipClass="g-tooltip" position="right"
+            title="{{metaData.IH_AdjusterPage_ContactStaff}}">
+            <label>
+              <kendo-switch [class.pointerNone]="
+              ((!publicView.isProfilePublic && publicView.isAdminAction) || !publicView.isAcceptAgreement || !publicView.isVerified)" class="switch-profile" [onLabel]="' '" [offLabel]="' '"
+                [(ngModel)]="publicView.isProfilePublic" (valueChange)="profileVisibility_func()">
+              </kendo-switch>
+            </label>
+        </label>
+            <!-- Admin Made Private-->
+            <!-- Profile is Public-->
+            <label *ngIf="publicView.isAcceptAgreement && (publicView.isProfilePublic && !publicView.isAdminAction)">
+              <kendo-switch [class.pointerNone]="
+              ((!publicView.isProfilePublic && publicView.isAdminAction) || !publicView.isAcceptAgreement || !publicView.isVerified)" class="switch-profile" [onLabel]="' '" [offLabel]="' '"
+                [(ngModel)]="publicView.isProfilePublic" (valueChange)="profileVisibility_func()">
+              </kendo-switch>
+            </label>
+          <!-- Profile is Public-->
+          <!-- After Visibility true--> 
+          <label class="switch-profile-label">{{metaData.IH_AdjusterPage_Public_Name}}</label>
+        </div>
+
+      </div>
+      <div class="view-profile" *ngIf="publicView.isProfilePublic" [routerLink]="'/client-view'">
+        {{metaData.IH_AdjusterPage_Public_Profile}}
+      </div>
+
+      <div class="links" style="padding: 4px 8px">
+        <span>
+          <img *ngIf="publicView.isPaymentAvailable" [src]="'./../../../../assets/Verified.svg'">
+          <img *ngIf="!publicView.isPaymentAvailable" [src]="'./../../../../assets/Pending.svg'">
+        </span>
+        <label [class.pointerNone]="publicView.isPaymentAvailable" [routerLink]="'/settings/account-settings'">Payment Information</label>
+      </div>
+    </div>
+
+    <div class="heading pref">
+      <div class="title">
+        <label>{{metaData.IH_AdjusterPage_Work_Preferences}}
+        </label>
+        <img (click)="onAddWorkPreference()" src="./../../../../assets/edit.svg" class='pointer' style="float: right;">
+      </div>
+    </div>
+    <div class="r-bottom" *ngIf="!addPreference">
+      <div class="pro-status">
+        <div class="availability flex">
+          <div>{{metaData.IH_AdjusterPage_Availability}}</div>
+          {{getValueByKey(publicView.contractorAvailablityTypeID,
+          availabilityLookup)}}
+        </div>
+        <div class="availability flex" *ngIf="publicView.contractorAvailablityTypeID=='ASUA'">
+          <div>{{metaData.IH_AdjusterPage_Availability_Date}}</div>
+          <label>{{publicView.availablityDate| date: 'MM/dd/yyyy'}}</label>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="publicView.contractorTypeMappingViews[0].contractorTypeID === 'CTAD'">
+      <div class="r-bottom" *ngIf="!addPreference">
+        <div class="pro-status">
+          <div class="job flex">
+            <div>{{metaData.IH_AdjusterPage_Job_Preference}}</div>
+            <ng-container>
+              <label *ngFor="let preference of publicView.preferredJobTypeView;
+                let isLast=last">
+                {{ getValueByKey(preference.workEnvironmentTypeID,
+                jobPreferenceLookup)}}{{isLast ? ' ' : ', '}}
+              </label>
+            </ng-container>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="right-view" *ngIf="!addPreference">
+        <div class="heading" style="border:none">
+          <div class="title">
+            <label class="small-title">
+              {{metaData.IH_AdjusterPage_Preferred_Rate_Type}}
+              <label class="margin-left" title="{{metaData.IH_AdjusterPage_Preferred_Rate_Tooltip}}" kendoTooltip
+                tooltipClass="g-tooltip" position="right">
+                <img class='pointer' src="./../../../../assets/information.svg">
+              </label>
+            </label>
+          </div>
+        </div>
+        <div class="notify-rate" *ngIf="publicView.preferredJobTypeView.length === 0">
+          <div class="icon" title="{{metaData.IH_AdjusterPage_Pending_Msg}}" kendoTooltip tooltipClass="g-tooltip"
+            position="top">
+            <img src="./../../../../assets/Pending.svg">
+          </div>
+          <div class="poke">{{metaData.IH_AdjusterPage_AddRate}}</div>
+        </div>
+
+        <div class="r-bottom">
+
+          <div class="pro-status" *ngFor="let rate of
+            publicView.preferredJobTypeView" style="border:none">
+            <div class="job flex" *ngIf="rate.workEnvironmentTypeID=='WKDK'">
+              <div>{{metaData.IH_AdjusterPage_Hourly}}</div>
+              <label>
+                $ {{rate.preferredRateTypeView.rateAmount| number :
+                '1.2-2'}}/{{metaData.IH_AdjusterPage_hr}}
+              </label>
+            </div>
+            <div class="availability flex claim-margin" *ngIf="rate.workEnvironmentTypeID=='WKFD'">
+              <div style="flex:none">{{metaData.IH_AdjusterPage_Per_Claim}}</div>
+              <span style="flex:auto">
+                <label>$ {{rate.preferredRateTypeView.rateAmount| number :
+                  '1.2-2'}} {{metaData.IH_AdjusterPage_Fee}}</label>
+                <label> + </label>
+                <label> {{ rate.preferredRateTypeView.ratePercentage| number :
+                  '1.2-2'}}% </label>
+                <label> {{ metaData.IH_AdjusterPage_of_Gross_Loss}}</label>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <div class="right-edit" *ngIf="addPreference && isValAssigned">
+      <div [formGroup]="addWorkPreference">
+        <div class="avail-pref">
+          <div class="heading">
+            <div class="title">
+              <label class="small-title">{{metaData.IH_AdjusterPage_Availability}}</label>
+            </div>
+          </div>
+          <div class="avail-pref-check">
+            <div *ngFor="let status of availabilityLookup">
+              <input type="radio" id="{{status.value}}" name="availabilityTypeID" class="k-radio" [value]="status.key"
+                formControlName="availabilityTypeID" />
+              <label class="k-radio-label" for="{{status.value}}">{{status.value}}</label><br />
+            </div>
+          </div>
+          <div class="form-group" *ngIf="addWorkPreference.value.availabilityTypeID=='ASUA'">
+            <kendo-datepicker  formControlName="availablityDate"
+              placeholder={{metaData.IH_AdjusterPage_Availability_Date}} style="width:100%" [min]="minAvailabilityDate">
+            </kendo-datepicker>
+            <div class="error" *ngIf="keysPreference['availablityDate'].touched &&
+                keysPreference['availablityDate'].errors &&
+                keysPreference['availablityDate'].errors.required">
+              {{metaData.IH_AdjusterPage_Availability_Date}}
+              {{metaData.IH_AdjusterPage_Is_Required}}
+            </div>
+            <div class="error" *ngIf="keysPreference['availablityDate'].touched &&
+                keysPreference['availablityDate'].errors &&
+                keysPreference['availablityDate'].errors.minError">
+                {{metaData.IH_AdjusterPage_AvailabilityDate}}
+            </div>
+            <div class="error" *ngIf="keysPreference['availablityDate'].touched &&
+                keysPreference['availablityDate'].errors &&
+                keysPreference['availablityDate'].errors.maxError">
+                {{metaData.IH_AdjusterPage_Availability_Date}} {{validationMsg.IH_Invalid}}
+            </div>
+          </div>
+        </div>
+        <ng-container *ngIf="publicView.contractorTypeMappingViews[0].contractorTypeID === 'CTAD'">
+          <div class="job-pref">
+            <div class="heading">
+              <div class="title">
+                <label class="small-title">
+                  {{metaData.IH_AdjusterPage_Preferred_Job}}
+                  <!-- {{metaData.IH_AdjusterPage_Job_Preference}} -->
+                  <label class="margin-left" title="{{metaData.IH_AdjusterPage_JobType_Tooltip}}" kendoTooltip
+                    tooltipClass="g-tooltip" position="right">
+                    <img class='pointer' src="./../../../../assets/information.svg">
+                  </label>
+                </label>
+              </div>
+            </div>
+            <div class="job-pref-check">
+              <div *ngFor="let job of jobPreferenceLookup; let i= index">
+                <ng-container formArrayName="jobPreference">
+                  <input type="checkbox" [id]="job.key" (change)="jobCheckValidator()" [formControlName]="i"
+                    class="k-checkbox" />
+                  <label class="k-checkbox-label" [for]="job.key">{{ job.value
+                      }}</label>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+
+          <div class="rate-pref">
+            <div class="heading">
+              <div class="title">
+                <label class="small-title">
+                  {{metaData.IH_AdjusterPage_Preferred_Rate_Type}}
+                  <label class="margin-left" title="{{metaData.IH_AdjusterPage_Preferred_Rate_Tooltip}}" kendoTooltip
+                    tooltipClass="g-tooltip" position="right">
+                    <img class='pointer' src="./../../../../assets/information.svg">
+                  </label>
+                </label>
+              </div>
+            </div>
+            <div class="rate-pref-check">
+              <label class="rate-type-label">
+                {{metaData.IH_AdjusterPage_Hourly}}
+                <label class="margin-left" title="{{metaData.IH_AdjusterPage_Rate_Hourly_Tooltip}}" kendoTooltip
+                  tooltipClass="g-tooltip" position="right">
+                  <img class='pointer' src="./../../../../assets/information.svg">
+                </label>
+              </label>
+
+
+              <div class="flex">
+                <div class="outline-box-edit">
+                  <kendo-numerictextbox [min]="1" [decimals]="2" [max]="999.99" [format]="'c'" [spinners]="false"
+                    formControlName="hourlyRate" class="rate-input inde-num-box">
+                  </kendo-numerictextbox>
+                </div>
+                <div class="label">
+                  {{metaData.IH_AdjusterPage_Per_Hour}}
+
+                </div>
+
+              </div>
+              <div class="error" *ngIf="keysPreference['hourlyRate'].touched &&
+                  keysPreference['hourlyRate'].errors &&
+                  keysPreference['hourlyRate'].errors.required">
+                {{metaData.IH_AdjusterPage_Hourly_Error}}
+                <!-- Please enter your desired per hour rate. -->
+              </div>
+              <div class="error" *ngIf="(keysPreference['hourlyRate'].touched &&
+                  keysPreference['hourlyRate'].errors?.maxError) ||
+                  (keysPreference['hourlyRate'].touched &&
+                  keysPreference['hourlyRate'].errors?.minError) ||
+                  (keysPreference['hourlyRate'].touched &&
+                  keysPreference['hourlyRate'].errors?.min) ||
+                  (keysPreference['hourlyRate'].touched &&
+                  keysPreference['hourlyRate'].errors?.max)">
+                {{metaData.IH_AdjusterPage_Hourly_Error}}
+              </div>
+
+              <label class="rate-type-label">
+                {{metaData.IH_AdjusterPage_Per_Claim}}
+                <label class="margin-left" title="{{metaData.IH_AdjusterPage_Rate_Claim_Tooltip}}" kendoTooltip
+                  tooltipClass="g-tooltip" position="right">
+                  <img class='pointer' src="./../../../../assets/information.svg">
+                </label>
+              </label>
+
+
+              <div class="flex">
+                <div class="outline-box-edit">
+                  <kendo-numerictextbox [min]="1" [max]="9999.99" [format]="'c'" [spinners]="false"
+                    class="rate-input inde-num-box" formControlName="perClaimRate">
+                  </kendo-numerictextbox>
+                </div>
+                <div class="label">{{metaData.IH_AdjusterPage_Fee}}</div>
+                <div class="label">+</div>
+
+              </div>
+
+              <div class="flex">
+                <div class="outline-box-edit">
+                  <kendo-numerictextbox [min]="1" [max]="99" [format]="'##.## \\%'" [decimals]="decimals"
+                    [spinners]="false" class="rate-input inde-num-box" formControlName="perClaimCommission">
+                  </kendo-numerictextbox>
+                </div>
+                <div class="label">{{metaData.IH_AdjusterPage_of_Gross_Loss}}</div>
+              </div>
+              <div class="error" *ngIf="keysPreference['perClaimRate'].touched &&
+                  keysPreference['perClaimRate'].errors &&
+                  keysPreference['perClaimRate'].errors.required">
+                {{metaData.IH_AdjusterPage_PerClaim_Error}}
+                <!-- Please enter your desired per claim rate. -->
+              </div>
+              <div class="error" *ngIf="keysPreference['perClaimCommission'].touched &&
+                  keysPreference['perClaimCommission'].errors &&
+                  keysPreference['perClaimCommission'].errors.required">
+                {{metaData.IH_AdjusterPage_Percentage_Error}}
+                <!-- Please enter your desired per claim rate. -->
+              </div>
+              <div class="error" *ngIf="(keysPreference['perClaimRate'].touched &&
+                  keysPreference['perClaimRate'].errors?.maxError) ||
+                  (keysPreference['perClaimRate'].touched &&
+                  keysPreference['perClaimRate'].errors?.minError) ||
+                  (keysPreference['perClaimRate'].touched &&
+                  keysPreference['perClaimRate'].errors?.min) ||
+                  (keysPreference['perClaimRate'].touched &&
+                  keysPreference['perClaimRate'].errors?.max)">
+                {{metaData.IH_AdjusterPage_PerClaim_Error}}
+              </div>
+              <div class="error" *ngIf="(keysPreference['perClaimCommission'].touched &&
+                  keysPreference['perClaimCommission'].errors?.maxError) ||
+                  (keysPreference['perClaimCommission'].touched &&
+                  keysPreference['perClaimCommission'].errors?.minError) ||
+                  (keysPreference['perClaimCommission'].touched &&
+                  keysPreference['perClaimCommission'].errors?.min) ||
+                  (keysPreference['perClaimCommission'].touched &&
+                  keysPreference['perClaimCommission'].errors?.max)">
+                {{metaData.IH_AdjusterPage_Percentage_Error}}
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <div style="text-align: center;">
+
+          <button [disabled]="loader" class="btn-cancel" (click)="addPreference= false">
+            <ng-container>{{metaData.IH_AdjusterPage_Cancel}}</ng-container>
+          </button>
+          <button type="submit" class="btn-save" [disabled]="!addWorkPreference.valid || loader"
+            (click)="addWorkPreference_func()">
+            <ng-container>{{metaData.IH_AdjusterPage_Save}}</ng-container>
+            <i *ngIf="loader && addWorkPreference.valid" class="fas fa-sync
+                spin"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+<ng-template #template>
+  <div class="public">
+    <label>Public: </label>
+    {{metaData.IH_AdjusterPage_Public_Msg}}
+  </div>
+  <div class="public">
+    <label>Private: </label>
+    {{metaData.IH_AdjusterPage_Private_Msg}}
+  </div>
+</ng-template>
+
+
+<inde-dialog #dialog [header]="metaData.IH_AdjusterPage_Accept_Agreement" [infoCircleShow]="true" [dialogWidth]='1000'
+  [positiveButton]="metaData?.IH_AdjusterPage_Save" [negativeButton]="metaData?.IH_AdjusterPage_Cancel"
+  (positiveButtonClickEvent)='saveAdjusterAgreement()' (negativeButtonClickEvent)='closeDialog()'
+  [positiveButtonDisabled]="adjusterAgreementInitial.initial.length<2 ||
+    !adjusterAgreementInitial.check">
+
+  <pdf-viewer class="signdo" [original-size]="true" [autoresize]="false" [fit-to-page]="true" [src]="fileURL"
+    [render-text]="true" style="display:
+      block;"></pdf-viewer>
+
+  <div *ngIf="fileURL" class="agreement-wrapper">
+    <div class="initial-check">
+      <input type="checkbox" class="k-checkbox" [(ngModel)]="adjusterAgreementInitial.check" />
+      <label class="k-checkbox-label">{{metaData?.IH_AdjusterPage_CheckHandwriting}}</label>
+    </div>
+    <div class="flex">
+      <input class="inde-input" type="text" minlength="2" maxlength="3" class="initial" onpaste="return false;"
+        [(ngModel)]="adjusterAgreementInitial.initial">
+      <label class="initial-label">{{metaData.IH_AdjusterPage_Acknowledge}}</label>
+    </div>
+  </div>
+</inde-dialog>
+
+<inde-ssn-dialog #npnCheck (ssnEvent)="popupsClicked($event)" [title]='metaData.IH_AdjusterPage_NPN'></inde-ssn-dialog>
+<inde-ssn-dialog #backgroundCheck (ssnEvent)="popupsClicked($event)"></inde-ssn-dialog>
+<inde-insurance-detail #insurance (insuranceEvent)="popupsClicked($event)"></inde-insurance-detail>
+<!-- <inde-xactware-details #xactware (xactEvent)="popupsClicked($event)"></inde-xactware-details> -->

@@ -1,0 +1,53 @@
+<div class="wrapper">
+  <div class="data-wrap" *ngIf="metadata">
+    <div class="login-container">
+      <img class="logo" [src]="'./../../../assets/crawford_logo_color.png'" />
+      <div class="logo-name">{{ metadata.IH_Verification_Email_App_Title }}</div>
+      <div class="shad-card" *ngIf="!success">
+        <h3 class="title">{{ metadata.IH_Verification_Email_Resend_Email }}</h3>
+        <p class="info">{{ metadata.IH_Verification_Email_Reset_Password }}</p>
+        <div class="form-group">
+          <input class="inde-input" kendoTextBox [formControl]="sendEmail" maxlength="50" type="email"
+            [placeholder]="metadata.IH_Verification_Email_email" />
+          <div *ngIf="sendEmail.touched && sendEmail.errors">
+            <div class="error" *ngIf="sendEmail.errors.required">
+              {{ metadata.IH_Verification_Email_email }}
+              {{ validationMessage.IH_Required }}
+            </div>
+            <div class="error" *ngIf="sendEmail.errors.pattern">
+              {{ metadata.IH_Verification_Email_email }}
+              {{ validationMessage.IH_Invalid }}
+            </div>
+            <div class="error" *ngIf="sendEmail.errors.notfound">
+              {{ metadata.IH_Verification_Email_email }} {{ metadata.IH_Verification_Email_NotFound }}
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn" [class.disable]="loader" (click)="resendVerificationEmail()">
+          <ng-container *ngIf="!loader || !sendEmail.valid">{{
+            metadata.IH_Verification_Email_Resend
+          }}</ng-container>
+          <i *ngIf="loader && sendEmail.valid" class="fas fa-sync spin"></i>
+        </button>
+        <div class="login">
+          {{ metadata.IH_Verification_Email_Go_Login }}
+          <a [routerLink]="'/auth/login'">{{
+            metadata.IH_Verification_Email_Click
+          }}</a>
+        </div>
+      </div>
+
+      <div class="shad-card" *ngIf="success">
+        <i class="far fa-check-circle fa-4x"></i>
+        <h3 class="title">{{ success }}</h3>
+        <div class="first-line">
+          {{ metadata.IH_Verification_Email_Continue_Login }}
+        </div>
+        <button type="submit" [routerLink]="['/auth/login']" class="btn">
+          {{ metadata.IH_Verification_Email_Login }}
+        </button>
+      </div>
+    </div>
+    <inde-footer></inde-footer>
+  </div>
+</div>

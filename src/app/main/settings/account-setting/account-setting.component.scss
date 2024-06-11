@@ -1,0 +1,68 @@
+@import './../../../../styles/variable';
+@import './../../../../styles/mixin';
+@import './../../../../styles/custom';
+
+.info-grid {
+    @include grid-2(1fr, 1fr);
+    .form-group {
+        margin-right: 30%;
+    }
+    .address {
+        margin-bottom: 8px;
+        width: 100%;
+    }
+}
+.download {
+    font-size: $font-extra-small;
+    color: $colorBlueLight;
+    .fas:hover {
+        color: $colorAccent;
+        cursor: pointer;
+    }
+}
+.btn {
+    padding: 8px 0px;
+    display: flex;
+}
+.btn-positive {
+    @include indeButton();
+    width: max-content;
+}
+.btn-negative {
+    @include indeOutlineButton($colorBlueLight, $colorBlueLight);
+    margin-right: 8px;
+}
+.e-address {
+    flex: none;
+    width: 50%;
+}
+.left {
+    margin-right: 4px;
+    width: calc(50% - 4px);
+}
+.no-data {
+    text-align: center;
+    font-size: 20px;
+    margin: 24px 0;
+}
+.datepicker {
+    width: 100%;
+}
+.info-item {
+    margin-left: 4px;
+    margin-top: 2px;
+    cursor: pointer;
+    img {
+        font-size: $font-medium;
+    }
+}
+.calling-code {
+    width: calc(30% - 8px) !important; 
+    margin-right: 8px;
+}
+.phone-input {
+    width: 70% !important;
+}
+.phone-error {
+    margin-left: 30%;
+}

@@ -1,0 +1,33 @@
+{
+    "apiUrls": {
+        "identity": {
+            "command": "https://us-continuousdeployment-api.claims.global/identityweb/"
+        },
+        "notification": {
+            "command": "https://us-continuousdeployment-api.claims.global/commonnotification/"
+        },
+        "cms": {
+            "read": "https://us-continuousdeployment-api.claims.global/contentread/"
+        },
+        "adjuster": {
+            "read": "https://us-continuousdeployment-api.claims.global/adjusterread/",
+            "command": "https://us-continuousdeployment-api.claims.global/adjustercommand/"
+        }
+    },
+    "splashScreenStatus": "everytime",
+    "splashScreenDurationInSec": "0",
+    "enableCacheAspect": "false",
+    "signupUrl": "https://onboarding.wegolook.com/",
+    "websiteUrl": "https://us-continuousdeployment-ladder-website-ui.claims.global/",
+    "appStorePath": "https://www.apple.com/ios/app-store/",
+    "playStorePath": "https://play.google.com/store",
+    "auth": {
+        "clientID": "6CwA2IiSHb3rWFZdqfGVxxXSj80e15Is",
+        "domain": "crawford-dev.auth0.com",
+        "responseType": "token id_token",
+        "redirectUri": "http://localhost:4200/callback",
+        "scope": "openid profile email",
+        "audience": "http://crawford-dev.auth0.com",
+        "database": "External-Users"
+    }
+}

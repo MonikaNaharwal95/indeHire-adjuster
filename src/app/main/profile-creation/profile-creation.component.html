@@ -1,0 +1,88 @@
+<ng-container *ngIf="loader || !prelimMeta">
+  <div class="loader">
+    <span class="k-icon k-i-loading"></span>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="renderHtml && prelimMeta && prelimData">
+  <div class="data-wrap" #scrollWrapper>
+    <div class="login-container">
+      <div class="shad-card" *ngIf="prelimMeta">
+        <div class="header">
+          <div class="svg-ctn" [class.disabled]="pageId !== 1" *ngIf="pageId === 1">
+            <div class="icon-ctn">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 16">
+                <g id="personal_info" transform="translate(0 -2.5)">
+                  <path id="Path_256" data-name="Path 256"
+                    d="M26.279,15.416l-2.964-1.442a1.1,1.1,0,0,1-.625-.984V11.858a4.33,4.33,0,0,0,.281-.351A6.56,6.56,0,0,0,23.892,9.7a.909.909,0,0,0,.66-.862V7.632a.89.89,0,0,0-.31-.669V5.217S24.61,2.5,20.828,2.5s-3.414,2.717-3.414,2.717V6.963a.89.89,0,0,0-.31.669V8.84a.9.9,0,0,0,.429.76,5.932,5.932,0,0,0,1.123,2.259v1.1a1.1,1.1,0,0,1-.589.965L15.3,15.4A2.412,2.412,0,0,0,14,17.522V18.5H27.655v-.919A2.416,2.416,0,0,0,26.279,15.416Z"
+                    transform="translate(-9.655)" fill="currentColor" />
+                  <path id="Path_257" data-name="Path 257"
+                    d="M5.642,20.283,7.487,19.3c-.011-.01,0-.013.02-.011l.9-.479A1.1,1.1,0,0,0,9,17.849v-1.1a5.731,5.731,0,0,1-.649-1h0c-.042-.081-.083-.166-.124-.255L8.21,15.45c-.041-.091-.082-.186-.12-.285l-.007-.02c-.034-.088-.065-.178-.095-.27L7.964,14.8c-.031-.1-.061-.206-.086-.313a.9.9,0,0,1-.43-.759V12.519a.89.89,0,0,1,.31-.669V10.145A3.48,3.48,0,0,0,5.586,9.5c-2.968,0-3.1,2.415-3.1,2.415v1.508a.812.812,0,0,0-.31.578v1.043a.778.778,0,0,0,.371.656A4.317,4.317,0,0,0,3.71,17.651V18.6a.946.946,0,0,1-.509.834L1.12,20.707A2.083,2.083,0,0,0,0,22.542v.844H4.345v-.978A2.412,2.412,0,0,1,5.642,20.283Z"
+                    transform="translate(0 -4.887)" fill="currentColor" />
+                </g>
+              </svg>
+            </div>
+            <div>{{ prelimMeta.IH_Prelim_Screen_1_Header_1 }}</div>
+          </div>
+          <div class="svg-ctn" *ngIf="pageId !== 1" [class.success]="pageId !== 1">
+            <div class="icon-ctn">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 9.75">
+                <path id="personal_info_completed"
+                  d="M116.662,130.953l-7.071,7.253-2.858-2.931a.883.883,0,0,0-1.272,0,.939.939,0,0,0,0,1.3l3.494,3.584a.884.884,0,0,0,1.272,0l0,0,7.7-7.9a.939.939,0,0,0,0-1.3A.883.883,0,0,0,116.662,130.953Z"
+                  transform="translate(-105.197 -130.683)" fill="currentColor" />
+              </svg>
+            </div>
+            <div>{{ prelimMeta.IH_Prelim_Screen_1_Header_1 }}</div>
+          </div>
+          <div class="svg-ctn" *ngIf="pageId == 2">
+            <div class="new-icon-ctn">
+              <svg id="professional_info" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <path id="Path_258" data-name="Path 258"
+                  d="M15.733,0H.267A.267.267,0,0,0,0,.267V15.733A.267.267,0,0,0,.267,16H15.733A.267.267,0,0,0,16,15.733V.267A.267.267,0,0,0,15.733,0ZM4.983,13.554l-1-.527-1,.527.191-1.115-.81-.79,1.12-.163.5-1.015.5,1.015,1.12.163-.81.79ZM4.791,8.321l.191,1.115-1-.527-1,.527.191-1.115-.81-.79,1.12-.163.5-1.015.5,1.015L5.6,7.53Zm0-4.022.191,1.115-1-.527-1,.527L3.171,4.3l-.81-.79,1.12-.163.5-1.015.5,1.015,1.12.163Zm7.742,8.5h-6.4V11.733h6.4Zm0-4h-6.4V7.733h6.4Zm0-4h-6.4V3.733h6.4Z"
+                  fill="currentColor" />
+              </svg>
+              <svg class="progress-ring-ctn" style="height: 48px;">
+                <circle class="progress-ring-circle" stroke="white" stroke-width="2" fill="blue" r="20" cx="26"
+                  cy="21" />
+              </svg>
+            </div>
+            <div>{{ prelimMeta.IH_Prelim_Screen_1_Header_2 }}</div>
+          </div>
+          <div class="svg-ctn" *ngIf="pageId == 3 || pageId ==1" [class.disabled]="pageId === 1">
+            <div class="icon-ctn">
+              <svg id="professional_info" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <path id="Path_258" data-name="Path 258"
+                  d="M15.733,0H.267A.267.267,0,0,0,0,.267V15.733A.267.267,0,0,0,.267,16H15.733A.267.267,0,0,0,16,15.733V.267A.267.267,0,0,0,15.733,0ZM4.983,13.554l-1-.527-1,.527.191-1.115-.81-.79,1.12-.163.5-1.015.5,1.015,1.12.163-.81.79ZM4.791,8.321l.191,1.115-1-.527-1,.527.191-1.115-.81-.79,1.12-.163.5-1.015.5,1.015L5.6,7.53Zm0-4.022.191,1.115-1-.527-1,.527L3.171,4.3l-.81-.79,1.12-.163.5-1.015.5,1.015,1.12.163Zm7.742,8.5h-6.4V11.733h6.4Zm0-4h-6.4V7.733h6.4Zm0-4h-6.4V3.733h6.4Z"
+                  fill="currentColor" />
+              </svg>
+            </div>
+            <div>{{ prelimMeta.IH_Prelim_Screen_1_Header_2 }}</div>
+          </div>
+        </div>
+        <div class="sub-heading" *ngIf="pageId === 1">
+          {{ prelimMeta.IH_Prelim_Screen_1_SubHeader_1 }}
+        </div>
+        <div class="sub-heading-mandatory" *ngIf="pageId === 1">
+          {{ prelimMeta.IH_Prelim_Screen_1_Required_Field }}
+        </div>
+
+        <inde-personal-info *ngIf="pageId === 1" [prelimData]="prelimData" [refrenceData]="refrenceData"
+          [prelimMeta]="prelimMeta" [jobPrefLookup]="jobPrefData" [stateLookup]="stateLookup" [callingCodeLookup]="callingCodes"
+          [countryLookup]="countryLookup" [industryLookup]="industryLookup" [contractorLookup]="contractorLookup"
+          (firstSectionDone)="backClicked()">
+        </inde-personal-info>
+        <inde-professional-info1 [experience]="prelimData.experiencesView" [speciality]="prelimData.specialitiesView"
+          [specialityData]="specialityData" [prelimData]="prelimData" [specialitySubType]="specialitySubType"
+          [experienceType]="experienceType" [yearLookup]="experiencesYear" [prelimMeta]="prelimMeta"
+          (backToFirst)="backClicked()" (secondSectionDone)="backClicked()" *ngIf="pageId === 2">
+        </inde-professional-info1>
+        <inde-professional-info2 [prelimData]="prelimData" [insuranceLookup]="insuranceData" [prelimMeta]="prelimMeta"
+          [lossTypeLookup]="lossTypeData" [softwareLookup]="softwareData" [stateLookup]="stateLookup" [languageLookup]="languateData"
+          [equipmentLookup]="equipmentData" [proficiencyLookup]="proficiencyData" (backToSecond)="backClicked()"
+          *ngIf="pageId === 3">
+        </inde-professional-info2>
+      </div>
+    </div>
+    <inde-footer></inde-footer>
+  </div>
+</ng-container>

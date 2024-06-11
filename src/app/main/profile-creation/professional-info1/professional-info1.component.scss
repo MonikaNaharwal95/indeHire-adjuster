@@ -1,0 +1,30 @@
+@import "./../profile-creation.component.scss";
+@import "./../../../../styles/variable";
+@import "./../../../../styles/mixin";
+
+.secondSection {
+  .content-section {
+    padding: 20px 32px;
+    .header {
+      color: $colorPrimary;
+      font-size: $font-small;
+      text-align: left;
+      font-weight: 600;
+    }
+    .checkbox-ctn {
+      width: 31%;
+      padding: 7px 4px;
+      .check-box {
+        width: auto;
+        display: table;
+      .k-checkbox-label {
+        text-align: initial;
+      }
+    }
+    }
+    .checkbox-section {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+}

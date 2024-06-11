@@ -1,0 +1,63 @@
+<inde-dialog #dialog [header]="jobTitle" [loader]="false" [dialogWidth]="500" [positiveButton]="this.jobsMetadata?.IH_AdjusterJobs_Accept" [negativeButton]="this.jobsMetadata?.IH_AdjusterJobs_Cancel" (negativeButtonClickEvent)="close()" (positiveButtonClickEvent)="openAlert()"
+    [positiveButtonDisabled]="false">
+    <div class="job-wait" *ngIf="!schemJson">
+        {{jobsMetadata?.IH_AdjusterJobs_PleaseWait}}
+    </div>
+    <ng-container *ngIf="schemJson">
+        <div class="generic-grp" *ngIf="customFields">
+            <div class="header" (click)="hideEle = !hideEle">
+                {{ this.jobsMetadata?.IH_AdjusterJobs_JobSummary }}
+                <i class="fas pos" [ngClass]="(!hideEle) ? 'fa-angle-down' : 'fa-angle-up'"></i>
+            </div>
+            <div class="controls" [style.display]="(!hideEle)? 'none': 'block'">
+                <div class="control-wrap">
+                    <div class="control-label">{{ jobsMetadata?.IH_AdjusterJobs_ReqType }}</div>
+                    <div class="control-value">{{ customFields.requirementTypeValue }}</div>
+                </div>
+                <div class="control-wrap">
+                    <div class="control-label">{{ jobsMetadata?.IH_AdjusterJobs_Property }}</div>
+                    <div class="control-value">{{ customFields.propertyTypeValue }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="view-job">
+            <!-- <cis-form-render [schemaJson]="schemJson" [formData]="formJson" [context]="'wgl-csr'"></cis-form-render> -->
+        </div>
+    </ng-container>
+</inde-dialog>
+
+<!-- <inde-alert-dialog #acceptAlert
+    [message]="this.jobsMetadata?.IH_AdjusterJobs_AcceptAgmtConfirm"
+    [positiveButton]="'Confirm'" [negativeButton]="this.jobsMetadata?.IH_AdjusterJobs_Cancel" (positiveButtonClick)="acceptJob()" (negativeButtonClick)="closeAlert()">
+</inde-alert-dialog> -->
+
+
+<inde-dialog #acceptAlert [header]="this.jobsMetadata?.IH_AdjusterJobs_JobConfirm" [loader]="jobLoader"
+[dialogWidth]="500" [positiveButton]="this.jobsMetadata?.IH_AdjusterJobs_Confirm" [negativeButton]="this.jobsMetadata?.IH_AdjusterJobs_Cancel" (negativeButtonClickEvent)="closeAlert()" (positiveButtonClickEvent)="acceptJob()">
+    <div class="dialog-info">
+        <div class="msg" *ngIf="jobStatus !== 'JBSG'">
+            {{ jobDetails?.scheduleDate ? this.jobsMetadata?.IH_AdjusterJobs_AcceptAgmtConfirm : jobConfrmationValue}}
+        </div>
+        <div class="msg" *ngIf="jobStatus == 'JBSG'">{{this.jobsMetadata?.IH_AdjusterJobs_AcceptJobOutside}}</div>
+        <div class="location">
+            <label>{{this.jobsMetadata?.IH_AdjusterJobs_Location}}:</label>
+            <span>{{location || this.jobDetails?.location }}</span>
+        </div>
+        <div class="date">
+            <label>{{this.jobsMetadata?.IH_AdjusterJobs_Date}}:</label>
+            <span>{{ (this.jobDetails?.scheduleDate) ? (this.jobDetails?.scheduleDate | date: 'MM/dd/yyyy') : 'Need to Schedule'}}</span>
+        </div>
+        <div class="time">
+            <label>{{this.jobsMetadata?.IH_AdjusterJobs_Time}}:</label>
+            <span *ngIf="this.jobDetails?.scheduleDate">{{ this.jobDetails?.startTime}} {{this.jobDetails?.timezone ? '(' + this.jobDetails?.timezone + ')' : ''}}</span>
+            <span *ngIf="!this.jobDetails?.scheduleDate">Need to Schedule</span>
+        </div>
+    </div>
+</inde-dialog>
+
+<inde-dialog #complenessCheck [header]="completenessHeader" [loader]="jobLoader"
+[dialogWidth]="500" [positiveButton]="this.jobsMetadata?.IH_AdjusterJobs_Okay" [negativeButton]="this.jobsMetadata?.IH_AdjusterJobs_Cancel" (negativeButtonClickEvent)="closeAlert()" (positiveButtonClickEvent)="routeToPayment()">
+    <div class="dialog-info">
+        <div class="msg">{{completenessMsg}}</div>
+    </div>
+</inde-dialog>

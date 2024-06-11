@@ -1,0 +1,17 @@
+@import './../styles/mixin';
+@import './../styles/variable';
+
+
+.center {
+    @include moveDivToCentre();
+    .btn {
+        @include indeButton();
+    }
+    .btn-outline {
+        @include indeOutlineButton();
+    }
+}
+
+.lookup {
+    @include indeLook();
+}

@@ -1,0 +1,80 @@
+<div class="wrapper">
+    <div class="data-wrap" *ngIf="loginMeta">
+        <div class="banner-sticky">
+            <div class="crawco-logo">
+                <a [href]="this.websiteRoute" target="_blank">
+                    <img [src]="'./../../../assets/Crawford-NoGlobe-Logo-White.svg'">
+                </a>
+            </div>
+        </div>
+        <div class="temp-wrap">
+            <div class="login-ins login-img">
+                <div class="banner-content">
+                    <p>{{ loginMeta.IH_LoginPage_Image_Text_1 }}</p>
+                    <p>{{ loginMeta.IH_LoginPage_Image_Text_2 }}</p>
+                    <p>{{ loginMeta.IH_LoginPage_Image_Text_3 }}</p>
+                </div>
+                <div class="main-instruction">
+                </div>
+            </div>
+            <div class="login-container">
+                <div class="card login-card">
+                    <div class="logo-ctn">
+                        <img class="logo-top" [src]="'./../../../assets/crawford_logo_color.png'" />
+                        <div class="logo-name">{{ loginMeta.IH_LoginPage_App_Title }}</div>
+                    </div>
+                    <h3 class="title">{{ loginMeta.IH_LoginPage_Header }}</h3>
+                    <div class="g-btn" [class.disable]="loader" (click)="loginWithGoogle()">
+                        <img [src]="'./../../../assets/google.svg'" class="g-icon" alt="googleIcon" />
+                        <span class="g-text">{{ loginMeta.IH_Google_Button }}</span>
+                    </div>
+                    <div class="g-btn" style="margin: 8px 0;" [class.disable]="loader" (click)="loginWithAppleID()">
+                        <i class="fab fa-apple"></i>
+                        <span class="g-text">{{ loginMeta.IH_Login_ContAppleID }}</span>
+                    </div>
+                    <div class="universal-login">
+                        <button class="btn-login" (click)="universalLogin()">{{loginMeta.IH_Login_LoginEmail }}</button>
+                    </div>
+                    <div class="fp" [class.disable]="loader" [routerLink]="['/auth/forget-password']">
+                        {{ loginMeta.IH_Forgot_Password }}
+                    </div>
+                    <div class="login signup-align">
+                        {{ loginMeta.IH_Login_Footer }}
+                        <a [href]="signupUrl" [class.disable]="loader">{{
+                            loginMeta.IH_Login_Footer_Sign_Up
+                        }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-section">
+            <div class="logo-section">
+                <div class="logo">
+                    <a [href]="this.websiteRoute" target="_blank">
+                        <img src="./../../../assets/Crawford-Logo-Blue-CMYK.png">
+                    </a>
+                    </div>
+                <div class="icon">
+                    <a href="https://twitter.com/crawco" target="_blank"><img
+                            src="./../../../assets/Twitter Icon.png"></a>
+                    <a href="https://www.facebook.com/crawfordandco" target="_blank"><img
+                            src="./../../../assets/Facebook Icon.png"></a>
+                    <a href="https://www.linkedin.com/company/crawford-&-company/" target="_blank"><img
+                            src="./../../../assets/LinkedIn Icon.png"></a>
+                    <a href="https://www.youtube.com/channel/UCPA0SF10rW7pEe9yryUsdBA" target="_blank"><img
+                            src="./../../../assets/YouTube Icon.png"></a>
+                </div>
+            </div>
+            <div class="icon-section">
+                <div class="app">
+                    <a [href]="androidPath" target="_blank"><img src="./../../../assets/Play Store.png"></a>
+                    <a [href]="iosPath" target="_blank"><img src="./../../../assets/App Store.png"></a>
+                </div>
+                <div class="mail">
+                    <a href="mailto: support_crawfordinspections@us.crawco.com">{{ loginMeta.IH_LoginPage_Email_Us }}</a>
+                </div>
+            </div>
+        </div>
+        <inde-footer></inde-footer>
+    </div>
+</div>

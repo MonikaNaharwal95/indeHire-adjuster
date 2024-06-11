@@ -1,0 +1,191 @@
+<div class="shad-card">
+  <div class="heading">
+    <div class="title">
+      {{metaData.IH_AdjusterPage_Certifications}}
+      <img *ngIf="!addCertificationFlag && !editCertificationFlag" (click)="onAddCertificate()" class='pointer'
+        src="./../../../../assets/add.svg" style="float: right;">
+    </div>
+  </div>
+  <div class="card-content">
+    <!--Certifications Add POPUP START-->
+    <div class="add" *ngIf="addCertificationFlag">
+      <div class="certi">
+        <div class="heading title">
+          <label *ngIf="!editCertificationFlag">{{metaData.IH_AdjusterPage_Add_Certificate}}</label>
+          <label *ngIf="editCertificationFlag">{{metaData.IH_AdjusterPage_Edit_Certificate}}</label>
+        </div>
+        <div class="edit-section">
+          <div [formGroup]="addCertification" style="margin-top:8px">
+            <div class="form-group">
+              <kendo-dropdownlist class="dropdown inde-dropdown" formControlName="parentCertificationID"
+                style="width:100%" [defaultItem]="certificatedefaultItem" [data]="certificateLookup"
+                valuePrimitive="true" [textField]="'value'" [valueField]="'key'" [itemDisabled]="itemDisabled">
+              </kendo-dropdownlist>
+              <div class="error" *ngIf="keysCertification['parentCertificationID'].touched &&
+                                        keysCertification['parentCertificationID'].errors &&
+                                        keysCertification['parentCertificationID'].errors.required
+                                        ">
+                {{metaData.IH_AdjusterPage_Certification_Type_only}} {{metaData.IH_AdjusterPage_Is_Required}}
+              </div>
+            </div>
+            <div class="form-group" *ngIf="!hideChildCertificate">
+              <kendo-multiselect class="dropdown inde-dropdown" formControlName="childCertificationID"
+                style="width:100%" [data]="childCertificateList" [textField]="'value'" [valueField]="'key'"
+                [valuePrimitive]="true" placeholder="{{metaData.IH_AdjusterPage_Child_Certification}}">
+              </kendo-multiselect>
+
+              <div class="error" *ngIf="keysCertification['childCertificationID'].touched &&
+                                        keysCertification['childCertificationID'].errors &&
+                                        keysCertification['childCertificationID'].errors.required
+                                        ">
+                {{metaData.IH_AdjusterPage_Certifications}} {{metaData.IH_AdjusterPage_Is_Required}}
+              </div>
+            </div>
+            <div class="form-group">
+              <input class="inde-input" kendoTextBox formControlName="certificateNumber" type="text"
+                placeholder="{{metaData.IH_AdjusterPage_Certification_Number}}" maxlength="10" />
+              <!-- <div
+                                              class="error"
+                                              *ngIf="
+                                              keysCertification['certificateNumber'].touched &&
+                                              keysCertification['certificateNumber'].errors &&
+                                              keysCertification['certificateNumber'].errors.required
+                                              "
+                                            >
+                                            {{metaData.IH_AdjusterPage_Certification_Number}} {{metaData.IH_AdjusterPage_Is_Required}}
+                                            </div> -->
+              <div class="error"
+                *ngIf="keysCertification['certificateNumber'].touched && keysCertification['certificateNumber'].errors&& keysCertification['certificateNumber'].errors.pattern">
+                {{validationMsg.IH_FieldValidation3}}
+              </div>
+
+            </div>
+            <div class="flex">
+              <div class="form-group width2">
+                <kendo-datepicker class="inde-datepicker" formControlName="certificationDate"
+                  placeholder="{{metaData.IH_AdjusterPage_Issue_Date}}" style="width:100%" [format]="'MM/dd/yyyy'"
+                  [max]='maxstartDate'></kendo-datepicker>
+                <div class="error" *ngIf="keysCertification['certificationDate'].touched &&
+                                          keysCertification['certificationDate'].errors &&
+                                          keysCertification['certificationDate'].errors.required
+                                          ">
+                  {{metaData.IH_AdjusterPage_Issue_Date}} {{metaData.IH_AdjusterPage_Is_Required}}
+                </div>
+                <div class="error" *ngIf="keysCertification['certificationDate'].touched &&
+                                          keysCertification['certificationDate'].errors &&
+                                          keysCertification['certificationDate'].errors.maxError
+                                          ">
+                  {{metaData.IH_AdjusterPage_IssueDateMsg}}
+                </div>
+                <div class="error" *ngIf="keysCertification['certificationDate'].touched &&
+                                          keysCertification['certificationDate'].errors &&
+                                          keysCertification['certificationDate'].errors.minError
+                                          ">
+                  {{metaData.IH_AdjusterPage_Issue_Date}} {{validationMsg.IH_Invalid}}
+                </div>
+              </div>
+                   <div
+                   class="form-group width2">
+                  <kendo-datepicker class="inde-datepicker"
+                  formControlName="expirationDate"
+                  placeholder="{{metaData.IH_AdjusterPage_Public_Expiration_Date}}"
+                  style="width:100%"
+                  [format]="'MM/dd/yyyy'"
+                  [min]='minexpiryDate'
+                  ></kendo-datepicker>
+                  <div class="error" *ngIf="keysCertification['expirationDate'].touched &&
+                                            keysCertification['expirationDate'].errors &&
+                                            keysCertification['expirationDate'].errors.minError
+                                                    ">
+                    {{metaData.IH_AdjusterPage_ExpiryDateMsg}}
+                  </div>
+                  <div class="error" *ngIf="keysCertification['expirationDate'].touched &&
+                                            keysCertification['expirationDate'].errors &&
+                                            keysCertification['expirationDate'].errors.maxError">
+                          {{metaData.IH_AdjusterPage_Public_Expiration_Date}} {{validationMsg.IH_Invalid}}
+                  </div>
+                </div>
+
+              </div>
+              <div style="text-align:left">
+                <inde-document-upload [label]="metaData.IH_AdjusterPage_Upload_Certificate" [uploadUrl]="uploadSaveUrl"
+                  [maxFileSize]='5' [buttonText]="metaData.IH_AdjusterPage_Upload_Here"
+                  [allowedFormats]="['.pdf','.PDF']" (uploadEvent)="onCertificateUpload($event)"
+                  [fileName]="uploadFileName"></inde-document-upload>
+                <div *ngIf="keysCertification['documentID'].touched && keysCertification['documentID'].errors">
+                  <div class="error" *ngIf="keysCertification['documentID'].errors.required">
+                    {{metaData.IH_AdjusterPage_Certifications}} {{metaData.IH_AdjusterPage_Is_Required}}
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn-cancel" [disabled]="loader" (click)="cancelCertification()">
+                <ng-container>{{metaData.IH_AdjusterPage_Cancel}}</ng-container>
+
+              </button>
+              <button type="button" class="btn-save" [disabled]="!addCertification.valid || loader"
+                (click)="addCertification_func()">
+                <ng-container>{{metaData.IH_AdjusterPage_Save}}</ng-container>
+                <i *ngIf="loader && addCertification.valid" class="fas fa-sync spin"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Certifications Add POPUP END-->
+      <div class="nodata" *ngIf="publicView.certificationViews.length==0 && !addCertificationFlag ">
+        {{metaData.IH_AdjusterPage_No_Certificate}}</div>
+      <ng-container *ngFor="let certificate of  publicView.certificationViews; let i = index">
+        <div class="certi"
+          *ngIf="((!isCertificateExpanded && i < 2) || isCertificateExpanded) && i !== removeCertification">
+          <div class="content-title ">
+            <!-- {{certificate.parentCertificationID}} -->
+            {{getValueByKey(certificate.parentCertificationID, certificateLookup)}}
+            <!-- <span *ngIf="certificate.certificationTypeID!=''">:</span>
+                                {{getValueByKey(certificate.certificationTypeID, childCertificateLookup)}} -->
+            <img src="./../../../../assets/edit.svg" *ngIf="!addCertificationFlag && !editCertificationFlag"
+              (click)="onEditCertificate(certificate);removeCertification=i" class=' pointer displaynone displayblock'
+              style="float: right;">
+            <i class="fas fa-trash-alt displaynone displayblock" *ngIf="!addCertificationFlag && !editCertificationFlag"
+              (click)="showAlertBox(certificate, 1)"></i>
+          </div>
+          <div class="flex">
+            <div *ngIf="certificate.certificationTypeID">
+              {{metaData.IH_AdjusterPage_Certifications}}:
+              <label
+                *ngFor="let x of certificate.certificationTypeID.split(','); let isLast=last">{{getValueByKey(x, childCertificateLookup)}}{{isLast ? ' ' : ',  '}}</label>
+            </div>
+          </div>
+
+          <div class="flex">
+            <div class="flex-auto">{{metaData.IH_AdjusterPage_Certification_Number}} : <b>
+                {{(certificate.certificateNumber=='')? 'NA':certificate.certificateNumber }}</b></div>
+            <div class="view-certificate" (click)=" getpdfDocument('download',certificate)">
+              <label>{{metaData.IH_AdjusterPage_View_Certificate}}</label>
+              <i class="fas fa-download"></i>
+            </div>
+          </div>
+          <div class="flex">
+            <div class="flex-auto flex lab-val">
+              <div>{{metaData.IH_AdjusterPage_Issue_Date}}</div>
+              {{certificate.certificationDate | date: 'MM/dd/yyyy'}}
+            </div>
+            <div class="lab-val flex">
+              <div>{{metaData.IH_AdjusterPage_Public_Expiration_Date}}</div>
+              {{(certificate.expirationDate==null)? metaData.IH_AdjusterPage_NoExpirationDate :(certificate.expirationDate| date: 'MM/dd/yyyy') }}
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="card-bottom" *ngIf="!isCertificateExpanded && publicView.certificationViews.length > 2">
+      <div class="show" (click)="isCertificateExpanded = true">
+        {{metaData.IH_AdjusterPage_see_more}}
+        <i class="fa fa-angle-down"></i>
+      </div>
+    </div>
+  </div>
+
+
+
+  <inde-alert-dialog #indeAlert [message]="'Are you sure you want to delete the record permanently?'"
+    (positiveButtonClick)="deleteRecord()" (negativeButtonClick)="hideAlert()"></inde-alert-dialog>

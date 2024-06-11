@@ -1,0 +1,14 @@
+<div class="upload-label" *ngIf="label">
+    {{ label }}
+    <i class="fas fa-info-circle" kendoTooltip [title]="tooltip" position="right"></i>
+</div>
+<div class="doc-ctn">
+    <button type="button" class="upload-button" (click)="openWindow()" [class.pointerNone]="uploadDisableFlag">
+        {{buttonText}}
+        <i *ngIf="!isloading" class="fas fa-upload"></i>
+        <span *ngIf="isloading" class="k-icon k-i-loading k-upload-loader"></span>
+    </button>
+    <div class="upload-label" *ngIf="fileName">{{ fileName }}</div>
+</div>
+<div class="inde-error">{{ error }}</div>
+<input #file type="file" [accept]="allowedFormats.join(',')" style="display: none;" (change)="validateDocument()" [class.pointerNone]="uploadDisableFlag">

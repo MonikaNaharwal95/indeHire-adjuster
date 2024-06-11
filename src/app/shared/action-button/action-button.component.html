@@ -1,0 +1,7 @@
+<div #ellipsis class="ellipses" (click)="showList = !showList">
+    <i class="fas fa-ellipsis-h"></i>
+    <ul class="hover-content" [class.active]="showList" *ngIf="actionArray">
+        <li *ngFor="let act of actionArray" [style.display]="act.isHidden ? 'none' : 'block'"
+            (click)="actionButtonOutput(act.actionID)">{{ act.actionName }}</li>
+    </ul>
+</div>

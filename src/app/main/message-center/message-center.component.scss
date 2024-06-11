@@ -1,0 +1,33 @@
+@import '../settings/settings.component.scss';
+@import "./../../../styles/mixin";
+@import "./../../../styles/variable";
+.setting-left {
+    width: 200px !important;
+}
+
+.flex {
+    padding-top: 0px;
+    flex: auto;
+    .setting-main {
+        padding-top: 0;
+    }
+}
+
+.mail-center-wrap {
+    display: flex;
+    flex-flow: column;
+}
+
+.page-title {
+    padding: 20px 0px;
+    flex: none;
+}
+
+.sidebar .item:focus {
+    outline: none;
+}
+
+.sidebar i {
+    display: inline-block;
+    margin-left: 10px;
+}

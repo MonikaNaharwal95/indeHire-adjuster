@@ -1,0 +1,98 @@
+@import "./../../../../styles/mixin";
+@import "./../../../../styles/variable";
+@import "./../../../../styles/custom";
+
+.assignment-ctn {
+  .assignment-main {
+    flex: auto;
+    width: 100%;
+    .assignment-card {
+      margin-bottom: 16px;
+      overflow: hidden;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    .heading {
+        padding: 12px 4px;
+      .title {
+          width: 90%;
+          .expire {
+            color: $colorAccent;
+          }
+          .req-label {
+            margin-left: 4px;
+          }
+      }
+      .btn-ctn {
+        width: 10%;
+        .btn-app {
+          @include indeButton();
+          padding: 4px 24px;
+          font-size: $font-extra-small;
+          margin-right: 8px;
+          width: unset;
+        }
+        inde-action-button {
+          float: right;
+          margin-right: 20px;
+        }
+      }
+    }
+    .assignment-card-content {
+      padding: 2px 4px 8px 12px;
+      font-size: $font-extra-small;
+      .item {
+        width: 40%;
+        font-size: $font-extra-small;
+        margin-right: 8px;
+      }
+      .expire {
+        color: $colorAccent;
+      }
+    }
+  }
+}
+.alert {
+  display: contents;
+  .label {
+    color: $colorAccent;
+    font-size: $font-extra-small;
+  }
+  .fas {
+    color: $colorAccent;
+    font-size: $font-extra-small;
+  }
+  .view-img{
+    margin-left: 5px;
+    margin-bottom: 5px;
+    color: $colorAccent;
+    cursor: pointer;
+    font-size: $font-extra-small;
+    font-weight: 600;
+    // position: relative;
+    // border-bottom: 0.5px solid $colorDangerDark;
+    z-index: 2;
+  }
+  .view-img:hover {
+    text-decoration: underline;
+
+  }
+}
+.active{
+  background-color: $gray-background;
+}
+
+.report{
+  color: $colorPrimary;
+    font-size:medium;
+  display: flex;
+  .report2 {
+    margin: 3px 0px 0px 4px;
+    .far {
+      color: $colorAccent;
+      font-size: medium;
+    }
+  }
+}
+

@@ -1,0 +1,10 @@
+<kendo-dialog #dialog [title]='header' class="alert-dialog" *ngIf="opened" (close)="close()" [minWidth]="250" [width]="450">
+    <div [ngClass]="type"></div>
+    <div *ngIf="message" class="alertContent">
+        {{message}}
+    </div>
+    <div class="actionButtons">
+        <button class="btn positive" *ngIf="positiveButton" (click)="onPositiveButtonClick($event)">{{ positiveButton }}</button>
+        <button class="btn negative" *ngIf="negativeButton" (click)="onNegativeButtonClick($event)">{{ negativeButton }}</button>
+    </div>
+</kendo-dialog>

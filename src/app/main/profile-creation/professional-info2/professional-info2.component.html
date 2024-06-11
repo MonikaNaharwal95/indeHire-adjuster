@@ -1,0 +1,244 @@
+<div class="thirdSection" [class.pointerNone]="loader"
+  *ngIf="insuranceLookup && lossTypeLookup && proficiencyLookup && softwareLookup && languageLookup">
+  <!-- LossTypeExpertise Section Starts -->
+  <div class="section-heading">{{ prelimMeta.IH_Prelim_Screen_3_Loss_Header }}</div>
+  <div class="inde-error" *ngIf="lossTypeArray.dirty && lossTypeArray.errors?.required">
+    {{ prelimMeta.IH_Prelim_Screen_1_Validation_Value }}
+  </div>
+  <div class="content-section" *ngIf="showForm" [formGroup]="profForm">
+    <div class="checkbox-section">
+      <div class="checkbox-ctn" formArrayName="lossTypeArray" *ngFor="let l of lossTypeLookup; let i = index">
+        <div class="check-box">
+          <input type="checkbox" class="k-checkbox" [id]="l.key" [formControlName]="i" />
+          <label class="k-checkbox-label" [for]="l.key">{{ l.value }}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- LossTypeExpertise Section Ends -->
+
+  <!-- Insurance Designations Section Starts -->
+  <ng-container *ngIf="contractorType === 'CTAD'">
+    <div class="section-heading">{{ prelimMeta.IH_Prelim_Screen_3_Designation_Header }}</div>
+    <div class="inde-error" *ngIf="insuranceArray.dirty && insuranceArray.errors?.required">
+      {{ prelimMeta.IH_Prelim_Screen_1_Validation_Value }}
+    </div>
+    <div class="content-section" *ngIf="showForm" [formGroup]="profForm">
+      <div class="checkbox-section">
+        <div class="checkbox-ctn insurance-checkboxes" formArrayName="insuranceArray"
+          *ngFor="let l of insuranceLookup; let i = index">
+          <div class="check-box">
+            <input type="checkbox" class="k-checkbox" [id]="l.key" [formControlName]="i"
+              (change)="validateInsurance($event)" />
+            <label class="k-checkbox-label" [for]="l.key">{{ l.value }}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <!-- Insurance Designations Section Ends -->
+
+  <!-- Equipments Section Starts -->
+  <ng-container *ngIf="contractorType === 'CTLA'">
+    <div class="section-heading">{{ prelimMeta.IH_Prelim_Screen_3_Equipments }}</div>
+    <div class="inde-error" *ngIf="equipmentArray.dirty && equipmentArray.errors?.required">
+      {{ prelimMeta.IH_Prelim_Screen_1_Validation_Value }}
+    </div>
+    <div class="inde-error" *ngIf="equipmentArray.dirty && equipmentArray.errors?.isLadderChecked">
+      {{ prelimMeta?.IH_Prelim_Screen_3_AtleastOneLadder }}
+    </div>
+    <div class="content-section" *ngIf="showForm" [formGroup]="profForm">
+      <div class="checkbox-section">
+        <div class="checkbox-ctn" formArrayName="equipmentArray" *ngFor="let l of equipmentLookup; let i = index">
+          <div class="check-box">
+            <input type="checkbox" class="k-checkbox" [id]="l.key" [formControlName]="i"
+              (change)="handleEquipmentOther($event)" />
+            <label class="k-checkbox-label" [for]="l.key">{{ l.value }}</label>
+          </div>
+        </div>
+      </div>
+      <div class="equip-other" *ngIf="showEquipments">
+        <div><input class="inde-input" kendoTextBox [formControl]="equipOther" type="text" maxlength="20"
+            [placeholder]="prelimMeta.IH_Prelim_Screen_3_OtherEquipments">
+            <div class="inde-error other-error" *ngIf="equipOther.touched &&
+                equipOther.errors &&
+                equipOther.errors.required">
+              {{ prelimMeta.IH_Prelim_Screen_3_OtherEquipments }}
+              {{ validationMessage?.IH_Required }}.
+            </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <!-- Equipments Section Ends -->
+
+
+  <!-- Software Knowledge Starts -->
+  <div class="section-heading">{{ prelimMeta.IH_Prelim_Screen_3_Knowledge_Header }}</div>
+  <div class="inde-error" *ngIf="!softValid">{{ softError}}</div>
+  <div class="experience-table">
+    <div class="table-head">
+      <div class="table-row">
+        <div class="table-item"></div>
+        <div class="table-item" *ngFor="let p of proficiencyLookup">{{ p.value }}</div>
+      </div>
+    </div>
+    <div class="table-data">
+      <div class="table-row" *ngFor="let d of softwareLookup">
+        <div class="table-item">
+          <div>{{ d.value }}</div>
+        </div>
+        <div class="table-item" *ngFor="let p of proficiencyLookup">
+          <label class="ci-radio-container">
+            <input type="radio" class="k-radio" [(ngModel)]="softObj[d.key]" name="r{{d.key}}" [value]="p.key"
+              (change)="checkValues()"/>
+          </label>
+        </div>
+      </div>
+      <div class="table-row">
+        <div class="table-item">
+          <div *ngIf="showSoftware">
+              <input class="inde-input" kendoTextBox [formControl]="softOther" type="text" maxlength="20"
+                [placeholder]="prelimMeta.IH_Prelim_Screen_2_OtherSoftwares">
+              <div class="inde-error other-error" *ngIf="softOther.touched &&
+                  softOther.errors &&
+                  softOther.errors.required">
+                {{ prelimMeta.IH_Prelim_Screen_2_OtherSoftwares }}
+                {{ validationMessage?.IH_Required }}.
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Software Knowledge Ends -->
+
+  <!-- Language Section Starts  -->
+  <div class="section-heading">{{ prelimMeta.IH_Prelim_Screen_3_Language_Header }}</div>
+  <div class="inde-error" *ngIf="!langValid">{{ langError }}</div>
+  <div class="experience-table">
+    <div class="table-head">
+      <div class="table-row">
+        <div class="table-item"></div>
+        <div class="table-item">{{prelimMeta?.IH_Prelim_Screen_3_Language_Yes}}</div>
+        <div class="table-item">{{prelimMeta?.IH_Prelim_Screen_3_Language_No}}</div>
+      </div>
+    </div>
+    <div class="table-data">
+      <div class="table-row" *ngFor="let d of languageLookup">
+        <div class="table-item">
+          <div>{{ d.value }}</div>
+        </div>
+        <div class="table-item">
+          <label class="ci-radio-container">
+            <input type="radio" class="k-radio" name="{{d.key}}" [value]="true" [(ngModel)]="langObj[d.key]"
+              (change)="checkValues()" />
+          </label>
+        </div>
+        <div class="table-item">
+          <label class="ci-radio-container">
+            <input type="radio" class="k-radio" name="{{d.key}}" [value]="false" [(ngModel)]="langObj[d.key]"
+              (change)="checkValues()" />
+          </label>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- Language Section Ends  -->
+
+  <!-- Travel Section starts -->
+  <ng-container *ngIf="contractorType === 'CTLA'">
+    <div class="section-heading">{{ prelimMeta.IH_Prelim_Screen_3_Travel }}</div>
+    <div class="travel">
+      <span class="tra-ques">{{ prelimMeta.IH_Prelim_Screen_3_HowFarTravelMessage }}</span>
+      <div class="range" [formGroup]="profForm">
+        <ng5-slider [options]="travelSlider" formControlName="travel"></ng5-slider>
+      </div>
+    </div>
+    <div class="relocate" [formGroup]="profForm">
+      <div class="tra-ques">{{ prelimMeta?.IH_Prelim_Screen_3_TravelOtherStates }}</div>
+      <div class="radion-ctn">
+        <input type="radio" class="k-radio" [id]="prelimMeta?.IH_Prelim_Screen_3_Language_Yes + '_1'" type="radio" class="k-radio" formControlName="isWillingRelocate" [value]="true" />
+        <label class="k-radio-label" [for]="prelimMeta?.IH_Prelim_Screen_3_Language_Yes + '_1'"> {{prelimMeta?.IH_Prelim_Screen_3_Language_Yes}} </label>
+        <input style="margin-left: 24px;" [id]="prelimMeta?.IH_Prelim_Screen_3_Language_No + '_2'" type="radio" class="k-radio" formControlName="isWillingRelocate" [value]="false" />
+        <label class="k-radio-label" [for]="prelimMeta?.IH_Prelim_Screen_3_Language_No + '_2'"> {{prelimMeta?.IH_Prelim_Screen_3_Language_No}}</label>
+      </div>
+      <div class="error" *ngIf="keysFirst.isWillingRelocate.touched &&
+                keysFirst.isWillingRelocate.errors &&
+                keysFirst.isWillingRelocate.errors.required">
+        {{ prelimMeta?.IH_Prelim_Screen_3_PlsConfrmRelocate }}.
+      </div>
+      <div class="relocate-state" *ngIf="showStates">
+        <div class="tra-ques">{{ prelimMeta?.IH_Prelim_Screen_3_SelectStates }}</div>
+        <kendo-multiselect class="dropdown inde-dropdown"
+        style="width:93%; margin-left: 8px;" [data]="stateLookup" formControlName="relocateState" [textField]="'value'" [valueField]="'key'"
+        [valuePrimitive]="true">
+        </kendo-multiselect>
+        <div class="error" style="margin-left: 8px;" *ngIf="keysFirst.relocateState.touched &&
+                  keysFirst.relocateState.errors &&
+                  keysFirst.relocateState.errors.required">
+          {{ prelimMeta?.IH_Prelim_Screen_3_PlsSlctStates }}.
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <!-- Travel Section ends -->
+
+  <!-- Employement Status Starts -->
+  <div class="section-heading">{{prelimMeta?.IH_Prelim_Screen_3_EmploymentStatus}}</div>
+  <div class="flex travel" [formGroup]="profForm">
+    <div class="form-group profile-form">
+      <div class="form-label">{{prelimMeta?.IH_Prelim_Screen_3_AreCrwfrdEmpAdj}}?</div>
+      <div class="radion-ctn">
+          <input type="radio" class="k-radio" [id]="'employee' + '1'" type="radio" class="k-radio" formControlName="isCrawfordEmployee" [value]="true" />
+          <label class="k-radio-label" [for]="'employee' + '1'"> {{prelimMeta?.IH_Prelim_Screen_3_Language_Yes}} </label>
+          <input style="margin-left: 24px;" [id]="'employee' + '2'" type="radio" class="k-radio" formControlName="isCrawfordEmployee" [value]="false" />
+          <label class="k-radio-label" [for]="'employee' + '2'"> {{prelimMeta?.IH_Prelim_Screen_3_Language_No}}</label>
+      </div>
+      <div class="error" *ngIf="keysFirst.isCrawfordEmployee.touched &&
+                keysFirst.isCrawfordEmployee.errors &&
+                keysFirst.isCrawfordEmployee.errors.required">
+        {{ prelimMeta?.IH_Prelim_Screen_3_PlsConfrmExEmpAdj }}.
+      </div>
+    </div>
+    <div class="form-group ssn-form">
+      <div class="form-label flex">
+        <span>{{prelimMeta?.IH_Prelim_Screen_3_SSN}}</span>
+        <span style="margin-left: 8px;" title="{{
+          prelimMeta.IH_Prelim_Screen_3_ProvideSSN }}" kendoTooltip tooltipClass="g-tooltip" position="right">
+          <img src="./../../../../assets/information.svg"/>
+        </span>
+      </div>
+      <div class="sn-grp">
+        <input class="inde-input width-90" *ngIf="!isDecrypted" kendoTextBox formControlName="ssnNumber"
+          type="password" onkeypress='return ((event.charCode >= 48 && event.charCode <= 57))' maxlength="9" onPaste="return false;"
+          [placeholder]="prelimMeta?.IH_Prelim_Screen_3_SSN">
+        <kendo-maskedtextbox class="width-90 inde-input" *ngIf="isDecrypted" [mask]="ssnMask"
+          formControlName="ssnNumber"></kendo-maskedtextbox>
+        <i class="fas fa-eye" (mousedown)="isDecrypted = true" (mouseup)="isDecrypted = false"></i>
+        <!-- <i class="fas fa-eye-slash" *ngIf="isDecrypted" [class.decrypted]="isDecrypted"
+          (click)="isDecrypted = false"></i> -->
+      </div>
+        <!-- <kendo-maskedtextbox class="inde-input" [mask]="ssnMask" [rules]="ssnRules"
+         formControlName="ssnNumber" placeholder="IH_Prelim_Screen_1_Phone_Label"></kendo-maskedtextbox> -->
+        <div *ngIf="keysFirst.ssnNumber.touched && keysFirst.ssnNumber.errors">
+          <div class="error" *ngIf="keysFirst['ssnNumber'].errors.required">
+            {{ prelimMeta?.IH_Prelim_Screen_3_SSN }} {{ validationMessage?.IH_Required }}.
+          </div>
+          <div class="error" *ngIf="keysFirst.ssnNumber.hasError('minlength') || keysFirst.ssnNumber.errors?.patternError">
+            {{ prelimMeta?.IH_Prelim_Screen_3_SSN }} {{ validationMessage?.IH_Invalid }}.</div>
+          <div class="error" *ngIf="keysFirst.ssnNumber.hasError('maxlength')">
+            {{ prelimMeta?.IH_Prelim_Screen_3_SSN }} {{ validationMessage?.IH_Invalid }}.</div>
+        </div>
+    </div>
+  </div>
+  <!-- Employement Status Ends -->
+
+  <button type="submit" *ngIf="!loader" (click)="back()"
+    class="btn-back">{{ prelimMeta.IH_Prelim_Screen_3_Back_Button }}</button>
+  <button type="submit" [class.pointerNone]="loader" class="btn" (click)="submitInformation()">
+    <ng-container *ngIf="!loader">{{ prelimMeta.IH_Prelim_Screen_3_Next_Button }}</ng-container>
+    <i *ngIf="loader" class="fas fa-sync spin"></i>
+  </button>
+</div>

@@ -1,0 +1,294 @@
+<div class="wrapper">
+    <div class="data-wrap" *ngIf="metaData">
+        <div class="banner-sticky">
+            <div class="crawco-logo">
+                <a [href]="this.websiteRoute" target="_blank"><img [src]="'./../../../assets/Crawford-NoGlobe-Logo-White.svg'"></a>
+                <!-- <span>{{metaData?.IH_Sign_Up_inspection_services}}</span> -->
+            </div>
+        </div>
+        <div class="main-banner">
+            <img src="./../../../assets/banner.jpg">
+            <div class="banner-content">
+                <h1>{{metaData.IH_Sign_Up_Now_Hiring}}</h1>
+                <button class="signup" (click)="scroll(target)">{{metaData.IH_Sign_Up_Button}}</button>
+            </div>
+        </div>
+        <div class="details-section">
+            <div class="detais-container">
+                <h2>{{metaData?.IH_Sign_Up_WorkIndependent}}</h2>
+                <p>{{metaData.IH_Sign_Up_Now_Hiring_Detail_Sec2}}</p>
+                <ul class="services">
+                    <li>
+                        <img [src]="'./../../../../assets/Ok Icon.svg'">
+                        <span>{{metaData?.IH_Sign_Up_LadderAssist}}</span>
+                    </li>
+                    <li>
+                        <img [src]="'./../../../../assets/Ok Icon.svg'">
+                        <span>{{metaData?.IH_Sign_Up_RoofInspection}}</span>
+                    </li>
+                    <!-- <li>
+                        <img [src]="'./../../../../assets/Ok Icon.svg'">
+                        <span>{{metaData?.IH_Sign_Up_TarpBoard}}</span>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+        <div class="temp-wrap">
+            <div class="login-ins sign-img">
+                <div class="main-instruction">
+                    <div class="inst-head">{{metaData.IH_Sign_Up_Ready}}</div>
+                    <div class="inst-head">{{metaData.IH_Sign_Up_Let_Do}}</div>
+                    <div class="inst-sum">{{metaData.IH_Sign_Up_Let_Do_Detail_Sec1}}</div>
+                    <div class="inss-pointer">
+                        <span class="count">1</span>
+                        <span class="info">{{metaData.IH_Sign_Up_Let_Do_Detail_P1}}</span>
+                    </div>
+                    <div class="inss-pointer">
+                        <span class="count">2</span>
+                        <span class="info">{{metaData.IH_Sign_Up_Let_Do_Detail_P2}}</span>
+                    </div>
+                    <div class="inss-pointer">
+                        <span class="count">3</span>
+                        <span class="info">{{metaData.IH_Sign_Up_Let_Do_Detail_P3}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="login-container" #target>
+                <div class="card">
+                    <!-- <h3 class="title">{{ 'Welcome to Crawford Inspection Services!' }}</h3> -->
+                    <div class="g-btn" [class.disable]="loader" (click)="signupWithGoogle()">
+                        <img [src]="'./../../../assets/google.svg'" class="g-icon" alt="googleIcon" />
+                        <span class="g-text">{{ metaData.IH_Sign_Up_Page_Google_Button }}</span>
+                    </div>
+                    <div class="g-btn" style="margin-top: 8px" [class.disable]="loader" (click)="signupWithApple()">
+                        <i class="fab fa-apple"></i>
+                        <span class="g-text">{{ metaData.IH_Sign_Up_ContAppleID }}</span>
+                    </div>
+                    <div class="center">{{ metaData.IH_Sign_Up_Page_Or }}</div>
+                    <form [formGroup]="registrationForm" (ngSubmit)="signUp()" autocomplete="off">
+                        <div class="flex">
+                            <div class="form-group" style="margin-right: 8px; width: calc(50% - 8px);">
+                                <input class="inde-input" kendoTextBox formControlName="firstName" type="text"
+                                    [placeholder]="metaData.IH_Sign_Up_Page_First_Name" maxlength="50" />
+                                <div *ngIf="keys.firstName.touched && keys.firstName.errors">
+                                    <div class="error" *ngIf="keys.firstName.errors.required">
+                                        {{ metaData.IH_Sign_Up_Page_First_Name }} {{ validatorMessage.IH_Required }}
+                                    </div>
+                                    <div class="error" *ngIf="keys.firstName.errors.pattern">
+                                        {{ validatorMessage.IH_FieldValidation1 }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-left: 8px; width: calc(50% - 8px);">
+                                <input class="inde-input" kendoTextBox type="text" formControlName="lastName"
+                                    [placeholder]="metaData.IH_Sign_Up_Page_Last_Name" maxlength="50" />
+                                <div *ngIf="keys.lastName.touched && keys.lastName.errors">
+                                    <div class="error" *ngIf="keys.lastName.hasError('required')">
+                                        {{ metaData.IH_Sign_Up_Page_Last_Name }} {{ validatorMessage.IH_Required }}
+                                    </div>
+                                    <div class="error" *ngIf="keys.lastName.errors.pattern">
+                                        {{ validatorMessage.IH_FieldValidation1 }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Address and Contact Info --Addition as per business request :: 02.09.2021 -->
+                        <div class="flex">
+                            <div class="form-group" style="margin-right: 8px; width: calc(50% - 8px);">
+                                <input class="inde-input" kendoTextBox formControlName="city" type="text"
+                                    [placeholder]="'City'" maxlength="50" />
+                                <div *ngIf="keys.city.touched && keys.city.errors">
+                                    <div class="error" *ngIf="keys.city.errors.required">
+                                        {{ 'City' }} {{ validatorMessage.IH_Required }}
+                                    </div>
+                                    <div class="error" *ngIf="keys.city.errors.pattern">
+                                        {{ validatorMessage.IH_FieldValidation1 }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-left: 8px; width: calc(50% - 8px);">
+                                <kendo-dropdownlist class="dropdown inde-dropdown" formControlName="state"
+                                    [defaultItem]="stateDefaultItem" valuePrimitive="true" [data]="stateLookup" [textField]="'value'"
+                                    [valueField]="'key'">
+                                </kendo-dropdownlist>
+                                <div *ngIf="keys.state.touched && keys.state.errors">
+                                    <div class="error" *ngIf="keys.state.hasError('required')">
+                                        {{ 'State' }} {{ validatorMessage.IH_Required }}
+                                    </div>
+                                    <div class="error" *ngIf="keys.lastName.errors.pattern">
+                                        {{ validatorMessage.IH_FieldValidation1 }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex">
+                            <div class="form-group" style="margin-right: 8px; width: calc(50% - 8px);">
+                                <input class="inde-input" kendoTextBox formControlName="zip" type="text"
+                                    [placeholder]="'Zip Code'" maxlength="50" />
+                                <div *ngIf="keys.zip.touched && keys.zip.errors">
+                                    <div class="error" *ngIf="keys.zip.errors.required">
+                                        {{ 'zip code' }} {{ validatorMessage.IH_Required }}
+                                    </div>
+                                    <div class="error" *ngIf="keys.zip.errors.pattern || keys.zip.errors.minlength">
+                                        {{ 'Zip code' }} {{ validatorMessage.IH_Invalid }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-left: 8px; width: calc(50% - 8px);">
+                                <kendo-dropdownlist class="inde-dropdown calling-code"
+                                    [data]="callingCodeLookup" 
+                                    [valuePrimitive]="true" 
+                                    [textField]="'value'" 
+                                    [valueField]="'key'"
+                                    formControlName="callingCode"
+                                ></kendo-dropdownlist>
+                                <kendo-maskedtextbox class="inde-input phone-input" [mask]="phoneMask" formControlName="phone" [rules]="rules"
+                                    placeholder="IH_Prelim_Screen_1_Phone_Label">
+                                </kendo-maskedtextbox>
+                                <div *ngIf="keys.phone.touched && keys.phone.errors">
+                                    <div class="error phone-error" *ngIf="keys.phone.hasError('required')">
+                                        {{ 'Phone number' }} {{ validatorMessage.IH_Required }}
+                                    </div>
+                                    <div class="error phone-error" *ngIf="keys.phone.errors.pattern">
+                                        {{ validatorMessage.IH_FieldValidation1 }}
+                                    </div>
+                                    <div class="error phone-error" *ngIf="keys.phone.errors.isDuplicate">
+                                        {{ 'Phone number already exists' }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Address and Contact Info --Addition as per business request :: 02.09.2021 -->
+
+
+                        <div class="form-group">
+                            <input class="inde-input" kendoTextBox formControlName="email" type="text" maxlength="50"
+                                [placeholder]="metaData.IH_Sign_Up_Page_Email" (blur)="emailExist()" />
+                            <div *ngIf="keys.email.touched && keys.email.errors">
+                                <div class="error" *ngIf="keys.email.errors.required">
+                                    {{ metaData.IH_Sign_Up_Page_Email }} {{ validatorMessage.IH_Required }}
+                                </div>
+                                <div class="error" *ngIf="keys.email.errors.pattern">
+                                    {{ metaData.IH_Sign_Up_Page_Email }} {{ validatorMessage.IH_Invalid }}
+                                </div>
+                                <div class="error" *ngIf="keys.email.errors.isExisting">
+                                    {{ metaData.IH_Sign_Up_Page_Email }} {{ validatorMessage.IH_Exists }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group eye-pos">
+                            <input class="inde-input" kendoTextBox [type]="(isDecrypted)?'password':'text'"
+                                [placeholder]="metaData.IH_Sign_Up_Page_Password" formControlName="password"
+                                maxlength="20" />
+                            <div class='eye-icon'>
+                                <i class="fas fa-eye" *ngIf="isDecrypted" (click)='isDecrypted = false'></i>
+                                <i class="fas fa-eye-slash" *ngIf="!isDecrypted" (click)='isDecrypted = true'></i>
+                            </div>
+                            <div *ngIf="
+                                    (keys.password.touched || keys.password.dirty) &&
+                                    keys.password.errors
+                                ">
+                                <div class="error" *ngIf="keys.password.errors.required">
+                                    {{ metaData.IH_Sign_Up_Page_Password }} {{ validatorMessage.IH_Required }}
+                                </div>
+                                <div class="error" *ngIf="
+                                        keys.password.errors.minlength ||
+                                        keys.password.errors.pattern
+                                    ">
+                                    {{ metaData.IH_Sign_Up_Key_Head }}<br />
+                                    <ng-container *ngIf="keys.password.errors.minlength">
+                                        <span class="bullet-icon"></span> {{ metaData.IH_Sign_Up_Min_Char }} <br />
+                                    </ng-container>
+                                    <ng-container *ngIf="keys.password.errors.pattern">
+                                        <span class="bullet-icon"></span> {{ metaData.IH_Sign_Up_Upper_Case }} <br />
+                                        <span class="bullet-icon"></span> {{ metaData.IH_Sign_Up_Lower_Case }} <br />
+                                        <span class="bullet-icon"></span> {{ metaData.IH_Sign_Up_Alpha_Char
+                                        }} <br /> <span class="bullet-icon"></span>
+                                        {{ metaData.IH_Sign_Up_Special_Char }} <br />
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group eye-pos">
+                            <input class="inde-input" kendoTextBox formControlName="confirmPassword" [type]="isDecryptedConfirm ? 'password' : 'text'" maxlength="20"
+                                [placeholder]="metaData.IH_Sign_Up_Page_Confirm_Password"/>
+                            <div class='eye-icon'>
+                                <i class="fas fa-eye" *ngIf="isDecryptedConfirm" (click)='isDecryptedConfirm = false'></i>
+                                <i class="fas fa-eye-slash" *ngIf="!isDecryptedConfirm" (click)='isDecryptedConfirm = true'></i>
+                            </div>
+                            <div *ngIf="keys.confirmPassword.touched && keys.confirmPassword.errors">
+                                <div class="error" *ngIf="keys.confirmPassword.errors.required">
+                                    {{ metaData.IH_Sign_Up_Page_Confirm_Password }} {{ validatorMessage.IH_Required }}
+                                </div>
+                                <div class="error" *ngIf="keys.confirmPassword.errors.mismatch">
+                                    {{ metaData.IH_Sign_Up_Page_Confirm_Password_no_match }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="tnc">
+                                <input type="checkbox" [id]="'s1'" class="k-checkbox" formControlName="terms" />
+
+                                <label class="k-checkbox-label"
+                                    [for]="'s1'">{{ metaData.IH_Sign_Up_Page_Terms_Condition_Check }}
+                                    <a target="blank" [href]="termsRoute">{{
+                                        metaData.IH_Sign_Up_Page_Terms_Condition_Only
+                                    }}</a>
+                                </label>
+                                <div class="error" *ngIf="
+                                    (keys.terms.touched || keys.terms.dirty) && keys.terms.errors
+                                    ">
+                                    {{metaData.IH_Sign_Up_Checkbox}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="inde-error" *ngIf="registrationForm.hasError('invalid')">{{ error }}</div>
+                        <button type="submit" class="btn" [disabled]="loader">
+                            <ng-container *ngIf="!loader || !registrationForm.valid">
+                                {{ metaData.IH_Sign_Up_Button }}
+                            </ng-container>
+                            <i *ngIf="loader && registrationForm.valid" class="fas fa-sync spin"></i>
+                        </button>
+                        <div class="login">
+                            {{ metaData.IH_Sign_Up_Footer }}
+                            <a [routerLink]="'/auth/login'" [class.disable]="loader">{{
+                                metaData.IH_Sign_Up_Footer_login
+                            }}</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="footer-section">
+            <div class="logo-section">
+                <div class="logo"><img src="./../../../assets/Crawford-Logo-Blue-CMYK.png"></div>
+                <div class="icon">
+                    <a href="https://twitter.com/crawco" target="_blank"><img
+                            src="./../../../assets/Twitter Icon.png"></a>
+                    <a href="https://www.facebook.com/crawfordandco" target="_blank"><img
+                            src="./../../../assets/Facebook Icon.png"></a>
+                    <a href="https://www.linkedin.com/company/crawford-&-company/" target="_blank"><img
+                            src="./../../../assets/LinkedIn Icon.png"></a>
+                    <a href="https://www.youtube.com/channel/UCPA0SF10rW7pEe9yryUsdBA" target="_blank"><img
+                            src="./../../../assets/YouTube Icon.png"></a>
+                </div>
+            </div>
+            <div class="icon-section">
+                <div class="app">
+                    <a [href]="androidPath" target="_blank"><img src="./../../../assets/Play Store.png"></a>
+                    <a [href]="iosPath" target="_blank"><img src="./../../../assets/App Store.png"></a>
+                </div>
+                <div class="mail">
+                    <a href="mailto: support_crawfordinspections@us.crawco.com">{{metaData?.IH_Sign_Up_EmailUS}}</a>
+                </div>
+            </div>
+        </div>
+        <inde-footer></inde-footer>
+    </div>
+</div>

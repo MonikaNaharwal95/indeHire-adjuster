@@ -1,0 +1,35 @@
+<kendo-dialog #dialog class="inde-dialog" [class.pointerNone]="loader" [minWidth]='350' [width]='dialogWidth'
+  *ngIf='isVisible' (close)='negativeButtonClick($event)'>
+  <kendo-dialog-titlebar *ngIf="!headerNew">
+    <div>
+      {{header}}
+      <div class="info-circle" *ngIf="infoCircleShow">
+        <i class="fas fa-info-circle"></i>
+      </div>
+    </div>
+  </kendo-dialog-titlebar>
+  <kendo-dialog-titlebar *ngIf="headerNew" class="dialog-header">
+    <div>
+      {{header}}
+      <div class="info-circle" *ngIf="infoCircleShow">
+        <i class="fas fa-info-circle"></i>
+      </div>
+    </div>
+  </kendo-dialog-titlebar>
+  <div *ngIf="isVisible" class="dialog-content">
+    <ng-content></ng-content>
+  </div>
+  <div class="action-buttons" *ngIf="neutralButton || positiveButton">
+    <div>
+      <button class="btn neutral" [class.dialog-loader]="loader" *ngIf="neutralButton"
+        (click)="neutralButtonClick($event)">{{ neutralButton }}</button>
+      <button class="btn negative" [class.dialog-loader]="loader" *ngIf="negativeButton"
+        (click)="negativeButtonClick($event)">{{ negativeButton }}</button>
+      <button class="btn positive" [class.dialog-loader]="loader" *ngIf="positiveButton"
+        (click)="positiveButtonClick($event)" [disabled]="positiveButtonDisabled">
+        {{ positiveButton }}
+        <i *ngIf="loader" class="fas fa-sync spin"></i>
+      </button>
+    </div>
+  </div>
+</kendo-dialog>

@@ -1,0 +1,33 @@
+{
+    "apiUrls": {
+        "identity": {
+            "command":"__identity-command__"
+        },
+        "notification": {
+            "command":"__notification-command__"
+        },
+        "cms": {
+            "read":"__cms-read__"
+        },
+        "adjuster": {
+            "read":"__adjuster-read__",
+            "command":" __adjuster-command__"
+        }
+    },
+    "splashScreenStatus":"__splashScreenStatus__",
+    "signupUrl": "__signupUrl__",
+    "splashScreenDurationInSec":"__splashScreenDurationInSec__",
+    "enableCacheAspect":"__enableCacheAspect__",
+    "websiteUrl":"__websiteUrl__",
+    "appStorePath":"__appStorePath__",
+    "playStorePath":"__playStorePath__",
+    "auth": {
+        "clientID":"__auth-clientID__",
+        "domain":"__auth-domain__",
+        "responseType":"__auth-responseType__",
+        "redirectUri":"__auth-redirectUri__",
+        "scope":"__auth-scope__",
+        "audience":"__auth-audience__",
+        "database":"__auth-database__"
+    }
+}

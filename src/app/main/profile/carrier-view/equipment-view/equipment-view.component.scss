@@ -1,0 +1,74 @@
+@import './../../../../../styles/variable';
+@import './../../../../../styles/mixin';
+.status {
+    display: inline-block;
+    float: right;
+    i {
+        font-size: $font-18;
+        vertical-align: middle;
+    }
+    .fa-check-circle {
+        color: $colorAccent;
+    }
+    .fa-times-circle {
+        color: #f7bc00;
+    }
+    .fa-exclamation-circle {
+        color: $color-icons;
+    }
+}
+
+.note-equipment span {
+    color: $colorDangerDark;
+}
+
+.content-wrapper {
+    margin-bottom: 15px;
+}
+
+.check-box {
+    margin-top: 15px;
+    overflow: hidden;
+    .k-checkbox-label {
+        width: fit-content;
+        color: $colorPrimary;
+    }
+}
+
+.image-section {
+    margin-bottom: 15px;
+    position: relative;
+    img {
+        border-radius: 5px;
+        vertical-align: middle;
+    }
+}
+
+.image-list {
+    margin-top: 8px;
+}
+
+:disabled i {
+    color: $color-deleteicon-disable;
+}
+
+.no-image {
+    margin: 8px 0;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 5px;
+    text-align: center;
+    width: 180px;
+    padding: 16px 0px;
+    i {
+        font-size: 90px;
+        color: $colorAdditional;
+    }
+    .text {
+        color: $colorText;
+    }
+}
+
+.no-item {
+    text-align: center;
+    @include content-style($font-large, $colorText, $regular);
+}

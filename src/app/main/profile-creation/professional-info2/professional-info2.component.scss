@@ -1,0 +1,114 @@
+@import "./../profile-creation.component.scss";
+@import "./../../../../styles/variable";
+@import "./../../../../styles/mixin";
+@import "./../../../../styles/custom";
+@import './../../../../styles/range-bar';
+
+.thirdSection {
+  .content-section {
+    padding: 20px 32px;
+    .checkbox-section {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+  .checkbox-ctn {
+    width: 31%;
+    padding: 7px 4px;
+    .check-box {
+      width: auto;
+      display: table;
+    .k-checkbox-label {
+      text-align: initial;
+    }
+  }
+  }
+  .insurance-checkboxes {
+    &:last-child {
+      font-weight: 600;
+      color: $colorPrimaryLight;
+    }
+  }
+  .inde-error {
+    padding: 12px 0px 0px 31px;
+  }
+  .other-error {
+    padding: 12px 0px 0px 0px;
+  }
+}
+
+.equip-other {
+  width: 30%;
+}
+.travel {
+  padding: 20px 25px;
+  margin-top: 8px;
+  box-sizing: border-box;
+  text-align: left;
+  .tra-ques {
+    padding: 8px;
+    color: $colorPrimary;
+    font-weight: 600;
+    font-size: $font-extra-small;
+  }
+  .range {
+    padding: 8px;
+    width: 70%;
+  }
+}
+.profile-form {
+  margin-left: 8px;
+  width: calc(50% - 8px);
+}
+.ssn-form {
+  margin-left: 8px;
+  width: calc(50% - 37px);
+  .sn-grp {
+    display: flex;
+    align-items: center;
+    .width-90 {
+        width: 90%;
+    }
+    .far, .fas {
+        font-size: $icon-small;
+        margin-left: 8px;
+    }
+    .fas {
+        cursor: pointer;
+        &:hover {
+            color: $colorBlueLight;
+        }
+    }
+    .decrypted {
+        color: $colorBlueLight;
+    }
+  }
+}
+.relocate {
+  padding: 0px 20px 25px 25px;
+  box-sizing: border-box;
+  text-align: left;
+  .tra-ques {
+    padding: 8px;
+    color: $colorPrimary;
+    font-weight: 600;
+    font-size: $font-extra-small;
+  }
+  .radion-ctn {
+    margin-left: 8px;
+  }
+  .relocate-state {
+    margin-top: 12px;
+  }
+}
+.error {
+  color: $colorDanger;
+  font-size: $font-small;
+  margin-top: 8px;
+}
+.custom-label {
+  padding: 2px 8px;
+  font-size: $font-extra-small;
+  font-weight: 500;
+  text-align: left;
+}

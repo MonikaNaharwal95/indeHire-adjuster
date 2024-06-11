@@ -1,0 +1,98 @@
+@import "./../../../styles/mixin";
+@import "./../../../styles/variable";
+@import "./../../../styles/custom";
+@import '../signup/signup.component.scss';
+.fp {
+    text-align: center;
+    font-size: $font-small;
+    margin: 0 4px;
+    color: $colorPrimaryLight;
+    cursor: pointer;
+    outline: none;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.login-img {
+    background: url('./../../../assets/Login-Image.jpg') no-repeat;
+    background-size: cover;
+}
+
+.login-ins {
+    position: relative;
+    &:after {
+        position: absolute;
+        content: " ";
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        background: rgba(77, 105, 158, 0.6);
+    }
+    .banner-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        z-index: 19;
+    }
+    p {
+        @include content-style($icon-medium, $colorTextonAccent, $semibold);
+        line-height: 38px;
+        margin: 0px 0px 12px
+    }
+}
+
+
+ 
+
+
+
+.login-container .card.login-card {
+    padding: 70px 0px 70px 50px !important;
+}
+
+
+// Universal Login Enhancements -- Changes made by Abhishek Agnihotri
+.logo-ctn {
+    .logo-top {
+        height: 50px;
+    }
+}
+.btn-login {
+    @include indeButton($colorPrimary, $colorPrimary);
+    padding: 8px 28px;
+    width: 100%;
+}
+.fp {
+    margin-top: 16px;
+}
+.signup-align {
+    text-align: center !important;
+    margin-top: 12px;
+}
+// Universal Login Enhancements -- Changes made by Abhishek Agnihotri
+
+
+
+
+@media screen and (min-width:768px) {
+    .login-ins p {
+        font-size: $font-larger;
+        line-height: 34px;
+    }
+}
+
+@media screen and (max-width:767px) {
+    .login-ins {
+        height: 300px !important;
+        p {
+            line-height: 28px;
+            text-align: left;
+            font-size: $font-extra-large;
+        }
+    }
+}

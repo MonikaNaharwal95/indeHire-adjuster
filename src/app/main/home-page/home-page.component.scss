@@ -1,0 +1,171 @@
+@import './../../../styles/mixin';
+@import './../../../styles/variable';
+@import "./../../../styles/custom";
+@import "./../../../styles/calender";
+.main-wrapper {
+    padding: 16px 0px 16px 0px;
+}
+
+.grid {
+    display: grid;
+    grid-column-gap: 2%;
+    grid-row-gap: 20px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    .griditem {
+        cursor: move;
+        border: 1px solid $borderColor;
+        border-radius: 3px;
+        outline: none;
+        background-color: $color-white;
+        position: relative;
+        padding-bottom: 55px;
+        thead {
+            border-color: $borderColor;
+        }
+        tr:last-child td {
+            border-bottom: 0;
+        }
+        .k-calendar-infinite .k-calendar-view {
+            height: 19.5em;
+        }
+    }
+    .gridActiveItem {
+        width: 350px;
+    }
+    .header {
+        background-color: $headingBackgroundColor;
+        color: $colorPrimary;
+        font-size: $font-card-header;
+        padding: 8px 8px;
+        font-weight: 600;
+    }
+}
+
+.name {
+    color: #088CDB;
+    cursor: pointer;
+}
+
+.fa-thumbtack {
+    float: right;
+    padding: 4px;
+    color: grey;
+    transform: rotate(30deg);
+    cursor: pointer;
+    border: 0;
+    box-shadow: none;
+    background: none;
+    font-size: $font-large;
+    &:focus {
+        outline: none;
+    }
+}
+
+.calender-wrapper {
+    display: flex;
+    position: relative;
+    .date {
+        font-size: $font-small;
+        padding: 5px 8px;
+    }
+    .content {
+        float: right;
+        width: 100%;
+    }
+}
+
+.note {
+    position: absolute;
+    left: 25px;
+    bottom: 16px;
+    div {
+        display: inline-block;
+        margin-right: 15px;
+        @include content-style($font-small, $colorText, $regular);
+        &:last-child {
+            margin: 0;
+        }
+        span {
+            display: inline-block;
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+    }
+    .past span {
+        background-color: rgba(85, 85, 85, 0.4);
+    }
+    .select span {
+        background-color: $colorAccent;
+    }
+    .upcom span {
+        background-color: $colorPrimary;
+    }
+}
+
+.view {
+    padding: 16px;
+    border-top: 1px solid $borderColor;
+    @include content-style ($font-large, $colorAccent, $semibold);
+    text-align: center;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    &:focus {
+        outline: none;
+    }
+}
+
+.update {
+    border-top: 1px solid $borderColor;
+    padding: 20px 10px 20px 25px;
+    margin-top: 0;
+    li {
+        @include content-style ($font-extra-small, $colorBlueLight, $regular);
+        margin-bottom: 15px;
+        padding-left: 5px;
+        cursor: pointer;
+        &:hover {
+            outline: none;
+        }
+    }
+}
+
+.pinned {
+    color: $colorAccent;
+}
+
+.inde-column-address,
+.inde-column-location {
+    .address-section {
+        display: -webkit-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+    }
+}
+
+.home-wrapper {
+    display: flex;
+    flex-flow: column;
+    .main-wrapper {
+        flex: auto;
+        .no-data {
+            @include content-style($font-18, $colorText, $semibold);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+}
+
+@media screen and (max-width:1200px) {
+    .grid {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+}

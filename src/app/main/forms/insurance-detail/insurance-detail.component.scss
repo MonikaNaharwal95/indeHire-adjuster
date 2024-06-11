@@ -1,0 +1,35 @@
+
+@import './../../profile/adjuster-profile/adjuster-profile.component.scss';
+@import './../../../../styles/custom';
+
+
+.effective-date{
+    flex: none;
+    padding-right: 2px;
+    width: 50%;
+    box-sizing: border-box;
+    kendo-datepicker {
+        width: 100%;
+    }
+}
+.end-date{
+    flex: none;
+    width: 50%;
+    padding-left: 2px;
+    box-sizing: border-box;
+    kendo-datepicker {
+        width: 100%;
+    }
+}
+
+.upload-section{
+    text-align: left;
+    .btn-upload {
+        @include indeButton($colorBlueLight,$colorBlueLight);
+        width: fit-content;
+        padding: 10px;
+    }
+}
+.file-name {
+ padding: 3px;
+}

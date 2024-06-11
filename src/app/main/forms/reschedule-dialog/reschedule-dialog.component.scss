@@ -1,0 +1,84 @@
+@import "./../../../../styles/mixin";
+@import "./../../../../styles/variable";
+@import "./../../../../styles/custom";
+// @import "./../../../../styles/calendar.scss";
+
+
+.sidebar {
+    position: relative;
+    padding: 0px 12px;
+  }
+  
+  .sch-dtl {
+    padding: 2px 8px;
+    margin: 1px;
+    font-size: $font-12;
+    font-weight: $semibold;
+    display: flex;
+    &:first-child() {
+        margin-top: 8px;
+    }
+    .sc-lbl {
+        width: 50%;
+        text-align: right;
+        margin-right: 4px;
+    }
+    .sc-val {
+        color: $colorPrimary;
+        margin-right: 4px;
+  
+    }
+  }
+  
+  .time-picker {
+    margin-top: 8px;
+    @media all and (min-width: 768px) and (max-width: 1200px) {
+      display: inline-block;
+      .time {
+          text-align: right;
+          display: flex;
+      }
+    }
+  
+    @media all and (min-width: 1200px) {
+        display: grid;
+    }
+    .time {
+        margin: 2px 4px;
+        label{
+            color: $colorPrimary;
+            margin: 10px;
+        }
+    }
+    label {
+        font-size: $font-12;
+        font-weight: 600;
+     
+    }
+    .timer-value {
+        margin-top:4px
+    }
+  }
+  .reason {
+    margin: 2px 4px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+  
+    label{
+        color: $colorPrimary;
+        margin: 10px;
+        font-size: $font-12;
+        font-weight: 600;
+    }
+    .timer-value {
+      width: 185px !important;
+      // margin: 4px;
+    }
+  }
+  .textArea{
+    resize: none;
+      // width: 40%;
+      margin: 10px 0px 0px 9px;
+  
+  }

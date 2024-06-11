@@ -1,0 +1,35 @@
+@import './../../../../styles/mixin';
+@import './../../../../styles/variable';
+@import './../../../../styles/custom';
+
+.data-ctn {
+    .assignment-content {
+        margin: 16px;
+        flex: auto;
+    }
+    .page-header {
+        @include sectionSticky(0px);
+        background-color: $headingBackgroundColor;
+        z-index: 3;
+    }
+    .page-title {
+        width: 20%;
+    }
+    .contracts-left {
+            @include sectionSticky(50px);
+            width: 20%;
+            float: left;
+            .sidebar {
+                padding-left: 8px;
+            }
+        }
+    .contracts-main {
+        width: calc(80% - 20px);
+        margin-left: 16px;
+        float: left;
+    }
+    .nonClickable{
+        background-color:$colorShadow;
+        pointer-events: none;
+    }
+}

@@ -1,0 +1,231 @@
+<ng-container *ngIf="metaData && publicView && profileImg">
+    <div class="data-wrap" #scroller (scroll)="scrollList()">
+
+        <div #banner class="banner-wrap" *ngIf="!publicView.isProfilePublic">
+            <div class="shad-card banner">
+                <label><i class="fas fa-info-circle"></i></label>
+                <label *ngIf="!publicView.isAcceptAgreement">{{metaData.IH_AdjusterPage_Top_Banner}}</label>
+                <label
+                    *ngIf="publicView.isAcceptAgreement && (!publicView.isProfilePublic && !publicView.isAdminAction)">
+                    {{metaData.IH_AdjusterPage_ProfilePrivate}}
+                </label>
+                <label
+                    *ngIf="(!publicView.isProfilePublic && publicView.isAdminAction) && publicView.isAcceptAgreement  && publicView.isVerified">
+                    {{metaData.IH_AdjusterPage_ContactStaff}}
+                </label>
+            </div>
+        </div>
+
+
+        <div class="data-ctn">
+            <div class="grid">
+                <div class="profile">
+                    <div #profile class="shad-card" [ngStyle]="profileSticky">
+                        <!-- Top Profile section starts-->
+                        <div class="pro-top">
+                            <div class="pro-img" >
+                                <img *ngIf="!isDefaultImage && publicView.profileImageID !== ''"
+                                    [src]="profileImgUrl">
+                                <img *ngIf="isDefaultImage" src="./../../../../assets/default.png">
+                                <div class="overlay" [class.show]="imageLoader">
+                                    <i *ngIf="!imageLoader" (click)="openPicChoose()" class="fa fa-camera"
+                                        aria-hidden="true"></i>
+                                    <!-- <i *ngIf="!imageLoader" (click)="confirmPicDelete=true" class="fa fa-times" aria-hidden="true"></i> -->
+                                    <i *ngIf="imageLoader" class="fas fa-spinner fa-pulse" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <input type="file" accept="image/*" id="fileLoader" style="display: none;"
+                                (change)="validateImage($event);">
+                            <div class="flex">
+                                <div class="name word-break">{{publicView.firstName}} {{publicView.lastName}}</div>
+                            </div>
+                            <div class="flex" *ngIf=!editTitleFlag>
+                                <div [ngClass]="publicView.profileTitle ? 'role word-break' : 'no-role'">
+                                    {{publicView.profileTitle ? publicView.profileTitle : 'Update your title here'}}
+                                    <img src="./../../../../assets/edit.svg" (click)="onTitleEdit()"
+                                        class='displaynone displayblock' style="float: right;">
+                                </div>
+                            </div>
+                            <div *ngIf=editTitleFlag>
+                                <input kendoTextBox class="inde-input"
+                                    onkeypress='return ((event.charCode >= 45 && event.charCode <= 57) || (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122)|| (event.charCode == 32) || (event.charCode == 39))'
+                                    onPaste="return false;" oninput="validity.valid||(value='')"
+                                    [(ngModel)]="summaryObject.profileTitle" type="text" maxlength='50' />
+                            </div>
+                            <div class="role-edit" *ngIf=editTitleFlag>
+                                <i class="far fa-times-circle" (click)="editTitleFlag = false"></i>
+                                <i class="fas fa-save" (click)="onTitleUpdate()"></i>
+                            </div>
+                            <div class="flex">
+                                <i class="fas fa-map-marker"></i>
+                                <div class="loc word-break " [class.flex]="address.city.length<10"
+                                    *ngFor="let address of publicView.addressViews">
+                                    <div><span class="city">{{address.city}}, </span></div>
+                                    <div> {{getValueByKey(address.provinceID, stateList)}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Top Profile section Ends-->
+
+                        <!-- sidebar starts -->
+                        <div class="sidebar">
+                            <div class="item" [class.active]="navItem == 1" (click)="navItem = 1; selectNav(1)">
+                                {{metaData.IH_AdjusterPage_Professional_Summary}}
+                            </div>
+                            <div class="item" [class.active]="navItem == 2" (click)="navItem = 2; selectNav(2)">
+                                {{metaData.IH_AdjusterPage_Professional_Information}}
+                                <i class="fas fa-angle-up angle-icon" [class.rotate-arrow]="piSubMenu"></i>
+                            </div>
+                            <div class="sub-item" *ngIf="piSubMenu" [class.sub-active]="navSubItem == 1"
+                                (click)="navSubItem = 1; ">{{metaData.IH_AdjusterPage_Work_Experience}}</div>
+                            <div class="sub-item"
+                                *ngIf="publicView.contractorTypeMappingViews[0].contractorTypeID === 'CTAD' && piSubMenu"
+                                [class.sub-active]="navSubItem == 2" (click)="navSubItem = 2; ">
+                                {{metaData.IH_AdjusterPage_Insurance_Designation}}</div>
+                            <div class="sub-item"
+                                *ngIf="publicView.contractorTypeMappingViews[0].contractorTypeID === 'CTLA' && piSubMenu"
+                                [class.sub-active]="navSubItem == 2" (click)="navSubItem = 2; ">
+                                {{metaData.IH_AdjusterPage_Equipments}}</div>
+                            <div class="sub-item" *ngIf="piSubMenu" [class.sub-active]="navSubItem == 3"
+                                (click)="navSubItem = 3; ">{{metaData.IH_AdjusterPage_LossType_Expertise}}</div>
+                            <div class="sub-item" *ngIf="piSubMenu" [class.sub-active]="navSubItem == 4"
+                                (click)="navSubItem = 4; ">{{metaData.IH_AdjusterPage_Software_Knowledge}}</div>
+                            <div class="sub-item" *ngIf="piSubMenu" [class.sub-active]="navSubItem == 5"
+                                (click)="navSubItem = 5; ">{{metaData.IH_AdjusterPage_Language}}</div>
+                            <div class="sub-item"
+                                *ngIf="piSubMenu && publicView.contractorTypeMappingViews[0].contractorTypeID === 'CTLA'"
+                                [class.sub-active]="navSubItem == 6" (click)="navSubItem = 6; ">
+                                {{metaData.IH_AdjusterPage_Travel}}</div>
+                            <div class="item"
+                                *ngIf="publicView.contractorTypeMappingViews[0].contractorTypeID === 'CTAD'"
+                                [class.active]="navItem == 3" (click)="navItem = 3; selectNav(3)">
+                                {{metaData.IH_AdjusterPage_State_Licenses}}</div>
+                            <div class="item" [class.active]="navItem == 4" (click)="navItem = 4; selectNav(4)">
+                                {{metaData.IH_AdjusterPage_Certifications}}</div>
+                            <div class="item" [class.active]="navItem == 5" (click)="navItem = 5; selectNav(5)">
+                                {{metaData.IH_AdjusterPage_Employment_History}}</div>
+                            <div class="item" [class.active]="navItem == 6" (click)="navItem = 6; selectNav(6)">
+                                {{metaData.IH_AdjusterPage_Education}}</div>
+                        </div>
+                        <!-- Sidebar ends -->
+
+                    </div>
+                </div>
+
+                <div>
+                    <div class="profile-tab" *ngIf="false">
+                        <div class="shad-card">
+                            <div class="pro-top">
+                                <div class="pro-img">
+                                    <img [src]="profileImg">
+                                    <div class="overlay" [class.show]="imageLoader">
+                                        <i *ngIf="!imageLoader" (click)="openPicChoose()" class="fa fa-camera"
+                                            aria-hidden="true"></i>
+                                        <!-- <i *ngIf="!imageLoader" (click)="confirmPicDelete=true" class="fa fa-times" aria-hidden="true"></i> -->
+                                        <i *ngIf="imageLoader" class="fas fa-spinner fa-pulse" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                <input type="file" accept="image/*" id="fileLoader" style="display: none;"
+                                    (change)="validateImage($event);">
+                                <div class="flex">
+                                    <div class="name word-break">{{publicView.firstName}} {{publicView.lastName}}</div>
+                                </div>
+                                <div class="flex" *ngIf=!editTitleFlag>
+                                    <div [ngClass]="publicView.profileTitle ? 'role word-break' : 'no-role'">
+                                        {{publicView.profileTitle ? publicView.profileTitle : metaData.IH_AdjusterPage_Update_Title}}
+                                        <img src="./../../../../assets/edit.svg" (click)="onTitleEdit()"
+                                            class='displaynone displayblock' style="float: right;">
+                                    </div>
+                                </div>
+                                <div *ngIf=editTitleFlag>
+                                    <input class="inde-input" kendoTextBox [(ngModel)]="summaryObject.profileTitle"
+                                        type="text" maxlength='50' />
+                                </div>
+                                <div class="role-edit" *ngIf=editTitleFlag>
+                                    <i class="far fa-times-circle" (click)="editTitleFlag = false"></i>
+                                    <i class="fas fa-save" (click)="onTitleUpdate()"></i>
+                                </div>
+                                <div class="flex">
+                                    <i class="fas fa-map-marker"></i>
+                                    <div class="loc word-break" *ngFor="let address of publicView.addressViews">
+                                        {{address.city}}, {{getValueByKey(address.provinceID, stateList)}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Professional Summary Starts-->
+                    <div #summary>
+                        <inde-professional-summary [metaData]="metaData" [publicView]="publicView"
+                            (proSummaryEvent)="getAdjusterData()"></inde-professional-summary>
+                    </div>
+                    <!--Professional Summary Ends-->
+
+
+
+                    <!--Professional Information Starts-->
+                    <div #information>
+                        <inde-professional-information [metaData]="metaData" [publicView]="publicView"
+                            (proInformationEvent)="getAdjusterData()"></inde-professional-information>
+                    </div>
+
+
+
+
+                    <!--Professional Information Ends-->
+
+
+                    <!-- State License Starts-->
+                    <div [ngClass]="publicView.contractorTypeMappingViews[0].contractorTypeID == 'CTAD' ? 'shad-card' : ''"
+                        #license>
+                        <inde-state-license *ngIf="publicView.contractorTypeMappingViews[0].contractorTypeID == 'CTAD'"
+                            [metaData]="metaData" [publicView]="publicView"></inde-state-license>
+                    </div>
+                    <!-- State License Ends-->
+
+                    <!-- Certifications Starts-->
+                    <div #certification>
+                        <inde-certifications [metaData]="metaData" [publicView]="publicView"
+                            (certificationsEvent)="getAdjusterData()"></inde-certifications>
+                    </div>
+                    <!-- Certifications Ends-->
+
+
+
+                    <!-- Employment History Starts-->
+                    <div #experience>
+                        <inde-employment-history [metaData]="metaData" [publicView]="publicView"
+                            (employmentEvent)="getAdjusterData()"></inde-employment-history>
+                    </div>
+
+                    <!-- Employment History Ends-->
+
+                    <!-- Education Starts-->
+                    <div #education>
+                        <inde-education [metaData]="metaData" [publicView]="publicView"
+                            (educationEvent)="getAdjusterData()"></inde-education>
+                    </div>
+                    <!-- Education Ends-->
+
+                </div>
+
+                <div>
+                    <div #workPref [ngStyle]="profileSticky">
+                        <inde-work-preference [metaData]="metaData" [publicView]="publicView"
+                            (preferenceEvent)="getAdjusterData()"></inde-work-preference>
+                    </div>
+                </div>
+
+
+            </div>
+            <inde-footer></inde-footer>
+        </div>
+
+    </div>
+</ng-container>
+
+<ng-container *ngIf="!isloading || !metaData">
+    <div class="loader">
+        <span class="k-icon k-i-loading" style="font-size: 64px;"></span>
+    </div>
+</ng-container>

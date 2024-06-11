@@ -1,0 +1,188 @@
+@import './variable';
+
+@mixin indeButton($color: $colorAccent, $dark: $colorAccentDark){
+    width: 100%;
+    background-color: $color;
+    font-size: 16px;
+    outline: none;
+    // border: none;
+    padding: 4px 28px;
+    box-sizing: border-box;
+    border: 2px solid $color;
+    color: $color-white;
+    transition: background-color 0.3s;
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 3px;
+    // box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
+    .fas {
+        font-size: inherit;
+        margin-left: 4px;
+        font-size: $font-extra-small;
+    }
+    &:hover {
+        background-color: rgba($dark, .8);
+    }
+    &:focus {
+        background-color: $dark;
+    }
+    &:disabled {
+        border: 0;
+        padding: 6px 28px;
+        background-color: rgba($color, 0.6);
+        // color: #8A8A8D;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+}
+
+@mixin indeOutlineButton($color: $colorAccent, $dark: $colorAccentDark){
+    width: max-content;
+    background-color: $color-white;
+    outline: none;
+    font-size: 16px;
+    border: 1px solid $color;
+    padding: 5px 28px;
+    color: $color;
+    transition: all 0.3s;
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 3px;
+    &:hover {
+        background-color: rgba($dark, .7);
+        color: $color-white;
+    }
+    &:focus {
+        background-color: $dark;
+        color: $color-white;
+        // box-shadow: 0 2px 2px 8px rgba($color: $dark, $alpha: 0.3);
+    }
+    &:disabled {
+        background-color: lightgrey;
+        border-color: lightgrey;
+        color: #8A8A8D;
+        cursor: not-allowed;
+    }
+}
+
+@mixin moveDivToCentre {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}  
+
+@mixin wordWrap {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+@mixin grid-3 ($val1: 1fr, $val2: 1fr, $val3: 1fr) {
+    display: -ms-grid;
+    display: grid;
+    grid-gap: 1rem;
+    // grid-template-areas: 
+    // 'left top'
+    // 'left info-one'
+    // 'left info-two'
+    // 'left info-three'
+    // 'left info-four';
+    grid-template-columns: $val1 $val2 $val3;
+}
+
+@mixin grid-2 ($val1: 1fr, $val2: 1fr) {
+    display: -ms-grid;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: $val1 $val2;
+}
+
+
+@mixin grid-6 ($val1: 1fr, $val2: 1fr,$val3: 1fr, $val4: 1fr,$val5: 1fr, $val6: 1fr) {
+    display: -ms-grid;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: $val1 $val2 $val3 $val4 $val5 $val6;
+}
+
+@mixin indeValue() {
+    font-size: 15px;
+    display: flex;
+    .data {
+      flex: auto;
+    }
+}
+
+@mixin indeMandatory {
+    color: $colorDanger;
+    font-weight: 700;
+}
+
+@mixin indeLook($color: $colorBlueLight) {
+    color: $color;
+    background-color: rgba($color, 0.1);
+    border: 1px solid $color;
+    border-radius: 3px;
+    padding: 6px 20px;
+    font-size: $font-extra-small;
+}
+
+@mixin starRating($class1, $class2, $primary: $colorAccentDark, $secondary: $colorAdditional) {
+    .#{$class1} {
+        background-color: $primary;
+        color: $color-white;
+        padding: 4px 8px;
+        border-radius: 3px;
+        font-size: $font-small;
+    }
+    .#{$class2} {
+        margin-left: 8px;
+        color: $secondary;
+        line-height: 24px;
+        font-size: $font-small;
+        .fas, .far {
+            margin-right: 3px;
+        }
+    }
+}
+
+@mixin customScroll ($class-name, $color: $colorAccent){
+    .#{$class-name}::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      background-color: #F5F5F5;
+      border-radius: 6px;
+    }
+  
+    .#{$class-name}::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+      background-color: #F5F5F5;
+  
+    }
+  
+    .#{$class-name}::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background-color: $color;
+      cursor: pointer;
+    }
+  
+    .#{$class-name}::-webkit-scrollbar:hover {
+      width: 4px;
+    }
+}
+
+// Text styling mixin
+@mixin content-style($size, $color, $weight) {
+    font-size: $size;
+    color: $color;
+    font-weight: $weight;
+}
+
+@mixin sectionSticky($height) {
+    position: sticky;
+    top: $height;
+}
+
+
+

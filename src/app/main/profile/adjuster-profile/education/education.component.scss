@@ -1,0 +1,22 @@
+@import './../adjuster-profile.component.scss';
+@import './../../../../../styles/custom';
+
+.education-hover:hover{  
+    cursor: pointer;
+   .displayblock{
+       display: block;
+       margin-left:8px;
+   }
+ }
+
+
+
+ .width3 {
+    margin-right: 8px; 
+    width: calc(33% - 8px);
+ }
+
+ .width2 {
+    margin-right: 8px; 
+    width: calc(50% - 8px);
+ }

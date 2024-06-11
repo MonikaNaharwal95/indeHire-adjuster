@@ -1,0 +1,21 @@
+<div class="data-wrap" #lazyLoadAlerts *ngIf="meta" (scroll)="scrollWrap()">
+    <div class="data-ctn mail-center-wrap">
+        <div class="page-title">{{ meta?.IH_Adj_MsgCenter_MessageCenter }}</div>
+        <div class="flex">
+            <div class="setting-left">
+                <div class="div-sticky">
+                    <div class="shad-card">
+                        <div class="sidebar">
+                            <div class="item" [routerLink]="['inmails']" [routerLinkActive]="['active']">{{meta?.IH_Adj_MsgCenter_Email }} <i class="far fa-envelope"></i></div>
+                            <div class="item" [routerLink]="['notifications']" [routerLinkActive]="['active']">{{meta?.IH_Adj_MsgCenter_Alerts}} <i class="far fa-bell"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="setting-main">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+        <inde-footer></inde-footer>
+    </div>
+</div>

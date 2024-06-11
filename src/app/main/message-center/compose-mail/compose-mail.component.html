@@ -1,0 +1,59 @@
+<div class="card" *ngIf="meta">
+    <h2>{{this?.meta.IH_Adj_MsgCenter_ComposeMsg}}</h2>
+    <div class="card-inner form-group" [formGroup]="composeMailForm" [class.pointerNone]="sendingMail">
+        <div class="input-field">
+            <label style="width:190px;">{{this?.meta.IH_Adjuster_MessageCenter_Category}}</label>
+            <kendo-dropdownlist 
+                formControlName="contactCategoryID" 
+                class="inde-dropdown" 
+                [data]="dropdownItems" 
+                [defaultItem]="categoryDefault"
+                (valueChange)="valueChange()" 
+                valuePrimitive="true" 
+                [textField]="'value'" 
+                [valueField]="'key'">
+            </kendo-dropdownlist>
+        </div>
+        <ng-container *ngIf="keys.contactCategoryID.touched && keys.contactCategoryID.errors">
+            <div class="error error-custom" *ngIf="keys.contactCategoryID.errors.required">
+                {{ meta?.IH_Adjuster_MessageCenter_Category + ' ' + validationMsg?.IH_Required }}
+            </div>
+        </ng-container>
+        <div class="input-field" *ngIf="showSubCategory">
+            <label style="width:190px;">{{this?.meta.IH_Adj_MsgCenter_ChooseAsgmt}}</label>
+            <kendo-dropdownlist formControlName="refID" [defaultItem]="assignmentDefault" [data]="subDropdownItems" valuePrimitive=true [textField]="'value'" [valueField]="'key'" class="inde-dropdown">
+            </kendo-dropdownlist>
+        </div>
+        <ng-container *ngIf="keys.refID.touched && keys.refID.errors">
+            <div class="error error-custom" *ngIf="keys.refID.errors.required">
+                {{ meta?.IH_Adj_MsgCenter_ID + ' ' + validationMsg?.IH_Required }}
+            </div>
+        </ng-container>
+        <div class="client-checkbox" *ngIf="showContractorCheckbox">
+            <input type="checkbox" [id]="'s1'" class="k-checkbox" formControlName="isAddcontractor" />
+            <label class="k-checkbox-label" [for]="'s1'">{{meta?.IH_Adjuster_MessageCenter_Send_Client}}
+                </label>
+        </div>
+        <div class="input-field subject">
+            <label style="width:190px;">{{meta?.IH_Adj_MsgCenter_Subject}}</label>
+            <input class="inde-input" kendoTextBox type="text" formControlName="subject" />
+        </div>
+        <ng-container *ngIf="keys.subject.touched && keys.subject.errors">
+            <div class="error error-custom" *ngIf="keys.subject.errors.required">
+                {{ meta?.IH_Adj_MsgCenter_Subject + ' ' + validationMsg?.IH_Required }}
+            </div>
+        </ng-container>
+        <div class="editor">
+            <!-- <kendo-editor [value]="value" formControlName="body" style="height: auto; min-height: 300px;"></kendo-editor> -->
+            <ng-container *ngIf="keys.body.touched && keys.body.errors">
+                <div class="error" *ngIf="keys.body.errors.required">
+                    {{ meta?.IH_Adjuster_MessageCenter_MessageBody + ' ' + validationMsg?.IH_Required }}
+                </div>
+            </ng-container>
+        </div>
+        <div class="btn-container">
+            <button class="del" [routerLink]="['../']">{{meta?.IH_Adj_MsgCenter_Cancel}}</button>
+            <button class="rep" (click)="sendEmail()">{{meta?.IH_Adj_MsgCenter_Send}}</button>
+        </div>
+    </div>
+</div>

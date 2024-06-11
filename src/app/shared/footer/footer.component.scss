@@ -1,0 +1,32 @@
+@import './../../../styles/variable';
+@import './../../../styles/mixin';
+
+.footer-bottom {
+    flex: none;
+    position: relative;
+    padding: 8px 16px;
+    box-sizing: border-box;
+    border-top: 1px solid $borderColor;
+    text-align: center;
+    float: left;
+    width: 100%;
+    a {
+        color: $colorAccent;
+        text-decoration: none;
+        &:hover {
+            text-decoration: underline;
+            outline: none;
+        }
+    }
+    span {
+        @include content-style($font-small,
+        $color-signup-input,
+        $regular);
+    }
+    .version {
+        position: absolute;
+        right: 0;
+        top: 4px;
+        padding: 8px 16px;
+    }
+}

@@ -1,0 +1,13 @@
+<div class="acc-container" [ngClass]="expanded ? 'expand' : ''">
+    <div class="acc-heading" (click)="expanded = !expanded;clickAccordian()">
+        <div class="acc-title">
+            <span>{{title}}</span>
+            <img *ngIf="isEditible && expanded" class="float-icon" src="assets/edit.svg" (click)="editIconClick($event)">
+        </div>
+        <i class="fas fa-chevron-circle-down"></i>
+    </div>
+    <div class="accordian-content" *ngIf="expanded ? true : false">
+        <span class="img-upload" (click)="uploadButtonClick($event)">{{upload}}</span>
+        <ng-content></ng-content>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+@import './../../../styles/mixin';
+@import './../../../styles/variable';
+@import './../../../styles/custom';
+
+.data-ctn {
+    .assignment-content {
+        margin: 16px 0;
+        flex: auto;
+    }
+    .page-header {
+        @include sectionSticky(0px);
+        background-color: $headingBackgroundColor;
+        z-index: 3;
+    }
+    .page-title {
+        width: 20%;
+    }
+    .page-navbar {
+        border-bottom: 1px solid $borderColor;
+        margin-bottom: 12px;
+    }
+    .contracts-left {
+        @include sectionSticky(50px);
+        width: 20%;
+        .card {
+            .sidebar {
+                padding-left: 8px;
+            }
+        }
+    }
+    .contracts-main {
+        width: calc(80% - 16px);
+        margin-left: 16px;
+    }
+    .nonClickable{
+        background-color:$colorShadow;
+        pointer-events: none;
+    }
+}

@@ -1,0 +1,86 @@
+<div class="card" *ngIf="meta">
+    <div class="sender-info">
+        <div class="page-navbar">
+            <div class="nav-item" (click)="navClicked('inbox')" [class.nav-active]="showInbox">{{this.meta.IH_Adjuster_MessageCenter_Inbox}}</div>
+            <div class="nav-item" (click)="navClicked('sentbox')" [class.nav-active]="!showInbox">{{this.meta.IH_Adj_MsgCenter_Sent}}</div>
+            <i class="fas fa-plus" (click)="routeToCompose()"></i>
+        </div>
+        <div class="input-wrapper">
+            <i class="fas fa-search"></i>
+            <input class="inde-input" (keyup.enter)="searchMail()" (keyup)="getKeys()" (blur)="removeKeys()" [(ngModel)]="searchString" kendoTextBox placeholder="{{meta?.IH_Adj_MsgCenter_Search}}">
+        </div>
+        <ul class="mail-info" #scrollWrapper *ngIf="folderType === 'inbox'" (scroll)="inboxScrollEvent()">
+            <li class="no-msg" *ngIf="inboxEmailList?.length === 0 && !searching">{{this?.meta.IH_Adj_MsgCenter_NoMessage}}</li>
+            <li class="no-msg" *ngIf="inboxEmailList?.length === 0 && searching"><span class="k-icon k-i-loading"></span></li>
+            <li *ngFor="let item of inboxEmailList; let i = index" (click)="item.checkRead = true; openMail(item.messageID)" [class.read]="item.isRead === true" [class.active]="count === item.messageID">
+                <div class="image" *ngIf="item.contactCategoryName === 'Assignment'"><i class="fas fa-clipboard-list image-size"></i></div>
+                <div class="image" *ngIf="item.contactCategoryName === 'Profile'"><i class="fas fa-user image-size"></i></div>
+                <div class="image" *ngIf="item.contactCategoryName === 'Jobs'"><i class="fas fa-briefcase image-size"></i></div>
+                <div class="image" *ngIf="item.contactCategoryName === 'Payments'"><i class="fas fa-credit-card image-size"></i></div>
+                <div class="image" *ngIf="item.contactCategoryName === 'Mobile App'"><i class="fas fa-mobile-alt image-size"></i></div>
+                <div class="image" *ngIf="item.contactCategoryName === 'Legal, Privacy'"><i class="fab fa-expeditedssl image-size"></i></div>
+                <div class="image" *ngIf="item.contactCategoryName === 'Other'"><i class="far fa-dot-circle image-size"></i></div>
+                <div class="info">
+                    <span class="name">{{item.contactCategoryName}}</span>
+                    <span class="time">{{item.createdDate | date: 'MM/dd/yyyy'}}</span>
+                    <p class="subject">{{item.subject}}</p>
+                </div>
+            </li>
+            <li class="no-msg" *ngIf="inboxEmailList?.length > 0 && loadingMail"><span class="k-icon k-i-loading"></span></li>
+        </ul>
+        <ul class="mail-info" #scrollWrapper *ngIf="folderType === 'sentbox'" (scroll)="sentScrollEvent()">
+            <li class="no-msg" *ngIf="sentList?.length === 0 && !searching">{{this?.meta.IH_Adj_MsgCenter_NoMessage}}</li>
+            <li class="no-msg" *ngIf="sentList?.length === 0 && searching"><span class="k-icon k-i-loading"></span></li>
+            <li *ngFor="let item of sentList; let i = index" (click)="item.checkRead = true; openMail(item.messageID)" [class.read]="item.isRead === true" [class.active]="count === item.messageID">
+                <div class="image" *ngIf="item.contactCategoryName === 'Assignment'"><i class="fas fa-clipboard-list image-size"></i></div>
+                <div class="image" *ngIf="item.contactCategoryName === 'Profile'"><i class="fas fa-user image-size"></i></div>
+                <div class="image" *ngIf="item.contactCategoryName === 'Jobs'"><i class="fas fa-briefcase image-size"></i></div>
+                <div class="image" *ngIf="item.contactCategoryName === 'Payments'"><i class="fas fa-credit-card image-size"></i></div>
+                <div class="image" *ngIf="item.contactCategoryName === 'Mobile App'"><i class="fas fa-mobile-alt image-size"></i></div>
+                <div class="image" *ngIf="item.contactCategoryName === 'Legal, Privacy'"><i class="fab fa-expeditedssl image-size"></i></div>
+                <div class="image" *ngIf="item.contactCategoryName === 'Other'"><i class="far fa-dot-circle image-size"></i></div>
+                <div class="info">
+                    <span class="name">{{item.contactCategoryName}}</span>
+                    <span class="time">{{item.createdDate | date: 'MM/dd/yyyy'}}</span>
+                    <p class="subject">{{item.subject}}</p>
+                </div>
+            </li>
+            <li class="no-msg" *ngIf="sentList?.length > 0 && loadingMail"><span class="k-icon k-i-loading"></span></li>
+        </ul>
+    </div>
+    <div class="detail-info" *ngIf="emailList?.length > 0">
+        <div class="top-action">
+            <span class="heading">{{emailResponse.subject}}</span>
+            <div class="btn-container">
+                <button class="rep" (click)="isResponse = true; showEditor()" [class.remove]="isResponse">{{meta?.IH_Adj_MsgCenter_Reply}}</button>
+                <button class="del" (click)="openDialog()">{{meta?.IH_Adj_MsgCenter_Delete}}</button>
+            </div>
+        </div>
+        <div class="mail-body">
+            <div class="mail" [class.add]="isResponse" [formGroup]="sendReply">
+                <h2>{{meta?.IH_Adj_MsgCenter_ReplyingTo}} {{emailResponse.contactCategoryName}}</h2>
+                <!-- <kendo-editor [value]="value" style="height: auto; min-height: 300px;" formControlName="body"></kendo-editor> -->
+                <div class="btn-container">
+                    <button class="del" (click)="isResponse = false; reset();">{{meta?.IH_Adj_MsgCenter_Cancel}}</button>
+                    <button class="rep" (click)="submitReply(); reset()">{{meta?.IH_Adj_MsgCenter_Send}}</button>
+                </div>
+            </div>
+            <div class="message-history" *ngFor="let info of detail">
+                <div class="user-info">
+                    <!-- <div class="info">
+                        <label>{{this?.meta.IH_Adjuster_MessageCenter_From}}</label>
+                        <span class="name">{{info.contactCategoryName}}</span>
+                    </div> -->
+                    <div class="time">
+                        <label>{{this?.meta.IH_Adjuster_MessageCenter_Sent}}</label>
+                        <span>{{info.createdDate | date: 'MM/dd/yyyy'}} {{info.createdDate | date: 'HH:mm'}}</span>
+                    </div>
+                </div>
+                <div class="previous" [innerHTML]="info.body"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<inde-alert-dialog [message]="meta?.IH_Adjuster_MessageCenter_Delete_Confirmation" #deleteDialog [negativeButton]="meta?.IH_Adj_MsgCenter_Cancel" [positiveButton]="meta?.IH_Adjuster_MessageCenter_Ok" (negativeButtonClick)="closeDialog()" (positiveButtonClick)="deleteMessageConfirmation();">
+</inde-alert-dialog>

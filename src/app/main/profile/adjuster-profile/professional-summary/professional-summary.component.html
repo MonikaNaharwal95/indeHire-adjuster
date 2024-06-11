@@ -1,0 +1,31 @@
+<div class="shad-card">
+  <div class="heading">
+    <div class="title">
+      <label>{{metaData.IH_AdjusterPage_Professional_Summary}}</label>
+      <label style="float:right">
+        <img (click)="onAddSummary()" *ngIf="!publicView.profileDescription" class='pointer'
+          src="./../../../../assets/add.svg">
+        <img (click)="onAddSummary()" *ngIf="publicView.profileDescription" class='pointer'
+          src="./../../../../assets/edit.svg">
+      </label>
+    </div>
+  </div>
+  <div class="card-content">
+    <div class="summary word-break" *ngIf="!addSummaryFlag && publicView.profileDescription!=''">
+      {{publicView.profileDescription}}
+    </div>
+    <div class="summary" style="text-align: center;" *ngIf="!addSummaryFlag && publicView.profileDescription==''">
+      {{metaData.IH_AdjusterPage_Click}} <i class="fas fa-plus-circle"></i> {{metaData.IH_AdjusterPage_Icon_To_Add}}
+    </div>
+    <div class="summary-edit" *ngIf="addSummaryFlag">
+      <textarea class="inde-input" kendoTextArea placeholder="{{metaData.IH_AdjusterPage_Write_Summary}}"
+        [(ngModel)]="summaryObject.profileDescription" maxlength="1000" style="resize: none;"></textarea>
+      <button class="btn-cancel" [disabled]="loader"
+        (click)="addSummaryFlag = false">{{metaData.IH_AdjusterPage_Cancel}}</button>
+      <button class="btn-save" (click)="postSummary()" [disabled]="loader">
+        <label>{{metaData.IH_AdjusterPage_Save}}</label>
+        <i *ngIf="loader" class="fas fa-sync spin"></i>
+      </button>
+    </div>
+  </div>
+</div>

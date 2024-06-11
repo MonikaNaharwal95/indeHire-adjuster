@@ -1,0 +1,33 @@
+<div class="data-wrap" *ngIf="qaFailureMetadata">
+    <div class="data-ctn">
+        <div class="job-ctn">
+            <div class="div-sticky page-header">
+                <!-- <div class="page-title">
+                    Reports
+                </div> -->
+                <div class="page-navbar">
+                    <div class="nav-item" [ngClass]="selectedNav == 1 ? 'nav-active' : ''" (click)="selectedNav = 1; handleNavbar()"> 
+                        {{qaFailureMetadata.IH_Adj_QaFail_Submitted}}
+                    </div>
+                    <div class="nav-item" [ngClass]="selectedNav == 2 ? 'nav-active' : ''" (click)="selectedNav = 2; handleNavbar()">
+                        {{qaFailureMetadata.IH_Adj_QaFail_Failed}}
+                    </div>
+                    <div class="nav-item" [ngClass]="selectedNav == 3 ? 'nav-active' : ''" (click)="selectedNav = 3; handleNavbar()">
+                        {{qaFailureMetadata.IH_Adj_QaFail_Approved}}
+                    </div>
+                </div>
+            </div>
+            <!-- Filter and content section -->
+            <div class="flex">
+                <div class="jobs-main">
+                    <div class="filter-area">
+                        <inde-grid [dataSource]="assignmentReport" [scrollable]="'none'" [loading]="gridLoader" [noData]="qaFailureMetadata.IH_Adj_QaFail_NoDataShow" 
+                        [cssClass]="'lead-grid'" [pageable]="true" [pageSize]="'10'" [scrollable]="'none'" [columns]="qaFailedColumn" [filterable]="false">
+                        </inde-grid>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <inde-footer></inde-footer>
+    </div>
+</div>

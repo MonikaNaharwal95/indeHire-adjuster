@@ -1,0 +1,140 @@
+@import './../adjuster-profile.component.scss';
+@import './../../../../../styles/custom';
+@import './../../../../../styles/variable';
+
+
+
+
+.view-profile{
+    font-size: $font-extra-small;
+    padding: 8px 0px 4px 8px;
+    cursor:pointer;
+}
+
+.claim-margin{
+
+    label{
+        margin-right:4px
+    }
+}
+
+.visi-pos{
+    display: flex;
+    float: right;
+}
+
+
+
+    .public{
+       margin-bottom:8px;
+       label{
+        font-weight:600;
+        color:$colorAccent;
+        font-size:$font-large;
+        
+       } 
+       
+    }
+
+
+    .links{
+
+        span{
+            vertical-align: text-top;
+        }
+    }
+
+    .signdoc{
+        padding-top: 90px;
+        padding-bottom: 16px;
+        height: calc(100% - 110px);
+        margin-bottom: 110px;
+    }
+
+
+    .agreement-wrapper{
+        padding: 0px 20px;
+        position: absolute;
+        z-index: 999;
+        bottom: 50px;
+        background: white;
+        right: 15px;
+        text-align: center;
+        .initial-check{
+            display: inline-block;
+            margin:8px 0px;
+
+            .k-checkbox-label{
+                font-weight: 600;;
+            }
+        }
+        .initial{
+            padding:0px !important;
+            width:10% !important;
+            margin: 0px 0px 4px 0px;
+    
+        }
+    
+        .initial-label{
+            font-size: $font-extra-small;
+            font-weight: 600;
+            margin-left:4px;
+    
+        }
+    }
+
+
+    .agreement-download{
+        font-size:13px !important;
+        color: $colorAccent;
+    }
+    
+
+
+    .reject-rsn-red{
+    color: $color-red;
+    font-size: $font-small;
+    //padding-left: 8px;
+        
+    }
+
+    .reject-rsn-green{
+        color: $colorSuccess;
+        font-size: $font-small;
+        // padding-left: 8px;
+            
+        }
+
+
+    .rej-width{
+        width:20px;
+    }
+
+
+
+// Added by Abhishek to handle workType check
+.notify-rate {
+    text-align: center;
+    margin-top: 24px;
+    .icon {
+        img {
+            height: 24px;
+            width: 24px;
+        }
+    }
+    .poke {
+        font-size: $font-extra-small;
+        color: $color-red;
+    }
+}
+
+.ver-ttl {
+    font-size: $font-card-header;
+    padding: 0;
+    font-weight: 600;
+    flex: auto;
+    color: $colorPrimary;
+}
+.k-checkbox-label{
+    width: fit-content;
+}

@@ -1,0 +1,144 @@
+<div class="data-wrap" *ngIf="!loader">
+    <div class="data-ctn home-wrapper">
+        <div class="main-wrapper">
+            <div class="no-data" *ngIf="gridIndex?.length <1">
+                {{ this.metaData.IH_AdjLanding_NoData }}
+            </div>
+            <kendo-sortable [kendoSortableBinding]="gridIndex" *ngIf="gridIndex?.length> 0" class="grid" [animation]="true" (dragEnd)="onDragEnd($event)" itemClass="griditem" activeItemClass="gridActiveItem">
+                <ng-template let-index="item">
+                    <div class="header">
+                        {{ index.tilesTypeName }}
+                        <button class="fas fa-thumbtack" (click)="savepinned(index.tilesViewOrder)" [class.pinned]="index.status" [disabled]="index.status"></button>
+                    </div>
+                    <div class="grid-data">
+                        <!-- calender section -->
+                        <div class="calender-wrapper">
+                            <div class="calender">
+                                <inde-calender *ngIf="index.tilesTypeID ==
+                                    'AD_CL'" [highLightRecord]="highLightRecord" [maxstartDate]="maxstartDate" (valueChange)="dateChangeValue($event)">
+                                </inde-calender>
+                            </div>
+                            <div class="content" *ngIf="index.tilesTypeID ==
+                                'AD_CL'">
+                                <div class="date">
+                                    Date {{ updateDateValue | date: "MM/dd/yyyy" }}
+                                </div>
+                                <inde-grid [dataSource]="filteredCalendar" [scrollable]="'none'" [loading]="loader" [noData]="this.metaData.IH_AdjLanding_NoData" [cssClass]="'lead-grid'" [pageable]="false" [pageSize]="'10'" [scrollable]="false" [columns]="AssignmentDetailColumn" [filterable]="false">
+                                </inde-grid>
+                            </div>
+                        </div>
+                        <div *ngIf="index.tilesTypeID == 'AD_CL'" class="note">
+                            <div class="past">
+                                <span></span>{{ metaData.IH_AdjLanding_Past }}
+                            </div>
+                            <div class="upcom">
+                                <span></span>{{ metaData?.IH_AdjLanding_Scheduled }}
+                            </div>
+                        </div>
+                        <!-- QA failures Grid-->
+                        <inde-grid *ngIf="index.tilesTypeID == 'AD_QF'" [scrollable]="'none'" [dataSource]="qaFaliures" [loading]="loader" [noData]="this.metaData.IH_AdjLanding_NoData" [cssClass]="'lead-grid'" [pageable]="false" [pageSize]="'10'" [scrollable]="false" [columns]="qaFailuresColumn"
+                            [filterable]="false">
+                        </inde-grid>
+                        <div class="view" *ngIf="index.tilesTypeID == 'AD_QF'" (click)="routeQafail()">
+                            {{ metaData.IH_AdjLanding_ViewMore }}
+                        </div>
+
+                        <!-- Schedule Appointment Grid -->
+                        <inde-grid *ngIf="index.tilesTypeID == 'AD_SA'" [scrollable]="'none'" [dataSource]="appointment" [loading]="loader" [noData]="this.metaData.IH_AdjLanding_NoData" [cssClass]="'lead-grid'" [pageable]="false" [pageSize]="'10'" [scrollable]="false" [columns]="SechduleAppointmentColumn"
+                            [filterable]="false">
+                        </inde-grid>
+                        <div class="view" *ngIf="index.tilesTypeID == 'AD_SA'" (click)="routeAssignments('ASCH')">
+                            {{ metaData.IH_AdjLanding_ViewMore }}
+                        </div>
+                        <!-- Assignment cancelation Grid -->
+                        <inde-grid *ngIf="index.tilesTypeID == 'AD_TA'" [scrollable]="'none'" [dataSource]="assignmentCancelation" [loading]="loader" [noData]="this.metaData.IH_AdjLanding_NoData" [cssClass]="'lead-grid'" [pageable]="false" [pageSize]="'10'" [scrollable]="false"
+                            [columns]="AssignmentCancelationDetailColumn" [filterable]="false">
+                        </inde-grid>
+                        <div class="view" *ngIf="index.tilesTypeID == 'AD_TA'" (click)="routeAssignments('ATER')">
+                            {{ metaData.IH_AdjLanding_ViewMore }}
+                        </div>
+                        <!-- Newjob Grid -->
+                        <inde-grid *ngIf="index.tilesTypeID == 'AD_MJ'" [scrollable]="'none'" [dataSource]="newJob" [loading]="loader" [noData]="this.metaData.IH_AdjLanding_NoData" [cssClass]="'lead-grid'" [pageable]="false" [pageSize]="'10'" [scrollable]="false" [columns]="NewJobDetailColumn"
+                            [filterable]="false">
+                        </inde-grid>
+                        <div class="view" *ngIf="index.tilesTypeID == 'AD_MJ'" routerLink="/jobs">
+                            {{ metaData.IH_AdjLanding_ViewMore }}
+                        </div>
+                        <!-- Recent Messages Grid -->
+                        <inde-grid *ngIf="index.tilesTypeID == 'AD_RM'" [scrollable]="'none'" [dataSource]="recent" [loading]="loader" [noData]="this.metaData.IH_AdjLanding_NoData" [cssClass]="'lead-grid'" [pageable]="false" [pageSize]="'10'" [scrollable]="false" [columns]="RecentMessagesColumn"
+                            [filterable]="false">
+                        </inde-grid>
+                        <div class="view" routerLink="/message-center" *ngIf="index.tilesTypeID == 'AD_RM'">
+                            {{ metaData.IH_AdjLanding_ViewMore }}
+                        </div>
+                    </div>
+                </ng-template>
+            </kendo-sortable>
+        </div>
+        <inde-footer></inde-footer>
+    </div>
+</div>
+
+<!-- Matched Jobs Templates-->
+<ng-template #name let-dataItem="dataItem" let-field="field">
+    <label class="name">{{
+        dataItem.carrierName
+        }}</label>
+</ng-template>
+<ng-template #location let-dataItem="dataItem" let-field="field">
+    {{ getValueByKey(dataItem.stateID, stateLookup) }}
+    <div class="address-section" kendoTooltip position="left" [title]="dataItem.location">
+        {{ dataItem.location }}
+    </div>
+</ng-template>
+<ng-template #startDate let-dataItem="dataItem" let-field="field">
+    {{ dataItem.startDate | date: "MM/dd/yyyy" }}
+</ng-template>
+<ng-template #rateamount let-dataItem="dataItem" let-field="field">
+    ${{ dataItem.rateAmount }}
+</ng-template>
+<ng-template #address let-dataItem="dataItem" let-field="field">
+    <div class="address-section" kendoTooltip position="left" [title]="dataItem.address">
+        {{ dataItem.address }}
+    </div>
+</ng-template>
+<!-- Matched Jobs Templates-->
+
+<ng-template #assignmentActionDate let-dataItem="dataItem" let-field="field">
+    {{ dataItem.assignmentActionDate | date: "HH:mm" }}
+</ng-template>
+
+<ng-template #jobDate let-dataItem="dataItem" let-field="field">
+    {{ dataItem.jobDate | date: "MM/dd/yyyy" }}
+</ng-template>
+
+<ng-template #reviewDate let-dataItem="dataItem" let-field="field">
+    {{ dataItem.reviewDate | date: "MM/dd/yyyy" }}
+</ng-template>
+
+<ng-template #appointmentDate let-dataItem="dataItem" let-field="field">
+    {{ dataItem.appointmentDate | date: "MM/dd/yyyy" }}
+</ng-template>
+
+<ng-template #assignedDate let-dataItem="dataItem" let-field="field">
+    {{ dataItem.assignedDate | date: "MM/dd/yyyy" }}
+</ng-template>
+
+<ng-template #dateandtime let-dataItem="dataItem" let-field="field">
+    {{ dataItem.dateandtime | date: "MM/dd/yyyy" }} - {{ dataItem.dateandtime | date: "HH:mm" }}
+</ng-template>
+
+<ng-template #startTime let-dataItem="dataItem" let-field="field">
+    <div>
+        {{ dataItem.scheduleDate | date: "MM/dd/yyyy" }} ({{ dataItem.timezone }})
+    </div>
+    {{ dataItem.startTime }} - {{ dataItem.endTime }}
+</ng-template>
+
+<!-- TimeSheet Templates-->
+
+<ng-container *ngIf="loader">
+    <div class="loader">
+        <span class="k-icon k-i-loading" style="font-size: 64px"></span>
+    </div>
+</ng-container>

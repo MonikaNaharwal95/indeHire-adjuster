@@ -1,0 +1,25 @@
+<!-- <p>auth-callback works!</p> -->
+<div class="callback">
+    <div class="container">
+        <div class="loader-wrap">
+            <div class="msg" *ngIf="!userName && !errorRes">
+                {{loginMessages.loginSuccess}}
+            </div>
+            <div class="msg" *ngIf="userName && !errorRes">
+                {{loginMessages.loginHi}} <i>{{userName}}</i>{{loginMessages.loginWelcome}}
+            </div>
+            <div class="msg" *ngIf="errorRes">
+                {{errorRes }} {{ timeoutCount }}
+            </div>
+            <div class="loader" *ngIf="!errorRes">
+                <div class="loader--dot"></div>
+                <div class="loader--dot"></div>
+                <div class="loader--dot"></div>
+                <div class="loader--dot"></div>
+                <div class="loader--dot"></div>
+                <div class="loader--dot"></div>
+                <div class="loader--text"></div>
+            </div>
+        </div>
+    </div>
+</div>

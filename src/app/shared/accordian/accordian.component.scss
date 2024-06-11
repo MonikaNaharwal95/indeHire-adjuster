@@ -1,0 +1,70 @@
+@import './../../../styles/variable';
+@import './../../../styles/mixin';
+.acc-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    margin: 8px;
+    border-radius: 3px;
+    background-color: $color-white;
+    position: relative;
+    .float-icon {
+        display: none;
+    }
+    &:hover {
+        .float-icon {
+            display: block;
+            z-index: 9999;
+        }
+    }
+    .acc-heading {
+        color: $colorPrimary;
+        padding: 8px 0;
+        background-color: $headingBackgroundColor;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        cursor: pointer;
+        .acc-title {
+            float: left;
+            font-size: $font-large;
+            padding: 0 8px;
+            font-weight: 600;
+            color: $colorPrimary;
+        }
+        img,
+        .fa-chevron-circle-down {
+            float: right;
+            font-size: $font-card-header;
+            padding: 0px 8px;
+            margin: 3px 0px;
+            cursor: pointer;
+            transition: all .2s linear;
+        }
+    }
+    .accordian-content {
+        max-height: 0px;
+        transition: all .2s ease-in;
+    }
+}
+
+.expand {
+    .acc-heading {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    }
+    .fa-chevron-circle-down {
+        transform: rotate(180deg);
+    }
+    .accordian-content {
+        max-height: 2000px;
+    }
+}
+
+// upload equipment image
+.img-upload {
+    position: absolute;
+    top: 7px;
+    right: 60px;
+    @include content-style ($font-small, $colorAccent, $regular);
+    cursor: pointer;
+    z-index: 999;
+}

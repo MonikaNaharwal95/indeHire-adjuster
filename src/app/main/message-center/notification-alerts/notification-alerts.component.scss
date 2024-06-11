@@ -1,0 +1,74 @@
+@import "./../../../../styles/mixin";
+@import "./../../../../styles/variable";
+.notice-cat {
+    background-color: #f1f1f1;
+    font-size: $font-extra-small;
+    font-weight: 600;
+    padding: 8px 16px;
+    box-sizing: border-box;
+    overflow: hidden;
+    @include sectionSticky(0);
+    z-index: 1;
+}
+.no-detail {
+    min-height: 120px;
+    line-height: 100px;
+    @include content-style($font-small, $colorText, $semibold);
+    text-align: center;
+}
+
+.note-detail {
+    overflow: hidden;
+    margin: 8px 16px 0px;
+    font-size: $font-small;
+    position: relative;
+    padding-right: 30px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid $borderColor;
+    position: relative;
+    &:last-child {
+        border-bottom: none;
+    }
+    .delete {
+        position: absolute;
+        right: 20px;
+        top: 5px;
+        cursor: pointer;
+    }
+    .note-read {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border-color: $colorAccentDark;
+    }
+    .title {
+        color: $colorPrimaryLight;
+        font-weight: 700;
+        margin-bottom: 5px;
+        title {
+            display: block;
+            text-transform: capitalize;
+        }
+    }
+    .message {
+        color: $colorBlueLight;
+        font-weight: 500;
+    }
+    .date {
+        font-size: $font-extra-small;
+        margin-top: 5px;
+    }
+    .note-row {
+        cursor: pointer;
+    }
+}
+
+.is-read.title, .is-read.message {
+    color: $colorText !important;
+}
+
+.lazy-loader {
+    text-align: center;
+    margin: 16px;
+    font-size: $icon-medium;
+}

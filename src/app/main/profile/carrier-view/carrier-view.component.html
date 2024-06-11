@@ -1,0 +1,573 @@
+<ng-container *ngIf="renderUI">
+    <div class="data-wrap" #scroller (scroll)="scrollList()">
+        <div class="data-ctn">
+            <div class="grid">
+                <div class="profile">
+                    <div class="shad-card stick">
+                        <!-- Top Profile section starts-->
+                        <div class="pro-top">
+                            <img *ngIf="profileImgUrl" class="profile-img" [src]="profileImgUrl">
+                            <img *ngIf="!profileImgUrl" class="profile-img" src="./../../../../assets/default.png">
+                            <div class="flex">
+                                <div class="name word-break">{{ publicView.firstName + ' ' + publicView.lastName }}
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="role word-break">{{ publicView.profileTitle }}</div>
+                            </div>
+                            <div class="flex">
+                                <i class="fas fa-map-marker"></i>
+                                <div class="loc word-break" *ngFor="let address of publicView.addressViews">
+                                    {{address.city}}, {{getValueByKey(address.provinceID, stateList)}}</div>
+                            </div>
+                        </div>
+                        <!-- Top Profile section Ends-->
+
+                        <!-- Rating Profile section starts-->
+                        <div class="pro-rating flex">
+                            <div class="rate">{{(publicView.starRating==null)?0:publicView.starRating}}</div>
+                            <div class="stars">
+                                <i *ngFor="let x of Arr(fillStar).fill(1)" class="fas fa-star"></i>
+                                <i *ngFor="let x of Arr(halfStar).fill(1)" class="fas fa-star-half-alt"></i>
+                                <i *ngFor="let x of Arr(emptyStar).fill(1)" class="far fa-star"></i>
+                            </div>
+                            <div class="r-cnt">({{publicView.totalReviewCount}} {{metadata.IH_AdjusterPage_Reviews}})
+                            </div>
+                        </div>
+                        <!-- Rating Profile section Ends-->
+
+                        <!-- sidebar starts -->
+                        <div class="sidebar">
+                            <div class="item" [class.active]="navItem == 1" (click)="navItem = 1; selectNav(1)">
+                                {{metadata.IH_AdjusterPage_Professional_Summary}}</div>
+                            <div class="item" [class.active]="navItem == 2" (click)="navItem = 2; selectNav(2)">
+                                {{metadata.IH_AdjusterPage_Professional_Information}}</div>
+                            <!-- <div class="sub-item" [class.sub-active]="navSubItem == 1" (click)="navSubItem = 1; selectNav(1)">{{metadata.IH_AdjusterPage_Work_Experience}}</div>
+                            <div class="sub-item" [class.sub-active]="navSubItem == 2" (click)="navSubItem = 2; selectNav(1)">{{metadata.IH_AdjusterPage_Specialities}}</div>
+                            <div class="sub-item" [class.sub-active]="navSubItem == 3" (click)="navSubItem = 3; selectNav(1)">{{metadata.IH_AdjusterPage_Insurance_Designation}}</div>
+                            <div class="sub-item" [class.sub-active]="navSubItem == 4" (click)="navSubItem = 4; selectNav(1)">{{metadata.IH_AdjusterPage_LossType_Expertise}}</div>
+                            <div class="sub-item" [class.sub-active]="navSubItem == 5" (click)="navSubItem = 5; selectNav(1)">{{metadata.IH_AdjusterPage_Software_Knowledge}}</div> -->
+                            <div class="item" [class.active]="navItem == 3" (click)="navItem = 3; selectNav(3)">
+                                {{metadata.IH_AdjusterPage_Experience_Ratings}}</div>
+                            <div class="item" [class.active]="navItem == 4" (click)="navItem = 4; selectNav(4)"
+                                *ngIf="publicView.contractorTypeMappingViews[0].contractorTypeID === 'CTAD'">
+                                {{metadata.IH_AdjusterPage_State_Licenses}}</div>
+                            <div class="item" [class.active]="navItem == 5" (click)="navItem = 5; selectNav(5)">
+                                {{metadata.IH_AdjusterPage_Certifications}}</div>
+                            <div class="item" [class.active]="navItem == 6" (click)="navItem = 6; selectNav(6)">
+                                {{metadata.IH_AdjusterPage_Work_Experience}}</div>
+                            <div class="item" [class.active]="navItem == 7" (click)="navItem = 7; selectNav(7)">
+                                {{metadata.IH_AdjusterPage_Education}}</div>
+                        </div>
+                        <!-- Sidebar ends -->
+
+                    </div>
+                </div>
+
+                <div>
+
+                    <div class="shad-card" #summary>
+                        <div class="heading">
+                            <div class="title">
+                                {{metadata.IH_AdjusterPage_Professional_Summary}}
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="errors" *ngIf="publicView.profileDescription.length == 0">
+                                {{metadata.IH_AdjusterPage_Public_No_Summary}}</div>
+                            <div class="summary word-break">
+                                {{ publicView.profileDescription }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="shad-card" #professionalInfo>
+
+                        <div class="heading">
+                            <div class="title margbot">
+                                {{metadata.IH_AdjusterPage_Professional_Information}}
+                            </div>
+                        </div>
+
+                        <inde-accordian [title]="metadata.IH_AdjusterPage_Work_Experience" [isEditible]="false"
+                            [expanded]='false'>
+                            <div [class]="'custom-template'" style="padding:8px">
+                                <div style="padding: 4px;" *ngFor="let ex of publicView.experienceViews">
+                                    <label
+                                        class="pi-label">{{getValueByKey(ex.experienceTypeID, workExperience)}}</label>
+                                    <label
+                                        class="pi-status">{{getValueByKey(ex.experienceYearTypeID, workExperienceYear)}}</label>
+                                </div>
+                            </div>
+
+                            <div [class]="'custom-template'" style="padding:8px">
+
+                                <div class="spec-header">{{metadata.IH_AdjusterPage_Specialities}}</div>
+                                <ng-container
+                                    *ngIf="publicView.contractorTypeMappingViews[0].contractorTypeID == 'CTAD'">
+                                    <div class="status-header">
+                                        {{metadata.IH_AdjusterPage_Auto}}
+                                    </div>
+                                    <div class="flex-wrap">
+                                        <ng-container *ngFor="let x of publicView.specialityViews">
+                                            <div class="skills"
+                                                *ngIf="x.specialitiesSubTypeID == 'SSAO' && x.specialitiesTypeName != ''">
+                                                {{x.specialitiesTypeName}}
+                                            </div>
+                                        </ng-container>
+                                        <div class="nodata"
+                                            *ngIf="!autoSpecialityFlag && publicView.specialityViews.length==0">
+                                            {{metadata.IH_AdjusterPage_No_Auto_Speciality}}</div>
+                                    </div>
+                                </ng-container>
+                                <div class="status-header"
+                                    *ngIf="publicView.contractorTypeMappingViews[0].contractorTypeID == 'CTAD'">
+                                    {{metadata.IH_AdjusterPage_Property}}
+                                </div>
+                                <div class="flex-wrap">
+                                    <ng-container *ngFor="let x of publicView.specialityViews">
+                                        <div class="skills"
+                                            *ngIf="x.specialitiesSubTypeID == 'SSPY' && x.specialitiesTypeName != ''">
+                                            {{x.specialitiesTypeName}}
+                                        </div>
+                                    </ng-container>
+                                    <div class="nodata"
+                                        *ngIf="!propertySpecialityFlag && publicView.specialityViews.length==0">
+                                        {{metadata.IH_AdjusterPage_No_Property_Speciality}}</div>
+                                </div>
+                            </div>
+                        </inde-accordian>
+
+                        <inde-accordian *ngIf="publicView.contractorTypeMappingViews[0].contractorTypeID == 'CTLA'" [upload]="metadata.IH_AdjusterPage_View_Image" [title]="metadata.IH_AdjusterPage_Equipments" [expanded]='false' [isEditible]="false" (uploadButtonClickEvent)="openEquipmentDialog()">
+                            <div [class]="'custom-template'" style="padding:8px">
+                                <div class="flex-wrap">
+                                    <div class="skills" *ngFor="let x of publicView.equipmentViews">
+                                        {{getValueByKey(x.equipmentTypeID, equipmentsLookup)}}
+                                        {{ x.optionNotes.length > 0 ? ' ('+ x.optionNotes+')' : ''}}
+                                    </div>
+                                </div>
+                            </div>
+                        </inde-accordian>
+
+                        <inde-accordian *ngIf="publicView.contractorTypeMappingViews[0].contractorTypeID == 'CTAD'"
+                            [title]="metadata.IH_AdjusterPage_Insurance_Designation" [isEditible]="false"
+                            [expanded]='false'>
+                            <div [class]="'custom-template'" style="padding:8px">
+                                <div class="flex-wrap">
+                                    <div class="skills" *ngFor="let x of publicView.insuranceDesignationViews">
+                                        {{getValueByKey(x.isnuranceDesignationTypeID,insuranceDesignation )}}
+                                    </div>
+                                </div>
+                            </div>
+                        </inde-accordian>
+
+                        <inde-accordian [title]="metadata.IH_AdjusterPage_LossType_Expertise" [isEditible]="false"
+                            [expanded]='false'>
+                            <div [class]="'custom-template'" style="padding:8px">
+                                <div class="flex-wrap">
+                                    <div class="skills" *ngFor="let x of publicView.lossTypeExpertiseViews">
+                                        {{getValueByKey(x.lossTypeID,lossTypeExpertise )}}
+                                    </div>
+                                </div>
+                            </div>
+                        </inde-accordian>
+
+                        <inde-accordian [title]="metadata.IH_AdjusterPage_Software_Knowledge" [isEditible]="false"
+                            [expanded]='false'>
+                            <div [class]="'custom-template'" style="padding:8px">
+                                <div style="padding: 4px;" *ngFor="let x of publicView.softwareKnowledgeViews">
+                                    <label
+                                        class="pi-label">{{getValueByKey(x.softwareKnowledgeTypeID, softwareKnowledge)}}</label>
+                                    <label
+                                        class="pi-status">{{getValueByKey(x.softwareKnowledgeExperienceTypeID, proficiencyValues)}}</label>
+                                    <div class="other">{{ x.optionNotes.length > 0 ? x.optionNotes : '' }}</div>
+                                </div>
+                            </div>
+                        </inde-accordian>
+
+                        <inde-accordian [title]="metadata.IH_AdjusterPage_Language" [isEditible]="false"
+                            [expanded]='false'>
+                            <div [class]="'custom-template'" style="padding:4px">
+                                <div class="flex-wrap">
+                                    <div *ngFor="let x of publicView.languageViews">
+                                        <div class="skills" *ngIf="x.languageTypeID == 'LSPA'">
+                                            <ng-container>{{ getValueByKey(x.languageTypeID, language) }}</ng-container>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="!languageShowFlag && publicView.languageViews.length==0" class="nodata">
+                                        {{metadata.IH_AdjusterPage_No_Language}}</div>
+                                </div>
+                            </div>
+                        </inde-accordian>
+
+                        <!-- Travel Section starts edited by Sanket -->
+                        <inde-accordian [title]="metadata.IH_AdjusterPage_Travel" [isEditible]="false"
+                            [expanded]='false'>
+                            <div class="travel"
+                                *ngIf="publicView.contractorTypeMappingViews[0].contractorTypeID == 'CTLA'">
+                                <div class="tra-ques">{{metadata.IH_AdjusterPage_HowFarTravelMessage}}</div>
+                                <div class="range">
+                                    <ng5-slider [options]="travelSlider" [(ngModel)]="travelValue"></ng5-slider>
+                                </div>
+                                <div class="relocate">
+                                    <div class="tra-ques">{{ metadata.IH_AdjusterPage_OtherStatesTravel }}</div>
+                                    <div class="tra-value">
+                                        {{publicView.isWillingRelocate === false ? metadata.IH_AdjusterPage_No : metadata.IH_AdjusterPage_Yes}}
+                                    </div>
+                                    <div class="relocate-state" *ngIf="publicView.isWillingRelocate === true">
+                                        <div class="tra-ques">{{ metadata.IH_AdjusterPage_Selected_States }}</div>
+                                        <div class="tra-value">{{publicView.stateNames}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </inde-accordian>
+                        <!-- Travel Section Ends -->
+
+                    </div>
+
+                    <div class="shad-card" #workHistory>
+                        <div class="heading">
+                            <div class="title">
+                                {{metadata.IH_AdjusterPage_Experience_Ratings}}
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="errors" *ngIf="workHist.length == 0">
+                                {{metadata.IH_AdjusterPage_Public_No_Experience_Ratings}}</div>
+                            <ng-container *ngFor="let x of workHist; let i = index">
+                                <div class="card-grid grid-1" *ngIf="(!isExpAndRating && i < 2) || isExpAndRating">
+                                    <div class="grid-content">
+                                        <div class="flex">
+                                            <div class="content-title flex-auto">
+                                                <div>{{ x.requirementTypeID + ' - ' + expresionCity }}</div>
+                                            </div>
+                                            <div class="pro-rating flex" style="margin-bottom: 5px;">
+                                                <div class="rate rating">{{(x.rating==null && 0)?0:x.rating}}</div>
+                                                <div class="stars">
+                                                    <i *ngFor="let x of Arr(x.rating).fill(1)" class="fas fa-star"
+                                                        style="margin-right: 3px;"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="width: 475px;
+                                        float: left; margin-bottom: 10px;">
+                                            <!-- {{metadata.IH_AdjusterPage_Public_Rated_Freelancer}} -->
+                                        </div>
+                                        <div>{{x.scheduleDate | date: 'MMM yyyy'}}</div>
+                                        <div>{{metadata.IH_AdjusterPage_Feedback}}  <span class="feedback">{{x.feedbackTypeName}}</span></div>
+                                        <div>{{metadata.IH_AdjusterPage_Company_Name}} <span class="feedback">{{x.companyName}}</span></div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+
+                        <div class="card-bottom" *ngIf="!isExpAndRating && workHist.length > 2">
+                            <div class="show" (click)="isExpAndRating = true">
+                                {{metadata.IH_AdjusterPage_Public_Show_More}}
+                                <i class="fas fa-angle-down"></i>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div [ngClass]="publicView.contractorTypeMappingViews[0].contractorTypeID == 'CTAD' ? 'shad-card' : ''"
+                        #license>
+                        <ng-container *ngIf="publicView.contractorTypeMappingViews[0].contractorTypeID == 'CTAD'">
+                            <div class="heading">
+                                <div class="title">
+                                    {{metadata.IH_AdjusterPage_State_Licenses}}
+                                </div>
+                                <div *ngIf="publicView.stateLicensesViews.length>0" class="state-status">
+                                    <label class="show-label">{{metadata.IH_AdjusterPage_National_Producer_No}}
+                                        {{publicView.contractorNPN}}</label>
+                                </div>
+                            </div>
+
+                            <div *ngIf="publicView.stateLicensesViews.length>0" class="card-content">
+
+                                <div class="state-license-wrapper">
+                                    <div class="state-grid-header">
+                                        <div>{{metadata.IH_AdjusterPage_State_only}}</div>
+                                        <div>{{metadata.IH_AdjusterPage_License_no}}</div>
+                                        <div>{{metadata.IH_AdjusterPage_Public_Expiration_Date}}</div>
+                                        <div>{{metadata.IH_AdjusterPage_Auto}}</div>
+                                        <div>{{metadata.IH_AdjusterPage_Property}}</div>
+                                        <div>{{metadata.IH_AdjusterPage_Status}}</div>
+                                    </div>
+                                    <div class="state-grid-data" *ngFor="let state of publicView.stateLicensesViews">
+                                        <div>{{state.stateCode}} <i *ngIf="state.stateCode=='FL'"
+                                                class="far fa-calendar-alt"></i></div>
+                                        <div>{{state.licenseNo}}</div>
+                                        <div>{{state.licenseExpiryDate | date: 'MM/dd/yyyy'}}</div>
+                                        <div>
+                                            {{(state.isAuto)? metadata.IH_AdjusterPage_Yes: metadata.IH_AdjusterPage_No}}
+                                        </div>
+                                        <div>
+                                            {{(state.isProperty)? metadata.IH_AdjusterPage_Yes: metadata.IH_AdjusterPage_No}}
+                                        </div>
+                                        <div>
+                                            {{(state.licenseStatus? metadata.IH_AdjusterPage_Active: metadata.IH_AdjusterPage_Inactive)}}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div *ngIf="publicView.stateLicensesViews.length==0" class="card-content">
+                                <div class="nodata">{{metadata.IH_AdjusterPage_Public_No_State_Licenses}}</div>
+                            </div>
+                        </ng-container>
+                    </div>
+
+
+                    <div class="shad-card" #certification>
+                        <div class="heading">
+                            <div class="title">
+                                {{metadata.IH_AdjusterPage_Certifications}}
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="errors" *ngIf="publicView.certificationViews.length==0">
+                                {{metadata.IH_AdjusterPage_No_Certificate}}</div>
+                            <ng-container *ngFor="let x of publicView.certificationViews; let i = index">
+                                <div class="certi"
+                                    *ngIf="(!isCertificationExpanded && i < 2) || isCertificationExpanded">
+                                    <div class="content-title flex">
+                                        {{getValueByKey(x.parentCertificationID, certificate)}}
+                                    </div>
+                                    <div class="flex">
+                                        <div *ngIf="x.certificationTypeID">
+                                            {{ metadata.IH_AdjusterPage_Certifications}}:
+                                            <label
+                                                *ngFor="let child of x.certificationTypeID.split(','); let isLast=last">{{getValueByKey(child, childCertificateList)}}{{isLast ? ' ' : ',  '}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="flex">
+                                        <div class="flex-auto">{{metadata.IH_AdjusterPage_Certification_Number}} :
+                                            <b>{{(x.certificateNumber=='')? metadata.IH_AdjusterPage_NA:x.certificateNumber}}</b>
+                                        </div>
+                                        <div class="view-certificate"
+                                            (click)="getDocument('download',x.documentID,x.documentFileName)">
+                                            <label>{{metadata.IH_AdjusterPage_View_Certificate}}</label>
+                                            <i class="fas fa-download"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex">
+                                        <div class="flex-auto flex lab-val">
+                                            <div>{{metadata.IH_AdjusterPage_Issue_Date}}</div>
+                                            {{x.certificationDate | date: 'MMMM d, y'}}
+                                        </div>
+                                        <div class="lab-val flex">
+                                            <div>{{metadata.IH_AdjusterPage_Expiry_Date}}</div>
+                                            {{(x.expirationDate==null)? metadata.IH_AdjusterPage_NoExpirationDate:(x.expirationDate| date: 'MMMM d, y') }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div class="card-bottom"
+                            *ngIf="!isCertificationExpanded && publicView.certificationViews.length > 2">
+                            <div class="show" (click)="isCertificationExpanded = true">
+                                {{metadata.IH_AdjusterPage_Public_Show_More}}
+                                <i class="fas fa-angle-down"></i>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="shad-card" #experience>
+                        <div class="heading">
+                            <div class="title">
+                                {{metadata.IH_AdjusterPage_Employment_History}}
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="errors" *ngIf="publicView.employmentViews.length==0">
+                                {{metadata.IH_AdjusterPage_No_Employment}}</div>
+                            <ng-container *ngFor="let x of publicView.employmentViews; let i = index">
+                                <div class="card-grid" *ngIf="(!isWorkExpExpanded && i < 2) || isWorkExpExpanded">
+                                    <div class="logo"><i class="fas fa-briefcase"></i></div>
+                                    <div class="grid-content">
+                                        <div class="content-title">
+                                            {{x.jobTitle}}
+                                        </div>
+                                        {{x.employerName}} | {{ x.fromDate | date: 'MMM yyyy' }} -
+                                        {{ x.toDate | date: 'MMM yyyy' }} | {{x.employmentExperince}}<br> {{x.city}},
+                                        {{getValueByKey(x.provinceID, stateList)}}<br>
+                                        <div class="flex-wrap">
+                                            <div class="desc"
+                                                [style.white-space]="seeMoreWorkExp ? 'normal' : 'nowrap'">
+                                                {{x.notes}}
+                                            </div>
+                                            <div *ngIf="!seeMoreWorkExp && x.notes.length > 100" class="more"
+                                                (click)="seeMoreWorkExp = true">{{metadata.IH_AdjusterPage_see_more}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div class="card-bottom" *ngIf="!isWorkExpExpanded && publicView.employmentViews.length > 2">
+                            <div class="show" (click)="isWorkExpExpanded = true">
+                                {{metadata.IH_AdjusterPage_Public_Show_More}}
+                                <i class="fas fa-angle-down"></i>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="shad-card" #education>
+                        <div class="heading">
+                            <div class="title">
+                                {{metadata.IH_AdjusterPage_Education}}
+                            </div>
+                        </div>
+                        <div class="card-content">
+
+                            <div class="errors" *ngIf="publicView.educationViews.length==0">
+                                {{metadata.IH_AdjusterPage_No_Education}}</div>
+                            <ng-container *ngFor="let x of publicView.educationViews; let i = index">
+                                <div class="card-grid" *ngIf="(!isEducationExpanded && i < 2) || isEducationExpanded">
+                                    <div class="logo"><i class="fas fa-university"></i></div>
+                                    <div class="grid-content">
+                                        <div class="content-title">
+                                            {{getValueByKey(x.degreeTypeID, degree)}}: {{x.specialization}}
+                                        </div>
+                                        {{x.schoolName}} | {{ x.startDate | date: 'MMM yyyy' }} -
+                                        {{ x.endDate | date: 'MMM yyyy' }}<br> {{x.city}},
+                                        {{getValueByKey(x.provinceID, stateList)}}<br>
+                                        <div class="flex-wrap">
+                                            <div class="desc"
+                                                [style.white-space]="seeMoreEducation ? 'normal' : 'nowrap'">
+                                                {{x.notes}}
+                                            </div>
+                                            <div *ngIf="!seeMoreEducation && x.notes.length > 100" class="more"
+                                                (click)="seeMoreEducation = true">{{metadata.IH_AdjusterPage_see_more}}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div class="card-bottom" *ngIf="!isEducationExpanded && publicView.educationViews.length > 2">
+                            <div class="show" (click)="isEducationExpanded = true">
+                                {{metadata.IH_AdjusterPage_Public_Show_More}}
+                                <i class="fas fa-angle-down"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="rate" *ngIf="publicView">
+                    <div class="shad-card stick">
+                        <div class="card-content custom-card">
+
+                            <div class="heading">
+                                <div class="title">
+                                    <label> {{metadata.IH_AdjusterPage_Work_Preferences}}</label>
+                                </div>
+                            </div>
+
+                            <div class="r-bottom padding-left"
+                                *ngIf="publicView.contractorTypeMappingViews[0].contractorTypeID == 'CTAD'">
+                                <div class="pro-status">
+                                    <div class="job flex">
+                                        <div>{{metadata.IH_AdjusterPage_Job_Preference}}</div>
+                                        <label
+                                            *ngFor="let preference of publicView.preferredJobTypeView; let isLast=last">
+                                            {{ getValueByKey(preference.workEnvironmentTypeID, jobPreference)}}{{isLast ? ' ' : ',  '}}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="r-bottom padding-left">
+                                <div class="pro-status">
+                                    <div class="availability flex">
+                                        <div>{{metadata.IH_AdjusterPage_Availability}}</div>
+                                        {{getValueByKey(publicView.contractorAvailablityTypeID, availability)}}
+                                    </div>
+                                    <div class="availability flex"
+                                        *ngIf="publicView.contractorAvailablityTypeID=='ASUA'">
+                                        <div>{{metadata.IH_AdjusterPage_Availability_Date}}</div>
+                                        <label>{{publicView.availablityDate| date: 'MMM dd yyyy'}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="heading"
+                                *ngIf="publicView.contractorTypeMappingViews[0].contractorTypeID == 'CTAD'">
+                                <div class="title">
+                                    <label>
+                                        {{metadata.IH_AdjusterPage_Preferred_Rate_Type}}
+                                        <img kendoTooltip position="bottom" class='pointer'
+                                            src="./../../../../assets/information.svg"
+                                            [title]="metadata.IH_AdjusterPage_Public_Preferred_Rate_Tooltip">
+                                    </label>
+                                </div>
+                            </div>
+
+
+                            <div class="r-bottom padding-left"
+                                *ngIf="publicView.contractorTypeMappingViews[0].contractorTypeID == 'CTAD'">
+                                <div class="pro-status" style="border: none;"
+                                    *ngFor="let rate of publicView.preferredJobTypeView">
+
+                                    <div class="job flex" *ngIf="rate.workEnvironmentTypeID=='WKDK'">
+                                        <div style="flex: none;">{{metadata.IH_AdjusterPage_Hourly}}</div>
+                                        <img kendoTooltip position="bottom" class="information-img padryt"
+                                            [src]="'./../../../../assets/information.svg'"
+                                            [title]="metadata.IH_AdjusterPage_Public_Hourly_Tooltip">
+                                        <label>
+                                            $
+                                            {{rate.preferredRateTypeView.rateAmount| number : '1.2-2'}}/{{metadata.IH_AdjusterPage_hr}}
+                                        </label>
+                                    </div>
+
+                                    <div class="availability flex bordpadbot"
+                                        *ngIf="rate.workEnvironmentTypeID=='WKFD'">
+                                        <div style="flex: none;">{{metadata.IH_AdjusterPage_Per_Claim}}</div>
+                                        <img kendoTooltip style="margin-bottom: 16px;" position="bottom"
+                                            class="information-img padryt"
+                                            [src]="'./../../../../assets/information.svg'"
+                                            [title]="metadata.IH_AdjusterPage_Public_Per_Claim_Tooltip">
+                                        <span style="flex:auto">
+                                            <label>$ {{rate.preferredRateTypeView.rateAmount| number : '1.2-2'}}
+                                            </label>
+                                            <label> + </label>
+                                            <label> {{rate.preferredRateTypeView.ratePercentage| number : '1.2-2'}}%
+                                            </label>
+                                            <label> {{metadata.IH_AdjusterPage_of_Gross_Loss}}</label>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="pro-status pp">
+                                <button type="submit" [disabled]="true"
+                                    class="btn">{{metadata.IH_AdjusterPage_Make_An_Offer}}
+                                    <i class="fas fa-arrow-right"></i></button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <inde-footer></inde-footer>
+        </div>
+    </div>
+</ng-container>
+
+
+<ng-container *ngIf="!loader">
+    <div class="loader">
+        <span class="k-icon k-i-loading" style="font-size: 64px;"></span>
+    </div>
+</ng-container>
+
+<inde-equipment-view #addEquipmentImgDialog></inde-equipment-view>

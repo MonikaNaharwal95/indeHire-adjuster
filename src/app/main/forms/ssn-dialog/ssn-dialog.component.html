@@ -1,0 +1,48 @@
+<inde-dialog #dialog [header]="title ? title : metadata?.IH_PII_Check_Background" [dialogWidth]='400'
+  [positiveButton]="metadata?.IH_PII_Save_Button" [negativeButton]="metadata?.IH_PII_Cancel_Button"
+  (positiveButtonClickEvent)='saveSsn()' [loader]="saveLoader" (negativeButtonClickEvent)='closeDialog()'
+  [positiveButtonDisabled]="!(ssnForm)">
+  <form *ngIf="ssnForm" [formGroup]="ssnForm">
+    <div class="form-group">
+      <div class="sn-grp">
+        <input class="inde-input width-90" kendoTextBox formControlName="ss_number" type="password"
+          onkeypress='return ((event.charCode >= 48 && event.charCode <= 57))' onPaste="return false;"
+          [placeholder]="metadata?.IH_PII_Background_Check_SSN" (keypress)="ssnKeyPress('ss_number')" />
+        <i *ngIf="keys.ss_number.touched && keys.ss_number.value.length < 9" class="far fa-times-circle"></i>
+        <i *ngIf="keys.ss_number.touched && keys.ss_number.value.length == 9" class="far fa-check-circle"></i>
+      </div>
+      <div *ngIf="keys.ss_number.touched && keys.ss_number.errors">
+        <div class="error" *ngIf="keys['ss_number'].errors.required">
+          {{metadata?.IH_PII_Background_Check_SSN}} {{validationMessage?.IH_Required}}.
+        </div>
+      </div>
+      <div class="error" *ngIf="keys.ss_number.hasError('minlength')">
+        {{metadata?.IH_PII_Xactimate_SSN_Length}}.</div>
+      <div class="error" *ngIf="keys.ss_number.hasError('maxlength')">
+        {{metadata?.IH_PII_Xactimate_SSN_Length}}.</div>
+    </div>
+    <div class="form-group">
+      <div class="sn-grp">
+        <input class="inde-input width-90" *ngIf="!isDecrypted" kendoTextBox formControlName="confirmSsn"
+          type="password" onkeypress='return ((event.charCode >= 48 && event.charCode <= 57))' onPaste="return false;"
+          [placeholder]="metadata?.IH_PII_Background_Check_Confirm_SSN" (keypress)="ssnKeyPress('confirmSsn')">
+        <kendo-maskedtextbox class="width-90 inde-input" *ngIf="isDecrypted" [mask]="ssnMask"
+          formControlName="confirmSsn"></kendo-maskedtextbox>
+        <i class="fas fa-eye" *ngIf="!isDecrypted" (click)="isDecrypted = true"></i>
+        <i class="fas fa-eye-slash" *ngIf="isDecrypted" [class.decrypted]="isDecrypted"
+          (click)="isDecrypted = false"></i>
+      </div>
+      <div *ngIf="keys.confirmSsn.touched && keys.confirmSsn.errors">
+        <div class="error" *ngIf="keys['confirmSsn'].errors.required">
+          {{metadata?.IH_PII_Background_Check_Confirm_SSN}} {{validationMessage?.IH_Required}}.
+        </div>
+        <div class="error" *ngIf="keys.confirmSsn.hasError('minlength')">
+          {{metadata?.IH_PII_Xactimate_SSN_Length_Confirm}}.</div>
+        <div class="error" *ngIf="keys.confirmSsn.hasError('maxlength')">
+          {{metadata?.IH_PII_Xactimate_SSN_Length_Confirm}}.</div>
+        <div class="error" *ngIf="keys.confirmSsn.hasError('NoPassswordMatch')">
+          {{metadata?.IH_PII_Background_Check_SSN_Match_Error}}</div>
+      </div>
+    </div>
+  </form>
+</inde-dialog>

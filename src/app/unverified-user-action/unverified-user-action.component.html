@@ -1,0 +1,16 @@
+<div class="wrapper" *ngIf="metadata">
+    <div class="data-wrap">
+      <div class="login-container">
+        <img class="logo" [src]="'./../../../assets/crawford_logo_color.png'" />
+        <div class="logo-name">{{ metadata.IH_LoginExceptionPage_App_Title }}</div>
+        <!-- Send Reset Link layout Message -->
+        <div class="shad-card">
+            <i class="far fa-times-circle fa-4x"></i>
+            <h3 class="title">{{metadata.IH_LoginExceptionPage_Verification_Pending}}</h3>
+            <div class="first-line">{{metadata.IH_LoginExceptionPage_Verify_Email}}</div>
+            <button type="submit" class="btn" [routerLink]="['/auth/request-verification-email']">{{metadata.IH_LoginExceptionPage_Send_Email}}</button>
+        </div>
+        <!-- Send Reset Link layout Message -->
+      </div>
+    </div>
+</div>

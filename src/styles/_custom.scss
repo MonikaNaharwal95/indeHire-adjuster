@@ -1,0 +1,194 @@
+@import './variable';
+.k-maskedtextbox,
+.k-dropdown {
+    width: 100% !important;
+}
+
+kendo-combobox {
+    .k-select {
+        background-color: none !important;
+        background-image: none !important;
+    }
+}
+
+// Kendo Numeric Box
+.k-numeric-wrap.k-state-focused {
+    background-color: #fff;
+}
+
+// ProressBar start
+.k-progressbar .k-state-selected {
+    color: white !important;
+    background-color: $colorBlueLight !important;
+}
+
+.k-progressbar {
+    border-radius: 15px !important;
+}
+
+// ProressBar End
+//Date Input remove border
+.k-dateinput .k-dateinput-wrap .k-input:focus,
+.k-numerictextbox .k-numeric-wrap .k-input:focus {
+    // border: none;
+    // box-shadow: none;
+}
+
+.k-numerictextbox {
+    width: 100% !important;
+}
+
+//CheckBox Start
+.k-checkbox:checked {
+    border-color: $colorBlueLight !important;
+    background-color: $colorBlueLight !important;
+    &:focus {
+        box-shadow: 0 0 0 2px rgba($colorBlueLight, 0.4) !important;
+    }
+}
+
+input[type="checkbox"]:checked {
+    color: $colorBlueLight;
+}
+
+.k-checkbox-label {
+    font-size: $font-extra-small;
+}
+
+.k-checkbox {
+    border-color: $colorText !important
+}
+
+.k-checkbox:disabled {
+    background: lightgrey !important;
+}
+
+.k-checkbox {
+    border-color: $colorText !important
+}
+
+//CheckBox End
+//RadioButton Start
+.k-radio:checked {
+    border-color: $colorBlueLight !important;
+    background-color: $colorBlueLight !important;
+    &:focus {
+        box-shadow: 0 0 0 2px rgba($colorBlueLight, 0.4) !important;
+    }
+}
+
+input[type="radio"]:checked+label {
+    color: $colorBlueLight;
+}
+
+.k-radio {
+    border-color: $colorText !important;
+}
+
+.k-radio {
+    border-color: $colorText !important;
+}
+
+.k-radio-label {
+    font-size: 14px;
+    color: $colorBlueLight;
+}
+
+.k-radio:hover {
+    border-radius: $colorText !important;
+}
+
+//RadioButton End
+.k-i-loading {
+    color: $colorAccent !important;
+}
+
+.k-progressbar-horizontal {
+    width: 100% !important;
+}
+
+.k-notification-group {
+    top: 50px !important;
+    z-index: 10003 !important;
+    // pop-up index is 10002
+}
+
+// tooltip cutomizations Start
+.k-tooltip {
+    background-color: rgba($colorPrimaryLight, 0.8) !important;
+    font-size: $font-extra-small;
+    padding: 3px 8px;
+}
+
+.k-callout {
+    color: rgba($colorPrimaryLight, 0.8);
+}
+
+// Accordian Start
+.k-link {
+    color: $colorPrimaryLight !important;
+}
+
+.k-state-selected {
+    color: $colorText !important;
+    background-color: $colorShadow !important;
+}
+
+// Accordian End
+// Snackbar Css 
+// .k-notification-success{border-color:#37b400;color:#fff;background-color:#37b400}
+// .k-notification-warning{border-color:#ffc000;color:#000;background-color:#ffc000}
+.k-notification {
+    font-size: $font-extra-small !important;
+}
+
+// Tabs CSS Starts
+.k-tabstrip-left>.k-tabstrip-items {
+    border-right-width: 10px !important;
+    border-color: transparent !important;
+}
+// Tabs CSS Ends
+:host::ng-deep {
+    // For input type textbox
+    .inde-input.k-textbox,
+    .inde-input .k-textbox,
+    .inde-input .k-textbox:focus {
+        color: $colorPrimary;
+        height: calc(14px + 1.4285714286em);
+    }
+    .inde-input.k-textarea {
+        color: $colorPrimary;
+    }
+    // For switch button
+    .k-switch-container {
+        .k-switch-handle {
+            height: 24px;
+        }
+    }
+    // For input type dropdown
+    .inde-dropdown .k-dropdown-wrap,
+    .inde-dropdown .k-multiselect-wrap .k-searchbar {
+        padding: 2px 0px;
+        color: $colorPrimary;
+    }
+    // For input type numeric box
+    .inde-num-box.k-numerictextbox .k-numeric-wrap {
+        color: $colorPrimary;
+    }
+    .inde-num-box.k-numerictextbox .k-numeric-wrap .k-input,
+    .inde-datepicker.k-datepicker .k-dateinput .k-dateinput-wrap .k-input {
+        height: calc(14px + 1.4285714286em);
+    }
+    // Input invalid styles 
+    .inde-input.k-textbox.ng-dirty.ng-touched.ng-invalid {
+        color: #D50000;
+    }
+    .k-dateinput .k-dateinput-wrap .k-input {
+        height: calc(14px + 1.4285714286em);
+    }
+}
+
+
+.k-calendar { 
+    width: auto !important;
+}

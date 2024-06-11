@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <g id="edit" transform="translate(-948 -240)">
+    <circle id="Ellipse_24" data-name="Ellipse 24" cx="8" cy="8" r="8" transform="translate(948 240)" fill="#DF195C"/>
+    <g id="pencil-edit-button" transform="translate(951.999 242.711)">
+      <path id="Path_268" data-name="Path 268" d="M4.975,2.624,6.6,4.259,2.483,8.4.857,6.763Zm2.862-.394L7.112,1.5a.718.718,0,0,0-1.017,0l-.7.7L7.027,3.834l.811-.815A.559.559,0,0,0,7.837,2.229ZM.005,9.062a.186.186,0,0,0,.224.221l1.813-.442L.416,7.206Z" transform="translate(0 0)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

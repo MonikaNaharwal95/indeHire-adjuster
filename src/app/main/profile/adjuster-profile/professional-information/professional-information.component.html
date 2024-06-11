@@ -1,0 +1,316 @@
+<div class="shad-card">
+    <div class="heading">
+        <div class="title">
+            {{metaData.IH_AdjusterPage_Professional_Information}}
+        </div>
+    </div>
+
+    <inde-accordian [title]='metaData.IH_AdjusterPage_Work_Experience' (editClickEvent)="editWorkExperience()">
+        <div [class]="'custom-template'" style="padding:8px" *ngIf="!editworkExperienceFlag">
+            <div style="padding: 4px;" *ngFor="let ex of publicView.experienceViews">
+                <label class="pi-label">{{getValueByKey(ex.experienceTypeID, experienceLookup)}}</label>
+                <label class="pi-status">{{getValueByKey(ex.experienceYearTypeID, yearExpLookup)}}</label>
+            </div>
+        </div>
+        <div [class]="'custom-template'" style="padding:8px" *ngIf="editworkExperienceFlag">
+            <div style="padding: 8px;" *ngFor="let we of editworkExperienceObject">
+                <label class="pi-label">
+          {{ getValueByKey(we.experienceTypeID, experienceLookup) }}
+        </label>
+                <label class="pi-status">
+          <kendo-dropdownlist class="dropdown inde-dropdown" [data]="yearExpLookup" valuePrimitive="true"
+            [textField]="'value'" [valueField]="'key'" [(ngModel)]="we.experienceYearTypeID"
+            (valueChange)="workExperienceChange(we.experienceTypeID)"></kendo-dropdownlist>
+        </label>
+            </div>
+        </div>
+
+        <div [class]="'custom-template'" style="padding:8px">
+
+            <div class="spec-header">{{metaData.IH_AdjusterPage_Specialities}}</div>
+            <ng-container *ngIf="userType =='CTAD'">
+                <div class="status-header">
+                    {{metaData.IH_AdjusterPage_Auto}}
+                </div>
+                <div class="flex-wrap" *ngIf="!editworkExperienceFlag">
+                    <ng-container *ngFor="let x of publicView.specialityViews">
+                        <div class="skills" *ngIf="x.specialitiesSubTypeID == 'SSAO' && x.specialitiesTypeName != ''">
+                            {{x.specialitiesTypeName}}
+                        </div>
+                    </ng-container>
+                    <div class="nodata" *ngIf="!autoSpecialityFlag">{{metaData.IH_AdjusterPage_No_Auto_Speciality}}</div>
+                </div>
+
+
+                <div class="flex-wrap" *ngIf="editworkExperienceFlag">
+                    <div class="skills" *ngFor="let iD of editAutoObject">
+                        <ng-container>
+                            <input type="checkbox" [id]="iD.key" class="k-checkbox" [(ngModel)]="iD.status" (change)="autoWorkExperienceChange()" [disabled]="!iD.enable" />
+                            <label class="k-checkbox-label" [for]="iD.key">{{ iD.value }}</label>
+                        </ng-container>
+                    </div>
+                </div>
+            </ng-container>
+            <div class="status-header" *ngIf="userType =='CTAD'">
+                {{metaData.IH_AdjusterPage_Property}}
+            </div>
+            <div class="flex-wrap" *ngIf="!editworkExperienceFlag">
+                <ng-container *ngFor="let x of publicView.specialityViews">
+                    <div class="skills" *ngIf="x.specialitiesSubTypeID == 'SSPY' && x.specialitiesTypeName != ''">
+                        {{x.specialitiesTypeName}}
+                    </div>
+                </ng-container>
+                <div class="nodata" *ngIf="!propertySpecialityFlag">{{metaData.IH_AdjusterPage_No_Property_Speciality}}</div>
+            </div>
+
+            <div class="flex-wrap" *ngIf="editworkExperienceFlag">
+                <div class="skills" *ngFor="let iD of editPropertyObject">
+                    <ng-container>
+                        <input type="checkbox" [id]="iD.key" class="k-checkbox" [(ngModel)]="iD.status" (change)="propertyWorkExperienceChange()" [disabled]="!iD.enable" />
+                        <label class="k-checkbox-label" [for]="iD.key">{{ iD.value }}</label>
+                    </ng-container>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+        <div style="text-align: center;" *ngIf="editworkExperienceFlag">
+            <button class="btn-cancel" (click)="workExperienceCancel()">
+        <ng-container>{{metaData.IH_AdjusterPage_Cancel}}</ng-container>
+
+      </button>
+            <button class="btn-save" (click)='saveWorkExperience()' [disabled]="loader || (editPropertyArray.length<1 && !nonePropertyFlag) || (editAutoArray.length<1 && !noneAutoFlag && userType =='CTAD')">
+        <ng-container>{{metaData.IH_AdjusterPage_Save}}</ng-container>
+        <i *ngIf="loader" class="fas fa-sync spin"></i>
+      </button>
+        </div>
+    </inde-accordian>
+    <inde-accordian *ngIf="publicView.contractorTypeMappingViews[0].contractorTypeID == 'CTLA'" [upload]="metaData.IH_AdjusterPage_Upload_Image" [title]='metaData.IH_AdjusterPage_Equipments' [expanded]='false' (editClickEvent)="editEquipments()" (uploadButtonClickEvent)="openEquipmentDialog()">
+        <div [class]="'custom-template'" style="padding:8px" *ngIf="!editEquipmentsFlag">
+            <div class="flex-wrap">
+                <div class="skills" *ngFor="let x of publicView.equipmentViews">
+                    {{getValueByKey(x.equipmentTypeID, equipmentsLookup)}} {{ x.optionNotes.length > 0 ? ' ('+ x.optionNotes+')' : ''}}
+                </div>
+            </div>
+        </div>
+
+        <div [class]="'custom-template'" style="padding:8px" *ngIf="editEquipmentsFlag">
+            <div class="flex-wrap">
+                <div class="skills" *ngFor="let iD of editEquipmentObject">
+                    <ng-container>
+                        <input type="checkbox" [id]="iD.key" class="k-checkbox" [(ngModel)]="iD.status" (change)="equipmentsChange()" />
+                        <label class="k-checkbox-label" [for]="iD.key">{{ iD.value }}</label>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="edit-other" *ngIf="showOther">
+                <input class="inde-input" kendoTextBox type="text" [placeholder]="metaData.IH_AdjusterPage_OtherEquipment" [(ngModel)]="equipOther" maxlength="20" />
+            </div>
+        </div>
+        <div *ngIf="mandatoryEquipmentFlag" class="error" style="margin-left:8px">{{metaData.IH_AdjusterPage_AtleastOneLadder}}</div>
+        <div style="text-align: center;" *ngIf="editEquipmentsFlag">
+            <button class="btn-cancel" (click)="cancelEquipments()">
+        <ng-container>{{metaData.IH_AdjusterPage_Cancel}}</ng-container>
+
+      </button>
+            <button class="btn-save" (click)='saveEquipments()' [disabled]="loader || editEquipmentArray.length < 1 || (showOther == true && equipOther.length<1)">
+        <ng-container>{{metaData.IH_AdjusterPage_Save}}</ng-container>
+        <i *ngIf="loader" class="fas fa-sync spin"></i>
+      </button>
+        </div>
+    </inde-accordian>
+
+    <inde-accordian *ngIf="publicView.contractorTypeMappingViews[0].contractorTypeID == 'CTAD'" [title]='metaData.IH_AdjusterPage_Insurance_Designation' [expanded]='false' (editClickEvent)="editInsuranceDesignation()">
+        <div [class]="'custom-template'" style="padding:8px" *ngIf="!editinsuranceDesignationFlag">
+            <div class="flex-wrap">
+                <div class="skills" *ngFor="let x of publicView.insuranceDesignationViews">
+                    {{getValueByKey(x.isnuranceDesignationTypeID,insuranceDesignation )}}
+                </div>
+            </div>
+        </div>
+
+        <div [class]="'custom-template'" style="padding:8px" *ngIf="editinsuranceDesignationFlag">
+            <div class="flex-wrap">
+                <div class="skills" *ngFor="let iD of editinsuranceDesignationObject">
+                    <ng-container>
+                        <input type="checkbox" [id]="iD.key" class="k-checkbox" [(ngModel)]="iD.status" (change)="insuranceDesignationChange(iD.key,iD.status)" [disabled]='!iD.enable' />
+                        <label class="k-checkbox-label" [for]="iD.key">{{ iD.value }}</label>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center;" *ngIf="editinsuranceDesignationFlag">
+            <button class="btn-cancel" (click)="cancelinsuranceDesignation()">
+        <ng-container>{{metaData.IH_AdjusterPage_Cancel}}</ng-container>
+
+      </button>
+            <button class="btn-save" (click)='saveinsuranceDesignation()' [disabled]="loader || editinsuranceDesignationArray.length<1">
+        <ng-container>{{metaData.IH_AdjusterPage_Save}}</ng-container>
+        <i *ngIf="loader" class="fas fa-sync spin"></i>
+      </button>
+        </div>
+    </inde-accordian>
+
+    <inde-accordian [title]='metaData.IH_AdjusterPage_LossType_Expertise' [expanded]='false' (editClickEvent)="editLossType()">
+        <div [class]="'custom-template'" style="padding:8px" *ngIf="!editLossTypeFlag">
+            <div class="flex-wrap">
+                <div class="skills" *ngFor="let x of publicView.lossTypeExpertiseViews">
+                    {{getValueByKey(x.lossTypeID,lossExpertiseLookup )}}
+                </div>
+            </div>
+        </div>
+
+        <div [class]="'custom-template'" style="padding:8px" *ngIf="editLossTypeFlag">
+            <div class="flex-wrap">
+                <div class="skills" *ngFor="let LT of editLossTypeObject">
+                    <ng-container>
+                        <input type="checkbox" [id]="LT.key" class="k-checkbox" [(ngModel)]="LT.status" (change)="lossTypeChange()" />
+                        <label class="k-checkbox-label" [for]="LT.key">{{ LT.value }}</label>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center;" *ngIf="editLossTypeFlag">
+            <button class="btn-cancel" (click)="cancelLossType()">
+        <ng-container>{{metaData.IH_AdjusterPage_Cancel}}</ng-container>
+
+      </button>
+            <button class="btn-save" (click)='saveLossType()' [disabled]="loader || editLossTypeArray.length<1">
+        <ng-container>{{metaData.IH_AdjusterPage_Save}}</ng-container>
+        <i *ngIf="loader" class="fas fa-sync spin"></i>
+      </button>
+        </div>
+    </inde-accordian>
+
+    <inde-accordian [title]="metaData.IH_AdjusterPage_Software_Knowledge" [expanded]='false' (editClickEvent)="editSoftwareKnowledge()">
+        <div [class]="'custom-template'" style="padding:8px" *ngIf="!editsoftwareKnowledgeFlag">
+            <div style="padding: 4px;" *ngFor="let x of publicView.softwareKnowledgeViews">
+                <label class="pi-label">{{getValueByKey(x.softwareKnowledgeTypeID, softwareLookup)}}</label>
+                <label class="pi-status">{{getValueByKey(x.softwareKnowledgeExperienceTypeID, prociencyLookup)}}</label>
+                <div class="other">{{ x.optionNotes.length > 0 ? x.optionNotes : '' }}</div>
+            </div>
+        </div>
+
+        <div [class]="'custom-template'" style="padding:8px" *ngIf="editsoftwareKnowledgeFlag">
+            <div style="padding: 8px;" *ngFor="let sl of editsoftwareKnowledgeObject">
+                <label class="pi-label">
+          {{ getValueByKey(sl.softwareKnowledgeTypeID, softwareLookup) }}
+        </label>
+                <label class="pi-status">
+          <kendo-dropdownlist class="dropdown inde-dropdown" [data]="prociencyLookup" valuePrimitive="true"
+            [textField]="'value'" [valueField]="'key'" [(ngModel)]="sl.softwareKnowledgeExperienceTypeID"
+            (valueChange)="changeSoftwareKnowledge(sl)"></kendo-dropdownlist>
+        </label>
+                <div class="edit-other" *ngIf="sl.softwareKnowledgeTypeID === 'SKOT' && sl.softwareKnowledgeExperienceTypeID !== 'SKEN'">
+                    <input class="inde-input" kendoTextBox type="text" [placeholder]="metaData.IH_AdjusterPage_OtherSoftwares" [(ngModel)]="sl.optionNotes" (keyup)="changeSoftwareKnowledge(sl)" maxlength="20" />
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center;" *ngIf="editsoftwareKnowledgeFlag">
+            <button class="btn-cancel" (click)="cancelSoftwareKnowledge()">
+        <ng-container>{{metaData.IH_AdjusterPage_Cancel}}</ng-container>
+
+      </button>
+            <button class="btn-save" (click)='saveSoftwareKnowledge()' [disabled]='loader || softwareOtherFlag'>
+        <ng-container>{{metaData.IH_AdjusterPage_Save}}</ng-container>
+        <i *ngIf="loader" class="fas fa-sync spin"></i>
+      </button>
+        </div>
+    </inde-accordian>
+
+    <inde-accordian [title]="metaData.IH_AdjusterPage_Language" [expanded]='false' (editClickEvent)="editLanguage()">
+        <div [class]="'custom-template'" style="padding:4px" *ngIf="!editLanguageFlag">
+            <div class="flex-wrap">
+
+                <ng-container *ngFor="let x of publicView.languageViews">
+                    <div class="skills" *ngIf="x.isSpeak">
+                        {{ getValueByKey(x.languageTypeID, languageLookup) }}
+                    </div>
+                </ng-container>
+                <div *ngIf="!languageShowFlag" class="nodata">{{metaData.IH_AdjusterPage_No_Language}}</div>
+
+            </div>
+        </div>
+
+
+        <div [class]="'custom-template'" style="padding:8px" *ngIf="editLanguageFlag">
+            <div class="flex-wrap">
+                <div class="skills" *ngFor="let iD of editLanguageObject">
+                    <ng-container>
+                        <input type="checkbox" [id]="iD.languageTypeID" class="k-checkbox" [(ngModel)]="iD.isSpeak" />
+                        <label class="k-checkbox-label" [for]="iD.languageTypeID">
+              {{ getValueByKey(iD.languageTypeID, languageLookup) }}</label>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center;" *ngIf="editLanguageFlag">
+            <button class="btn-cancel" (click)="cancelLanguage()" [disabled]="loader">
+        <ng-container>{{metaData.IH_AdjusterPage_Cancel}}</ng-container>
+      </button>
+            <button class="btn-save" (click)='saveLanguage()' [disabled]="loader ">
+        <ng-container>{{metaData.IH_AdjusterPage_Save}}</ng-container>
+        <i *ngIf="loader" class="fas fa-sync spin"></i>
+      </button>
+        </div>
+    </inde-accordian>
+
+  <!-- Travel Section starts edited by Sanket -->
+  <inde-accordian [title]="metaData.IH_AdjusterPage_Travel" [expanded]='false' (editClickEvent)="editTravelSection()">
+    <div class="travel" *ngIf="publicView.contractorTypeMappingViews[0].contractorTypeID == 'CTLA'">
+      <div class="tra-ques">{{metaData.IH_AdjusterPage_HowFarTravelMessage}}</div>
+      <div class="range">
+        <ng5-slider [options]="travelSlider" [(ngModel)]="travelValue"></ng5-slider>
+      </div>
+      <div class="relocate" *ngIf="!travelEditMode">
+        <div class="tra-ques">{{ metaData.IH_AdjusterPage_OtherStatesTravel }}</div>
+        <div class="tra-value">{{publicView.isWillingRelocate === false ? metaData.IH_AdjusterPage_No : metaData.IH_AdjusterPage_Yes}}</div>
+        <div class="relocate-state" *ngIf="publicView.isWillingRelocate === true">
+          <div class="tra-ques">{{ metaData.IH_AdjusterPage_Selected_States }}</div>
+          <div class="tra-value">{{publicView.stateNames}}</div>
+        </div>
+      </div>
+      <div class="relocate" *ngIf="travelEditMode" [formGroup]="travelForm">
+        <div class="tra-ques">{{ metaData.IH_AdjusterPage_OtherStatesTravel }}</div>
+        <div class="radion-ctn">
+          <input type="radio" class="k-radio" [id]="metaData.IH_AdjusterPage_Yes + '_1'" formControlName="isWillingRelocate" type="radio" class="k-radio" [value]="true" />
+          <label class="k-radio-label" [for]="metaData.IH_AdjusterPage_Yes + '_1'"> {{metaData.IH_AdjusterPage_Yes}} </label>
+          <input style="margin-left: 24px;" [id]="metaData.IH_AdjusterPage_No + '_2'" formControlName="isWillingRelocate" type="radio" class="k-radio" [value]="false" />
+          <label class="k-radio-label" [for]="metaData.IH_AdjusterPage_No + '_2'"> {{metaData.IH_AdjusterPage_No}}</label>
+        </div>
+        <div class="relocate-state" *ngIf="showStates">
+          <div class="tra-ques">{{ metaData.IH_AdjusterPage_Select_States }}</div>
+          <kendo-multiselect class="dropdown inde-dropdown"
+          style="width:98%" formControlName="relocateState" [data]="stateLookup" [textField]="'value'" [valueField]="'key'"
+          [valuePrimitive]="true">
+          </kendo-multiselect>
+          <div class="error" style="margin-left: 8px;" *ngIf="keysFirst.relocateState.touched &&
+                    keysFirst.relocateState.errors &&
+                    keysFirst.relocateState.errors.required">
+            {{ metaData.IH_AdjusterPage_PlsSelectStates }}.
+          </div>
+        </div>
+      </div>
+      <div class="btn-ctn" *ngIf="travelEditMode">
+        <button class="btn-cancel" (click)="resetTravelSection()" [disabled]="isTravelLoad">
+          <ng-container>{{metaData.IH_AdjusterPage_Cancel}}</ng-container>
+        </button>
+        <button class="btn-save" (click)='saveTravelDistance()' [disabled]="isTravelLoad">
+          <ng-container>{{metaData.IH_AdjusterPage_Save}}</ng-container>
+          <i *ngIf="isTravelLoad" class="fas fa-sync spin"></i>
+        </button>
+      </div>
+    </div>
+  </inde-accordian>
+  <!-- Travel Section Ends -->
+
+</div>
+
+<inde-equipment-image #addEquipmentDialog></inde-equipment-image>

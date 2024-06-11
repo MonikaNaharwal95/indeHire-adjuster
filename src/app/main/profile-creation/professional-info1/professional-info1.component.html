@@ -1,0 +1,80 @@
+<div class="secondSection" [class.pointerNone]="loader"
+  *ngIf="experienceType && specialityData && specialitySubType && yearLookup">
+  <div class="section-heading">
+    {{ prelimMeta.IH_Prelim_Screen_2_Experience_Header }}
+  </div>
+
+  <!-- Experience section starts  -->
+  <div class="experience-table">
+    <div class="inde-error" *ngIf="experienceError">
+      {{ prelimMeta.IH_Prelim_Screen_1_Required_Field }}
+    </div>
+    <div class="table-head">
+      <div class="table-row">
+        <div class="table-item"></div>
+        <div class="table-item" *ngFor="let y of yearLookup">{{ y.value }}</div>
+      </div>
+    </div>
+    <div class="table-data">
+      <div class="table-row" *ngFor="let d of experienceType">
+        <div class="table-item">
+          <div>{{ d.value }}</div>
+        </div>
+        <div class="table-item" *ngFor="let y of yearLookup">
+          <label class="ci-radio-container">
+            <input type="radio" class="k-radio" [(ngModel)]="expVal[d.key]" name="r{{ d.key }}" [value]="y.key"
+              (change)="checkValue()" />
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Experience section ends -->
+
+  <!-- Speciality Section starts -->
+  <div class="section-heading">
+    {{ prelimMeta.IH_Prelim_Screen_2_Specialities_Header }}
+  </div>
+  <div class="content-section" *ngFor="let s of specialitySubType" [formGroup]="formProf1">
+    <ng-container *ngIf="contractorType === 'CTAD'">
+      <div class="header">{{ s.value }}</div>
+      <hr />
+    </ng-container>
+    <!-- Auto section starts -->
+    <div *ngIf="s.key == 'SSAO'">
+      <div class="inde-error" *ngIf="autoArray.dirty && autoArray.errors?.required">
+        {{ prelimMeta.IH_Prelim_Screen_1_Validation_Value }}
+      </div>
+      <div formArrayName="autoArray" class="checkbox-section">
+        <div class="checkbox-ctn" *ngFor="let l of autoData; let i = index">
+          <div class="check-box">
+            <input type="checkbox" class="k-checkbox" [formControlName]="i" [id]="l.key" />
+            <label class="k-checkbox-label" [for]="l.key">{{ l.value }}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Property section error -->
+    <div *ngIf="s.key == 'SSPY'">
+      <div class="inde-error" *ngIf="propertyArray.dirty && propertyArray.errors?.required">
+        {{ prelimMeta.IH_Prelim_Screen_1_Validation_Value }}
+      </div>
+      <div class="checkbox-section">
+        <div class="checkbox-ctn" formArrayName="propertyArray" *ngFor="let p of propertyData; let i = index">
+          <div class="check-box">
+            <input type="checkbox" class="k-checkbox" [id]="p.key" [formControlName]="i" />
+            <label class="k-checkbox-label" [for]="p.key">{{ p.value }}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Speciality section ends -->
+  
+  <button class="btn-back" *ngIf="!loader" (click)="back()">{{ prelimMeta.IH_Prelim_Screen_2_Back_Button }}</button>
+  <button class="btn" [class.pointerNone]="loader" (click)="next()">
+    <ng-container *ngIf="!loader">{{ prelimMeta.IH_Prelim_Screen_1_Next_Button }}</ng-container>
+    <i *ngIf="loader" class="fas fa-sync spin"></i>
+  </button>
+</div>

@@ -1,0 +1,40 @@
+<div class="data-wrap" *ngIf="contractMetaData">
+  <div class="data-ctn">
+    <div class="assignment-content">
+      <!-- Headers -->
+      <div class="page-header">
+        <div class="page-title">
+          {{ contractMetaData.IH_Adj_Contract_List_Heading }}
+        </div>
+        <div class="page-navbar">
+          <div *ngFor="let st of assignmentStatus" class="nav-item" [class.nav-active]="status === st.key"
+            (click)="changeNav(type, st.key)">{{ st.value }}</div>
+        </div>
+      </div>
+      <!-- Headers -->
+      <!-- child component -->
+      <div class="flex">
+        <div class="contracts-left">
+          <div class="card">
+            <div class="sidebar">
+              <div [class.nonClickable]="false" class="item" (click)="changeNav('posted-contracts', status)"
+                [class.active]="type === 'posted-contracts'">
+                {{ contractMetaData?.IH_Adj_Contract_List_PickedAsgmt }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="contracts-main">
+          <inde-contract-list 
+            [type]="type" 
+            [status]="status" 
+            [contractMetaData]="contractMetaData"
+            [terminateReasonLookup]="terminateReasonLookup">
+          </inde-contract-list>
+        </div>
+      </div>
+      <!-- child component -->
+    </div>
+    <inde-footer></inde-footer>
+  </div>
+</div>

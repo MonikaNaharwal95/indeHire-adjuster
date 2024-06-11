@@ -1,0 +1,44 @@
+::ng-deep {
+    .range .ng5-slider .ng5-slider-bar {
+        background: rgba($colorAccent, .1);
+        height: 3px;
+    }
+    .range .ng5-slider .ng5-slider-selection {
+        background: $colorAccent;
+    }
+    .range .ng5-slider .ng5-slider-pointer {
+        background-color: $colorAccent;
+        width: 16px;
+        height: 16px;
+        top: -6.5px;
+    }
+
+    .range .ng5-slider .ng5-slider-pointer:after {
+        display: none;
+    }
+
+    .range .ng5-slider.animate .ng5-slider-bubble.ng5-slider-combined, 
+    .range .ng5-slider .ng5-slider-bubble {
+        bottom: 12px;
+        font-size: $font-extra-small;
+        color: $colorAccent;
+    }
+
+    .range .ng5-slider .ng5-slider-bubble.ng5-slider-limit {
+        color: $colorText;
+    }
+    
+    .range .ng5-slider .ng5-slider-tick {
+        width: 1px;
+        height: 10px;
+        margin-left: 4px;
+        border-radius: 0;
+        background: rgba($colorAccent, .3);
+        top: -1px;
+    }
+    
+    .range .ng5-slider .ng5-slider-tick.ng5-slider-selected {
+        background: $colorAccent;
+    }
+
+}

@@ -1,0 +1,65 @@
+@import './../../../../styles/mixin';
+@import './../../../../styles/variable';
+@import './../../../../styles/custom';
+.job-wait {
+    color: $colorAccent;
+    padding: 8px;
+    text-align: center;
+    font-weight: 600;
+}
+
+// Schema classes - for custom field groups
+.generic-grp {
+    overflow: hidden;
+    margin: 16px 0;
+    border-radius: 3px;
+    border: 1px solid $borderColor;
+    background: $colorTextonAccent;
+    color: $colorPrimary;
+    font-size: $font-card-header;
+    position: relative;
+    .header {
+        border-bottom: 1px solid $borderColor;
+        padding: 8px 16px;
+        overflow: hidden;
+        cursor: pointer;
+        @include content-style($font-small, $colorPrimary, $semibold);
+        .pos {
+            float: right;
+            padding-top: 4px;
+            cursor: pointer;
+        }
+    }
+    .controls {
+        padding: 0 96px 12px 16px;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+}
+
+// Schema classes - for custom field groups
+// dialog scss
+.dialog-info {
+    div {
+        margin-bottom: 7px;
+    }
+    .msg {
+        margin-bottom: 10px;
+        margin-top: 5px;
+        font-size: $font-small;
+    }
+    div {
+        label {
+            display: inline-block;
+            margin-right: 7px;
+            font-weight: $semibold;
+            color: $colorText;
+        }
+        span {
+            color: $colorPrimary;
+        }
+    }
+}

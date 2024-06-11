@@ -1,0 +1,141 @@
+<div class="flex assignment-ctn" *ngIf="contractMetaData">
+  <div class="assignment-main" *ngIf="!assignmentListArray || assignmentListArray.length === 0">
+    <div class="inde-error" style="text-align: center;" *ngIf="!htmlLoader">
+      {{ contractMetaData.IH_Adj_Contract_List_No_Contract }}
+    </div>
+    <div class="loader" *ngIf="htmlLoader">
+      <span class="k-icon k-i-loading" style="font-size: 64px;"></span>
+    </div>
+  </div>
+  <div class="assignment-main" *ngIf="assignmentListArray && assignmentListArray.length !== 0">
+    <div class="assignment-card card" [class.active]="!contract.scheduleDate" *ngFor="let contract of assignmentListArray">
+      <div class="heading">
+        <div class="title">
+          <span> {{ contract.assignmentReferenceNo }} </span>
+          <span class="req-label"> ({{contract.requirementTypeID}})</span>
+        </div>
+        <div class="btn-ctn">
+          <inde-action-button [actionArray]="actionMenu" *ngIf="!contract.scheduleDate"
+            (actionButtonClicked)="actionButtonClick($event,contract.jobID)">
+          </inde-action-button>
+
+          <inde-action-button [actionArray]="actionMenu1" *ngIf="contract.scheduleDate"
+          (actionButtonClicked)="actionButtonClick($event,contract.jobID)">
+        </inde-action-button>
+        </div>
+      </div>
+      <div class="assignment-card-content">
+        <!-- <div class="flex">
+          <div class="form-group item">
+            <label class="form-label">{{ contractMetaData.IH_Adj_Contract_List_JobID }}</label>
+            <div class="form-value">{{ contract.jobCode}}</div>
+          </div>
+          <div class="form-group item">
+            <label class="form-label">{{ contractMetaData.IH_Adj_Contract_List_HoverID }}</label>
+            <div class="form-value">{{ contract.isHoverRequired ? contract.hoverJobID : 'N/A' }}</div>
+          </div>
+        </div> -->
+        <div class="flex">
+          <div class="form-group item">
+            <label class="form-label">{{ contractMetaData.IH_Adj_Contract_List_Location }}</label>
+            <div class="form-value">{{ contract.location ? contract.location : '' }}</div>
+          </div>
+          <div class="form-group item" *ngIf="contract.scheduleDate">
+            <label class="form-label">{{ contractMetaData.IH_Adj_Contract_List_Start_Date }}</label>
+            <div class="form-value">{{ contract.scheduleDate | date: "EEEE,MM/dd/yyyy" + ','}}
+            {{ contract.startTime }}  {{ contract.timezone ? contract.timezone : '' }}</div>
+          </div>
+          <div class="form-group item" *ngIf="!contract.scheduleDate">
+            <label class="form-label">{{ 'Inspection Schedule' }}</label>
+            <div class="form-value">{{ contract.inspectionScheduleChoice }}</div>
+          </div>
+        </div>
+
+        <div class="flex" >
+          <div class="form-group item" >
+            <div class="report" >{{ "Report" }}
+               <div class="report2" >
+                <span *ngIf="!contract.contractorAssignmentReportStatusID" [title]="'Pending'" kendoTooltip tooltipClass="g-tooltip" position="right">
+                  <img src="./../../../../assets/Pending.svg">
+                  </span>
+                <span *ngIf="contract.contractorAssignmentReportStatusID === 'ARSB'" [title]="'Awaiting'" kendoTooltip tooltipClass="g-tooltip" position="right">
+                  <img src="./../../../../assets/In_progress.svg">
+                </span>
+                <span *ngIf="contract.contractorAssignmentReportStatusID && contract.contractorAssignmentReportStatusID !== 'ARSB'" [title]="'Review Done'" kendoTooltip tooltipClass="g-tooltip" position="right">
+                  <img src="./../../../../assets/Verified.svg">
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group item">
+            <div class="report">{{ "Hover" }}
+              <div class="report2">
+                <span *ngIf="contract.hoverJobState && contract.hoverJobState.toLowerCase() === 'waiting'" [title]="'Waiting'" kendoTooltip tooltipClass="g-tooltip" position="right">
+                  <img src="./../../../../assets/In_progress.svg">
+                </span>
+                <span *ngIf="contract.hoverJobState && contract.hoverJobState.toLowerCase() === 'new'" [title]="'New'" kendoTooltip tooltipClass="g-tooltip" position="right">
+                  <img src="./../../../../assets/Pending.svg">
+                </span>
+                <span *ngIf="contract.hoverJobState && contract.hoverJobState.toLowerCase() === 'deleted'" [title]="'Deleted'" kendoTooltip tooltipClass="g-tooltip" position="right">
+                  <i class="far fa-times-circle"></i>
+                </span>
+                <span *ngIf="contract.hoverJobState && contract.hoverJobState.toLowerCase() === 'complete'" [title]="'Complete'" kendoTooltip tooltipClass="g-tooltip" position="right">
+                  <img src="./../../../../assets/Verified.svg">
+                </span>
+              </div>
+              </div>
+          </div>
+        </div>
+
+
+        <div class="flex">
+          <!-- <div class="form-group item">
+            <label class="form-label">{{ contractMetaData.IH_Adj_Contract_List_Posted_By }}</label>
+            <div class="form-value">{{ contract.postedBy }}</div>
+          </div> -->
+          <!-- <div class="form-group item" *ngIf="contract.scheduleDate">
+            <label class="form-label">{{ contractMetaData.IH_Adj_Contract_List_InspectionTime }}</label>
+            <div class="form-value">
+              {{ contract.startTime }}  {{ contract.endTime ? '-' + contract.endTime : '' }} {{ contract.timezone ? contract.timezone : '' }}
+      </div>
+    </div> -->
+  </div>
+  <div class="flex" *ngIf="routerStatus === 'ATER'">
+    <div class="form-group item">
+      <label class="form-label">{{contractMetaData.IH_Adj_Contract_List_TerminatedBy}}</label>
+      <div class="form-value">{{ contract.modifiedBy }}</div>
+    </div>
+    <div class="form-group item">
+      <label class="form-label">{{contractMetaData.IH_Adj_Contract_List_TerminatedReason}}</label>
+      <div class="form-value">
+        <div>{{ getValueByKey(contract.statusReasonTypeID, terminateReasonLookup) }}</div>
+        <div *ngIf="contract.statusReasonTypeID === 'ATOT'">{{ contract.statusReason }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="flex">
+    <div class="alert" *ngIf ="!contract.scheduleDate && routerStatus === 'ASCH'">
+        <div class="label" >
+          <i class="fas fa-info-circle"></i>
+     {{"Inspection Not Schedule"}} 
+     <span class="view-img"  (click)="rescheduleClick(contract.jobID)" >{{"Click here to set"}}</span>
+      </div>
+    </div>
+    <div class="alert" *ngIf ="contract.isRescheduleAndNotRead">
+      <div class="label" >
+        <i class="fas fa-info-circle"></i>
+        {{"Schedule date/time updated"}} 
+        <span class="view-img" (click)="postDismissClick(contract.jobID)" >{{"Dismiss"}}</span>        
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+  </div>
+
+<inde-reschedule-dialog #indeRescheduleDialog  class="job-dialog" [header]="header"
+ [timezone]="timezone"
+(dataSavedEvent)="rescheduleUser()" (negativeButtonClickEvent)="closeRescheduleDialog()"
+ [rescheduleJobID]= "rescheduleJobID"
+>
+</inde-reschedule-dialog>

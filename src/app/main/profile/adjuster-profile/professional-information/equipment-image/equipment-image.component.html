@@ -1,0 +1,29 @@
+<inde-dialog #equipmentPictureDialog [header]="meta?.IH_EquipImgUpload_UpldImg" [dialogWidth]="700" [negativeButton]="meta?.IH_EquipImgUpload_Cancel" (negativeButtonClickEvent)="closeEquipmentDialog(); getEquipmentDcouments()" [positiveButton]="meta?.IH_EquipImgUpload_Submit"
+    (positiveButtonClickEvent)="UploadEquipment()">
+    <div class="note-equipment"><span>*</span>{{meta?.IH_EquipImgUpload_FileTypeSize}}</div>
+    <div class=" error-img" *ngIf="showError === true">{{meta?.IH_EquipImgUpload_PlsUpldImg}}</div>
+    <div *ngIf="!isLoader" class="content-wrapper">
+        <div class="no-item" *ngIf="equipmentList.length === 0">{{meta?.IH_EquipImgUpload_NoImgDisplay}}</div>
+        <div class="check-box" *ngFor="let equipment of equipmentList;">
+            <input type="checkbox" class="k-checkbox" [id]="equipment.equipmentTypeID" [(ngModel)]="equipment.isChecked" />
+            <label class="k-checkbox-label" [for]="equipment.equipmentTypeID">{{ equipment?.equipmentName }}</label>
+            <div class="status">
+                <span *ngIf="equipment.statusType === 'Approved'"><i class="fas fa-check-circle"></i></span>
+                <span *ngIf="equipment.statusType === 'Pending'"><i class="fas fa-exclamation-circle"></i></span>
+                <span *ngIf="equipment.statusType === 'Rejected'"><i class="fas fa-times-circle"></i></span>
+            </div>
+            <button class="add-image" [disabled]="equipment.equipmentDocuments.length > 3 || !equipment.isChecked  || equipment.statusType === 'Pending' || equipment.statusType === 'Approved' " (click)="addEquipmentImage(equipment.equipmentTypeID)">{{meta?.IH_EquipImgUpload_AddImage}}</button>
+            <div class="no-image" *ngIf="equipment.equipmentDocuments.length === 0"><i class="fas fa-image"></i>
+                <div class="text">{{meta?.IH_EquipImgUpload_NoDocUpload}}</div>
+            </div>
+            <div class="image-list" *ngFor="let doc of equipment.equipmentDocuments;index as i">
+                <inde-document-upload *ngIf="!doc.documentPath" [uploadUrl]="uploadSaveUrl" [maxFileSize]='10' [buttonText]="meta?.IH_EquipImgUpload_UpldEquip" [allowedFormats]="['.jpeg','.png','.jpg']" (docPathEvent)="setDocPath($event, doc)" (uploadEvent)="setDocID($event, doc)"></inde-document-upload>
+                <div class="image-section">
+                    <img [src]="doc.documentPath" width="300" *ngIf="doc.documentPath">
+                    <div class="img-name">{{doc.documentFileName}}</div>
+                    <button class="equipment-submit" [disabled]="equipment.statusType === 'Approved' || equipment.statusType === 'Pending' " *ngIf="doc.documentPath" (click)="removeImage(i, equipment.equipmentDocuments)"><i class="far fa-trash-alt"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</inde-dialog>

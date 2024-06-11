@@ -1,0 +1,82 @@
+@import './../../../styles/variable';
+@import './../../../styles/mixin';
+
+.data-wrap {
+    height: 100% !important;
+    .login-container {
+        margin: 32px;
+        text-align: center;
+        .shad-card {
+            padding: 20px 32px;
+            .far {
+                padding-bottom: 20px;
+            }
+            .fa-check-circle {
+                // height: 72px;
+                color: $colorActive;
+                margin: 16px;
+            }
+        }
+        .logo {
+            height: 40px;
+            margin: 16px 0 0 0;
+        }
+        .logo-name {
+            @include content-style($font-extra-small, $colorPrimary, $semibold);
+            margin-bottom: 8px;
+        }
+        .title {
+            color: $colorPrimary;
+            font-weight: 700;
+            font-size: $font-small;
+            margin-bottom: 24px;
+            margin-top: 0px;
+        }
+        .first-line {
+            font-size: 12px;
+            margin-bottom: 8px;
+            b {
+                color: $colorPrimaryLight;
+                cursor: pointer;
+            }
+        }
+        .second-line {
+            font-size: 12px;
+            margin-bottom: 16px;
+        }
+        .btn {
+            @include indeButton();
+            margin: 8px 0 16px 0;
+            width: fit-content;
+            align-self: center;
+        }
+    }
+}
+.success {
+    justify-content: center;
+    border-top: 1px solid;
+    padding-top: 8px;
+    align-items: center;
+    .fas {
+        color: $colorActive;
+        font-size: $icon-medium;
+        margin-right: 4px;
+    }
+}
+
+@media all and (min-width: 600px) {
+    .login-container {
+        .shad-card {
+            width: 600px;
+            margin: 0 auto;
+        }
+    }
+}
+@media all and (min-width: 320px) and (max-width: 600px) {
+    .login-container {
+        .shad-card {
+            width: calc(100% - 32px);
+            margin: 0 16px;
+        }
+    }
+}

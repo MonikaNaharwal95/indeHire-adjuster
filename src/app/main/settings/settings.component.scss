@@ -1,0 +1,25 @@
+@import './../../../styles/mixin';
+@import './../../../styles/variable';
+.flex {
+    padding: 32px 0;
+    flex: auto;
+    .setting-left {
+        flex: none;
+        width: 20%;
+        .div-sticky {
+            position: sticky;
+            top: 0px;
+        }
+    }
+    .setting-main {
+        flex: auto;
+        margin-left: 16px;
+        padding-top: 44.67px;
+        width: calc(80% - 20px);
+    }
+}
+
+.setting-wrap {
+    display: flex;
+    flex-flow: column;
+}

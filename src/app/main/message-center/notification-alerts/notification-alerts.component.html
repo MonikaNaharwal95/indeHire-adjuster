@@ -1,0 +1,17 @@
+<div class="card" *ngIf="notificationList.length === 0 && !loader && meta">
+    <div class="no-detail">{{meta.IH_Adj_MsgCenter_NoNotification }}</div>
+</div>
+<div class="card" *ngIf="notificationList && meta">
+    <div class="note-detail" *ngFor="let x of notificationList">
+        <div class="note-row" (click)="markNotification(x)">
+            <div class="title" [class.is-read]="x.isRead">
+                <title>{{x.title}}</title>
+            </div>
+            <div class="message" [class.is-read]="x.isRead">{{x.message}}</div>
+            <div class="date ">{{x.createdDate | date: "MM/dd/yyyy" }} {{x.createdDate | date: 'shortTime'}}</div>
+        </div>
+    </div>
+    <div class="lazy-loader" *ngIf="loader">
+        <span class="k-icon k-i-loading"></span>
+    </div>
+</div>

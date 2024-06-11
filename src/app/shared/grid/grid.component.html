@@ -1,0 +1,92 @@
+<kendo-grid
+  [class]="'inde-grid ' + cssClass"
+  [data]="view | async"
+  [filter]="state.filter"
+  [filterable]="gridfilterable"
+  [groupable]="groupable"
+  [group]="state.group"
+  [style.height]="height"
+  [hideHeader]="hideHeader"
+  [loading]="loading"
+  [navigable]="navigable"
+  [pageSize]="state.take"
+  [pageable]="pageable"
+  [reorderable]="reorderable"
+  [resizable]="resizable"
+  [sortable]="gridSortable"
+  [scrollable]="scrollable"
+  [skip]="state.skip"
+  [sort]="state.sort"
+  [rowClass]="rowClass"
+  (selectionChange)="onRowSelected($event)"
+  (dataStateChange)="dataStateChanged($event)"
+  (detailCollapse)="detailCollapsed($event)"
+  (detailExpand)="detailExpanded($event)"
+  (cellClick)="cellClickHandler($event)">
+  <ng-template *ngIf="toolbarTemplate" kendoGridToolbarTemplate>
+    <ng-container [ngTemplateOutlet]="toolbarTemplate"></ng-container>
+  </ng-template>
+  <kendo-grid-column
+    *ngFor="let col of columns"
+    [field]="col.field"
+    [title]="col.title"
+    [columnMenu]="col.columnMenu"
+    [editable]="col.editable"
+    [editor]="col.editor"
+    [filter]="col.filter"
+    [filterable]="col.filterable"
+    [format]="col.format"
+    [groupable]="col.groupable"
+    [hidden]="col.hidden"
+    [headerStyle]="{'font-weight': '600'}"
+    [includeInChooser]="col.includeInChooser"
+    [lockable]="col.lockable"
+    [locked]="col.locked"
+    [reorderable]="col.reorderable"
+    [sortable]="col.sortable"
+    [width]="col.width"
+    [class]="'inde-column-' + col.field + ' ' + col.class"
+    [headerClass]="'inde-grid-column inde-grid-header-column'">
+    <ng-template *ngIf="col.cellTemplate"
+      kendoGridCellTemplate
+      let-dataItem="dataItem"
+      let-rowIndex="rowIndex">
+      <ng-container
+        [ngTemplateOutlet]="col.cellTemplate ? col.cellTemplate : ''"
+        [ngTemplateOutletContext]="{
+          dataItem: dataItem,
+          rowIndex: rowIndex,
+          field: col.field,
+          colProperty: col
+        }">
+      </ng-container>
+    </ng-template>
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+    <ng-template *ngIf="col.customFilter && gridfilterable === 'row'" kendoGridFilterCellTemplate let-filter>
+    </ng-template>
+    <ng-template *ngIf="col.customFilter && gridfilterable === 'menu'" kendoGridFilterMenuTemplate
+      let-column="column"
+      let-filter="filter"
+      let-filterService="filterService">
+    </ng-template>
+  </kendo-grid-column>
+  <ng-template *ngIf="rowDetailTemplate" kendoGridDetailTemplate let-dataItem="dataItem" let-rowIndex="rowIndex" [kendoGridDetailTemplateShowIf]="rowDetailShowIf">
+    <ng-container [ngTemplateOutlet]="rowDetailTemplate" [ngTemplateOutletContext]="{dataItem: dataItem, rowIndex: rowIndex}">
+    </ng-container>
+  </ng-template>
+  <ng-template kendoGridNoRecordsTemplate>
+    {{ noData }}
+  </ng-template>
+  <!-- <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+    <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+    <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+    <kendo-pager-next-buttons></kendo-pager-next-buttons>
+    <kendo-pager-info></kendo-pager-info>
+  </ng-template> -->
+</kendo-grid>

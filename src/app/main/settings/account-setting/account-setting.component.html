@@ -1,0 +1,350 @@
+<div class="shad-card" *ngIf="!loader && metadata">
+    <!-- Personal Information Section Starts -->
+    <div class="heading">
+        <div class="title">
+            {{metadata.IH_AccountSettings_Personal_Information}}
+        </div>
+        <img *ngIf="!isEditPersonal" kendoTooltip position="top" [title]="metadata.IH_AccountSettings_Edit" src="./../../../../assets/edit.svg" (click)="personalInfoFB()">
+    </div>
+    <div class="card-content" *ngIf="!isEditPersonal">
+        <div class="info-grid">
+            <div class="form-group">
+                <div class="form-label">{{metadata.IH_AccountSettings_First_Name}}</div>
+                <div class="form-value">{{ accountDetails.firstName }}</div>
+            </div>
+            <div class="form-group">
+            <div class="form-label">{{ metadata.IH_AccountSettings_Last_Name }}</div>
+                <div class="form-value">{{ accountDetails.lastName }}</div>
+            </div>
+        </div>
+        <div class="info-grid">
+            <div class="form-group">
+                <div class="form-label flex">
+                    {{ metadata.IH_AccountSettings_Email }}
+                    <!-- <div class="info-item" [title]="metadata.IH_AccountSettings_contact_admin"
+                    kendoTooltip tooltipClass="g-tooltip" position="right">
+                        <img [src]="'./../../../../assets/information.svg'">
+                    </div> -->
+                </div>
+                <div class="form-value">{{ accountDetails.emailAddress }}</div>
+            </div>
+            <div class="form-group">
+                <div class="form-label">{{ metadata.IH_AccountSettings_Phone }}</div>
+                <div class="form-value">{{maskedPhoneNumber}}</div>
+            </div>
+        </div>
+        <div class="info-grid">
+            <div class="form-group">
+                <div class="form-label">{{ metadata.IH_AccountSettings_Address }}</div>
+                <ng-container *ngIf="!isEditPersonal">
+                    <div class="form-value">{{ accountDetails.address1 }}</div>
+                    <div class="form-value">{{ accountDetails.address2 }}</div>
+                    <div class="form-value">
+                        {{ accountDetails.city + ', ' + accountDetails.provinceName + ' ' + accountDetails.postalCode }}
+                    </div>
+                    <div class="form-value">{{  accountDetails.countryName }}</div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <!-- Personal Information Section Ends -->
+
+    <!-- Personal Information Edit Starts -->
+    <div class="card-content" *ngIf="isEditPersonal" [formGroup]="personalInfo">
+        <div class="info-grid">
+            <div class="form-group">
+                <div class="form-label">{{metadata.IH_AccountSettings_First_Name}}</div>
+                <input class="inde-input" type="text" formControlName="firstName" kendoTextBox [placeholder]="'First Name'">
+            </div>
+            <div class="form-group">
+                <div class="form-label">{{metadata.IH_AccountSettings_Last_Name}}</div>
+                <input class="inde-input" type="text" formControlName="lastName" kendoTextBox [placeholder]="'Last Name'">
+            </div>
+        </div>
+        <div class="info-grid">
+            <div class="form-group">
+                <div class="form-label flex">
+                    {{ metadata.IH_AccountSettings_Email}}
+                    <div class="info-item" [title]="metadata.IH_AccountSettings_contact_admin"
+                    kendoTooltip tooltipClass="g-tooltip" position="right">
+                        <img [src]="'./../../../../assets/information.svg'">
+                    </div>
+                </div>
+                <input class="inde-input" type="email" [value]="accountDetails.emailAddress" kendoTextBox disabled>
+            </div>
+            <div class="form-group">
+                <div class="form-label">{{ metadata.IH_AccountSettings_Phone }}</div>
+                <div>
+                    <kendo-dropdownlist class="inde-dropdown calling-code"
+                        [data]="callingCodeLookup" 
+                        [valuePrimitive]="true" 
+                        [textField]="'value'" 
+                        [valueField]="'key'"
+                        formControlName="callingCode"
+                    ></kendo-dropdownlist>
+                    <kendo-maskedtextbox class="inde-input phone-input" [mask]="phoneMask" [rules]="phoneRules" formControlName="phoneNumber"></kendo-maskedtextbox>
+                </div>
+                <ng-container *ngIf="keysPF['phoneNumber'].touched && keysPF['phoneNumber'].errors">
+                    <div class="error phone-error"  *ngIf="keysPF['phoneNumber'].errors.required">
+                        {{metadata.IH_AccountSettings_Phone}} {{ validationMsg.IH_Required }}
+                    </div>
+                    <div class="error phone-error"  *ngIf="keysPF['phoneNumber'].errors?.patternError">
+                        {{metadata.IH_AccountSettings_Phone}} {{ validationMsg.IH_Invalid }}
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="info-grid">
+            <div class="form-group">
+                <div class="form-label">{{ metadata.IH_AccountSettings_Address }}</div>
+                <input class="inde-input address" type="text" formControlName="address1"
+                maxlength="100" kendoTextBox [placeholder]="metadata.IH_AccountSettings_Address_1">
+                <ng-container *ngIf="keysPF['address1'].touched && keysPF['address1'].errors">
+                    <div class="error" *ngIf="keysPF['address1'].errors.required">
+                        {{ metadata.IH_AccountSettings_Address_1 }} {{ validationMsg.IH_Required }}
+                    </div>
+                    <div class="error" *ngIf="keysPF['address1'].errors.pattern">
+                        <!-- {{ metadata.IH_AccountSettings_Address_1 }} {{ validationMsg.IH_Required }} -->
+                        {{validationMsg.IH_FieldValidation2}}
+                    </div>
+                </ng-container>
+                <input class="inde-input address" type="text" formControlName="address2"
+                maxlength="100" kendoTextBox [placeholder]="metadata.IH_AccountSettings_Address_2">
+                <div class="error" *ngIf="keysPF['address2'].touched && keysPF['address2'].errors?.pattern">
+                    <!-- {{ metadata.IH_AccountSettings_Address_1 }} {{ validationMsg.IH_Required }} -->
+                    {{validationMsg.IH_FieldValidation2}}
+                </div>
+                <div class="flex">
+                    <div class="e-address left">
+                        <input class="inde-input address" type="text" formControlName="city"
+                        maxlength="50" kendoTextBox [placeholder]="metadata.IH_AccountSettings_City">
+                        <ng-container *ngIf="keysPF['city'].touched && keysPF['city'].errors">
+                            <div class="error"  *ngIf="keysPF['city'].errors.required">
+                                {{ metadata.IH_AccountSettings_City }} {{ validationMsg.IH_Required }}
+                            </div>
+                            <div class="error" *ngIf="keysPF['city'].errors.pattern">
+                                <!-- {{ metadata.IH_AccountSettings_Address_1 }} {{ validationMsg.IH_Required }} -->
+                                {{validationMsg.IH_FieldValidation3}}
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div class="e-address"> 
+                        <kendo-dropdownlist class="address inde-dropdown"
+                        formControlName="provinceID"
+                        [data]="stateLookup"
+                        valuePrimitive="true" 
+                        [textField]="'value'" 
+                        [valueField]="'key'"
+                        ></kendo-dropdownlist>
+                    </div>
+                </div>
+                <div class="flex">
+                    <div class="e-address left">
+                        <kendo-dropdownlist class="address inde-dropdown"
+                        formControlName="countryID"
+                        [data]="countryLookup"
+                        valuePrimitive="true" 
+                        [textField]="'value'" 
+                        [valueField]="'key'"
+                        ></kendo-dropdownlist>
+                    </div>
+                    <div class="e-address">
+                        <input class="inde-input address" type="text"
+                        onkeypress="return ((event.charCode >= 48 && event.charCode <= 57))"
+                        oninput="validity.valid||(value='')" maxlength="5"
+                        formControlName="postalCode" kendoTextBox [placeholder]="metadata.IH_AccountSettings_Zip_Code">
+                        <ng-container *ngIf="keysPF['postalCode'].touched && keysPF['postalCode'].errors">
+                            <div class="error"  *ngIf="keysPF['postalCode'].errors.required">
+                                {{metadata.IH_AccountSettings_Zip_Code}} {{ validationMsg.IH_Required }}
+                            </div>
+                            <div class="error"  *ngIf="keysPF['postalCode'].errors.minlength 
+                            || keysPF['postalCode'].errors.pattern">
+                                {{metadata.IH_AccountSettings_Zip_Code}} {{ validationMsg.IH_Invalid }}
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="btn">
+                    <button  type="button" [class.pointerNone]="saveLoad" class="btn-negative" (click)="isEditPersonal = false">{{ metadata.IH_AccountSettings_Cancel }}</button>
+                    <button  type="button" [class.pointerNone]="saveLoad" class="btn-positive" (click)="updateProfile()">
+                        {{ metadata.IH_AccountSettings_Save }}
+                        <i *ngIf="saveLoad" class="fas fa-sync spin"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Personal Information Edit Ends -->
+
+    
+    <!-- Insurance Information Starts -->
+    <div class="heading" *ngIf="false">
+    <div class="title">{{ metadata.IH_AccountSettings_Insurance_Information }}</div>
+        <img *ngIf="!isEditIns && accountDetails.insuranceDetailID && (accountDetails.insuranceStatus == 'VER' || accountDetails.insuranceStatus == 'REJ')" kendoTooltip position="top" [title]="metadata.IH_AccountSettings_Edit" src="./../../../../assets/edit.svg" (click)="insuranceFB()">
+    </div>
+    <div class="no-data" *ngIf="!accountDetails.insuranceDetailID && false">
+        {{metadata.IH_AccountSettings_No_Insurance_Info}}
+    </div>
+    <div class="card-content" *ngIf="accountDetails.insuranceDetailID && !isEditIns && false">
+        <div class="info-grid">
+            <div class="form-group">
+                <div class="form-label">{{ metadata.IH_AccountSettings_Insurance_Provider }}</div>
+                <div class="form-value">{{ accountDetails.insurerName }}</div>
+            </div>
+            <div class="form-group">
+                <div class="form-label">{{ metadata.IH_AccountSettings_Coverage_Amount }}</div>
+                <div class="form-value">$ {{ accountDetails.coverageAmount | number}}</div>
+            </div>
+        </div>
+        <div class="info-grid">
+            <div class="form-group">
+                <div class="form-label">{{ metadata.IH_AccountSettings_Effective_Date }}</div>
+                <div class="form-value">{{ accountDetails.effectiveDate | date: 'MMMM d, y' }}</div>
+            </div>
+            <div class="form-group">
+                <div class="form-label">{{ metadata.IH_AccountSettings_Expiration_Date }}</div>
+                <div class="form-value">{{ accountDetails.expirationDate | date: 'MMMM d, y' }}</div>
+            </div>
+        </div>
+        <span class="download">{{metadata.IH_AccountSettings_certificate_insurance}} <span (click)="getpdfDocument('download',accountDetails.documentID)" ><i kendoTooltip class="fas fa-download" position="top" [title]="metadata.IH_AccountSettings_download"></i></span></span>
+    </div>
+    <!-- Insurance Information Ends -->
+
+    <!-- Insurance Information Edit Starts -->
+    <div class="card-content" *ngIf="accountDetails.insuranceDetailID && isEditIns" [formGroup]="insuranceForm">
+        <div class="info-grid">
+            <div class="form-group">
+                <div class="form-label">
+                    {{ metadata.IH_AccountSettings_Insurance_Provider }}
+                </div>
+                <input class="inde-input" type="text" kendoTextBox [placeholder]="metadata.IH_AccountSettings_Insurance_Provider"
+                maxlength="500" formControlName="insurerName">
+                <ng-container *ngIf="keysIF['insurerName'].touched && keysIF['insurerName'].errors">
+                    <div class="error"  *ngIf="keysIF['insurerName'].errors.required">
+                        {{metadata.IH_AccountSettings_Insurance_Provider}} {{ validationMsg.IH_Required }}
+                    </div>
+                    <div class="error"  *ngIf="keysIF['insurerName'].errors.pattern">
+                        {{validationMsg.IH_FieldValidation6}}
+                    </div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <div class="form-label">{{ metadata.IH_AccountSettings_Coverage_Amount }}</div>
+                <kendo-numerictextbox class="inde-num-box" formControlName="coverageAmount" min="0" decimals="0" [format]="currency" 
+                [placeholder]="metadata.IH_AccountSettings_Coverage_Amount"    
+                [spinners]="false"></kendo-numerictextbox>
+                <ng-container *ngIf="keysIF['coverageAmount'].touched && keysIF['coverageAmount'].errors">
+                    <div class="error"  *ngIf="keysIF['coverageAmount'].errors.required">
+                        {{metadata.IH_AccountSettings_Coverage_Amount}} {{ validationMsg.IH_Required }}
+                    </div>
+                    <div class="error"  *ngIf="keysIF['coverageAmount'].errors.min">
+                        {{metadata.IH_AccountSettings_Coverage_Amount}} {{ validationMsg.IH_MinError }} 1
+                    </div>
+                    <div class="error"  *ngIf="keysIF['coverageAmount'].errors.max">
+                        {{metadata.IH_AccountSettings_Coverage_Amount}} {{ validationMsg.IH_MaxError }} 99999999 
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="info-grid">
+            <div class="form-group">
+                <div class="form-label">{{ metadata.IH_AccountSettings_Effective_Date }}</div>
+                <kendo-datepicker class="datepicker inde-datepicker" *ngIf="isEditIns" formControlName="effectiveDate" [max]="today"
+                [placeholder]="metadata.IH_AccountSettings_Effective_Date"></kendo-datepicker>
+                <ng-container *ngIf="keysIF['effectiveDate'].touched && keysIF['effectiveDate'].errors">
+                    <div class="error"  *ngIf="keysIF['effectiveDate'].errors.required">
+                        {{metadata.IH_AccountSettings_Effective_Date}} {{ validationMsg.IH_Required }}
+                    </div>
+                    <div class="error" *ngIf="keysIF['effectiveDate'].errors.maxError">
+                        {{metadata?.IH_AccountSettings_Effective_Date}} {{validationMsg?.IH_MaxError }} {{keysIF['effectiveDate'].errors.maxError.maxValue | date: 'M/d/yyyy' }}
+                    </div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <div class="form-label">{{ metadata.IH_AccountSettings_Expiration_Date }}</div>
+                <kendo-datepicker class="datepicker inde-datepicker" *ngIf="isEditIns" [min]="expiryMinDate"
+                formControlName="expirationDate" [placeholder]="metadata.IH_AccountSettings_Expiration_Date"></kendo-datepicker>
+                <ng-container *ngIf="keysIF['expirationDate'].touched && keysIF['expirationDate'].errors">
+                    <div class="error"  *ngIf="keysIF['expirationDate'].errors.required">
+                        {{metadata.IH_AccountSettings_Expiration_Date}} {{ validationMsg.IH_Required }}
+                    </div>
+                    <div class="error" *ngIf="keysIF['expirationDate'].errors.minError">
+                        {{metadata?.IH_AccountSettings_Expiration_Date}} {{validationMsg?.IH_MinError }} {{keysIF['expirationDate'].errors.minError.minValue | date: 'M/d/yyyy' }}
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="info-grid">
+            <div class="form-group" style="grid-column: 1 / span 2;">
+                <inde-document-upload [label]="metadata.IH_AccountSettings_certificate_insurance" [buttonText]="metadata.IH_AccountSettings_upload_button_label" 
+                [allowedFormats]="fileFormat" (uploadEvent)="onDocumentUpload($event)"></inde-document-upload>                
+            </div>
+        </div>
+        <div class="btn">
+            <button type="button" [class.pointerNone]="saveLoad" class="btn-negative" (click)="isEditIns = false">{{ metadata.IH_AccountSettings_Cancel }}</button>
+            <button type="button" [class.pointerNone]="saveLoad" class="btn-positive" (click)="updateInsurance()">
+                {{ metadata.IH_AccountSettings_Save }}
+                <i *ngIf="saveLoad" class="fas fa-sync spin"></i>
+            </button>
+        </div>
+    </div>
+    <!-- Insurance Information Edit Ends -->
+
+    <!-- Xactware Information Starts -->
+    <!-- <div class="heading">
+        <div class="title">{{ metadata.IH_AccountSettings_Xactware }}</div>
+        <img *ngIf="!isEditXact && !accountDetails.xactanetID" kendoTooltip position="top" [title]="metadata.IH_AccountSettings_Add" src="./../../../../assets/add.svg" (click)="xactFB()">
+        <img *ngIf="!isEditXact && accountDetails.xactanetID && accountDetails.xactStatus == 'VER'" kendoTooltip position="top" [title]="metadata.IH_AccountSettings_Edit" src="./../../../../assets/edit.svg" (click)="xactFB()">
+    </div>
+    <div class="no-data" *ngIf="!accountDetails.xactanetID && !isEditXact">
+        {{metadata.IH_AccountSettings_No_Xactware_Info}}
+    </div>
+    <div class="card-content" *ngIf="!isEditXact && accountDetails.xactanetID">
+        <div class="info-grid">
+            <div class="form-group">
+                <div class="form-label">{{metadata.IH_AccountSettings_Xactimate_Address }}</div>
+                <div class="form-value">{{ accountDetails.xactanetAddress }}</div>
+            </div>
+            <div class="form-group">
+                <div class="form-label">{{ metadata.IH_AccountSettings_Xactimate_Keycode }}</div>
+                <div class="form-value" *ngIf="!isEditXact">{{ accountDetails.xactanetCode }}</div>
+            </div>
+        </div>
+    </div> -->
+    <!-- Xactware Information Ends -->
+
+    <!-- Xactware Information Edit Starts -->
+    <!-- <div class="card-content" *ngIf="isEditXact" [formGroup]="xactwareForm">
+        <div class="info-grid">
+            <div class="form-group">
+                <div class="form-label">{{ metadata.IH_AccountSettings_Xactimate_Address }}</div>
+                <input class="inde-input"  type="text" formControlName="xactanetAddress" maxlength="40"
+                kendoTextBox [placeholder]="metadata.IH_AccountSettings_Xactimate_Address">
+                <ng-container *ngIf="keysXF['xactanetAddress'].touched && keysXF['xactanetAddress'].errors">
+                    <div class="error"  *ngIf="keysXF['xactanetAddress'].errors.required">
+                        {{ metadata.IH_AccountSettings_Xactimate_Address }} {{ validationMsg.IH_Required }}
+                    </div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <div class="form-label">{{ metadata.IH_AccountSettings_Xactimate_Keycode }}</div>
+                <input class="inde-input" type="text" kendoTextBox formControlName="xactanetCode"
+                maxlength="40" [placeholder]="metadata.IH_AccountSettings_Xactimate_Keycode"/>
+                <ng-container *ngIf="keysXF['xactanetCode'].touched && keysXF['xactanetCode'].errors">
+                    <div class="error"  *ngIf="keysXF['xactanetCode'].errors.required">
+                        {{ metadata.IH_AccountSettings_Xactimate_Keycode }} {{ validationMsg.IH_Required }}
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="btn">
+            <button [class.pointerNone]="saveLoad" type="button" class="btn-negative" (click)="isEditXact = false">{{ metadata.IH_AccountSettings_Cancel }}</button>
+            <button [class.pointerNone]="saveLoad" type="button" class="btn-positive" (click)="addOrUpdateXact()">
+                {{ metadata.IH_AccountSettings_Save }}
+                <i *ngIf="saveLoad" class="fas fa-sync spin"></i>
+            </button>
+        </div>
+    </div> -->
+    <!-- Xactware Information Edit Ends -->
+
+</div>

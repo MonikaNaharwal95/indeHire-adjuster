@@ -1,0 +1,72 @@
+<div class="header">
+    <div class="top-bar">
+        <img class="logo" [src]="'./../../../assets/Crawford-NoGlobe-Logo-White.svg'" [routerLink]="''">
+        <!-- <span class="app-name">{{ metadata?.IH_Toolbar_Inspection_Services }}</span> -->
+        <div class="search-bar">
+        </div>
+        <ng-container *ngIf="pageId == 4">
+            <div *ngFor="let m of menuItems" class="menu-bar" routerLinkActive="active" [routerLink]="m.link">
+                <div class="menu-title">
+                    {{m.title}}
+                </div>
+            </div>
+            <span class="fas message" [routerLink]="['/message-center/inmails']"><img src="./../../../assets/messages.svg"></span>
+            <div class="icon" #bell>
+                <div class="notificationBadge">
+                    <div id="circle" *ngIf=" unReadCount && unReadCount > 0">{{unReadCount}}
+                    </div>
+                </div>
+    
+                <!-- <i class="fas fa-comment-dots" [routerLink]="['/message-center/inmails']" [routerLinkActive]="['active']"></i> -->
+                <i class="fas fa-bell " (click)="showNotification=! showNotification"></i>
+                <div class="notification card " [class.hidden]="!showNotification ">
+                    <div class="heading ">
+                        <div class="title">{{ metadata?.IH_Toolbar_Notifications }}</div>
+                        <a class="read " *ngIf="notificationList.length !== 0" (click)="readAllUpdateNotification() ">{{ metadata?.IH_Toolbar_Read_All }}</a>
+                    </div>
+                    <div class="no-notification " *ngIf="notificationList.length===0 ">
+                        <i class="fas fa-exclamation-circle "></i>
+                        <div class="inde-error ">
+                            {{metadata?.IH_Toolbar_No_notification_data_available}}
+                        </div>
+                    </div>
+                    <div class="note-scroll" *ngIf="notificationList.length !==0 ">
+                        <div class="notice-cat" *ngIf="(notificationList | notificationFilter : 1).length !==0 ">{{ metadata?.IH_Toolbar_New }}</div>
+                        <div>
+                            <div class="note-detail " *ngFor="let x of notificationList | notificationFilter : 1 " [class.read]="x.isRead ">
+                                <div class="note-row " (click)="markNotification(x) ">
+                                    <div class="title ">{{ x.title }}</div>
+                                    <div class="message ">{{ x.message }}</div>
+                                    <div class="date ">{{x.createdDate | date:'MMM d, h:mm a'}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="notice-cat " *ngIf="(notificationList | notificationFilter : 2).length !==0 ">{{ metadata?.IH_Toolbar_Earlier }}
+                        </div>
+                        <div>
+                            <div class="note-detail " *ngFor="let x of notificationList | notificationFilter : 2 " [class.read]="x.isRead ">
+                                <div class="note-row " (click)="markNotification(x) ">
+                                    <div class="title ">{{ x.title }}</div>
+                                    <div class="message ">{{ x.message }}</div>
+                                    <div class="date ">{{x.createdDate | date:'MMM d, h:mm a'}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <div class="user-ctn " *ngIf="metadata">
+            <div class="user-profile ">
+                <img *ngIf="!profileFlag" [src]="profileApiImage">
+                <img *ngIf="profileFlag " [src]="profileImage">
+            </div>
+            <div class="user-actions">
+                <div class="item" *ngIf="pageId == 4" [routerLink]="'/contractor-profile'" routerLinkActive="active"><i class="fas fa-user"></i>{{metadata.IH_Toolbar_Profile}}</div>
+                <div class="item" *ngIf="pageId == 4" [routerLink]="'/settings'" routerLinkActive="active"><i class="fas fa-cog"></i>{{metadata.IH_Toolbar_Settings}}</div>
+                <div class="item" (click)="logoutUser()"><i class="fas fa-sign-out-alt"></i>{{metadata.IH_Toolbar_Logout}}</div>
+            </div>
+        </div>
+    </div>
+</div>

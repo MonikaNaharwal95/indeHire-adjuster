@@ -1,0 +1,70 @@
+<div class="heading ">
+        <div class="title">
+                {{metaData.IH_AdjusterPage_State_Licenses}}
+                <label class="margin-left" title={{metaData.IH_AdjusterPage_State_License_Label}} kendoTooltip
+                        tooltipClass="g-tooltip" position="right">
+                        <img class='pointer' src="./../../../../assets/information.svg">
+                </label>
+        </div>
+        <div *ngIf="publicView.contractorNPN !== null" class="state-status">
+                <label class="show-label">{{metaData.IH_AdjusterPage_National_Producer_No}}
+                        {{publicView.contractorNPN}}</label>
+        </div>
+</div>
+
+
+<div *ngIf="publicView.stateLicensesViews.length>0" class="card-content">
+        <div class="state-license-wrapper">
+                <div class="state-grid-header">
+                        <div>{{metaData.IH_AdjusterPage_State_only}}</div>
+                        <div>{{metaData.IH_AdjusterPage_License_no}}</div>
+                        <div>{{metaData.IH_AdjusterPage_Public_Expiration_Date}}</div>
+                        <div>{{metaData.IH_AdjusterPage_Auto}}</div>
+                        <div>{{metaData.IH_AdjusterPage_Property}}</div>
+                        <div>{{metaData.IH_AdjusterPage_Status}}</div>
+                </div>
+                <div class="state-grid-data" *ngFor="let state of publicView.stateLicensesViews">
+                        <div>{{state.stateCode}} <i *ngIf="state.stateCode=='FL'" (click)="clickStateLicense(state)"
+                                        class="far fa-calendar-alt"></i></div>
+                        <div>{{state.licenseNo}}</div>
+                        <div>{{state.licenseExpiryDate | date: 'MM/dd/yyyy'}}</div>
+                        <div>{{(state.isAuto)? metaData.IH_AdjusterPage_Yes: metaData.IH_AdjusterPage_No}}</div>
+                        <div>{{(state.isProperty)? metaData.IH_AdjusterPage_Yes: metaData.IH_AdjusterPage_No}}</div>
+                        <div>{{(state.licenseStatus? metaData.IH_AdjusterPage_Active:'Inactive')}}</div>
+                </div>
+        </div>
+</div>
+
+
+
+<div *ngIf="publicView.stateLicensesViews.length==0" class="card-content">
+        <div class="nodata" *ngIf="publicView.npnStatus !=='VER'">{{metaData.IH_AdjusterPage_State_License_Msg}}</div>
+        <div class="nodata" *ngIf="publicView.npnStatus=='VER'">{{metaData.IH_AdjusterPage_NoLicenseShow}}</div>
+</div>
+
+
+
+<inde-dialog #dialogappt [header]='metaData.IH_AdjusterPage_CompanyReport' [infoCircleShow]="true" [dialogWidth]='400'
+        [negativeButton]="metaData?.IH_AdjusterPage_Cancel" (negativeButtonClickEvent)='closeDialog()'>
+
+        <div *ngIf='showStateLicense' class="card-content">
+                <div class="state-status">
+                        <label class="show-label">{{metaData.IH_AdjusterPage_License_no}}
+                                {{appointmentData.licenseNo}}
+                        </label>
+                </div>
+                <div class="state-grid-header-popup">
+                        <div>{{metaData.IH_AdjusterPage_Company_Name}}</div>
+                        <div>{{metaData.IH_AdjusterPage_Expiry_Date}}</div>
+                </div>
+                <div class="state-grid-data-popup">
+                        <!-- this.appointmentData.appointmentInformationsViews['0'].companyName -->
+                        <div>{{appointmentData['appointmentInformationsViews']['0'].companyName}}</div>
+                        <div>{{appointmentData['appointmentInformationsViews']['0'].expirationDate | date: 'MM/dd/yyyy'}}
+                        </div>
+
+                </div>
+
+        </div>
+
+</inde-dialog>

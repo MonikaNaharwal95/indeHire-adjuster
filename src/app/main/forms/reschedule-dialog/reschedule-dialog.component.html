@@ -1,0 +1,55 @@
+<inde-dialog #rescheduleDialog [header]="header" [dialogWidth]="500" 
+(negativeButtonClickEvent)="negativeButtonClickEvent.emit($event);closeReschedule()" [negativeButton]="'Cancel'"
+[positiveButtonDisabled]=" (rescheduleReason == 'SOTH' && rescheduleOther =='') ||
+ !dateValue" (positiveButtonClickEvent)="saveClicked()"
+ [positiveButton]="'Save'" [loader]="tempLoader"
+>
+  <div class="card">
+    <div class="sch-dtl">
+      <div class="sc-lbl">{{"Time Zone"}} : </div>
+      <span class="sc-val">{{ timezone }}</span>
+    </div>
+    <div class="sch-dtl" *ngIf="dateSchedule">
+      <div class="sc-lbl">{{"Reschedule Date"}} : </div>
+      <span class="sc-val">{{this.dateValue | date: 'MM/dd/yyyy' }}</span>
+    </div>
+    <div class="sch-dtl" *ngIf="!dateSchedule">
+      <div class="sc-lbl">{{"Schedule Date"}} : </div>
+      <span class="sc-val">{{this.dateValue | date: 'MM/dd/yyyy' }}</span>
+    </div>
+    <div class="sch-dtl">
+      <div class="sc-lbl">{{"Start Time"}} : </div>
+      <span class="sc-val">{{this.startTime | date: 'shortTime' }}</span>
+    </div>
+  </div>
+
+  <div class="sidebar" style="text-align: center;">
+    <kendo-calendar [navigation]='false' [(value)]="dateValue" [min]="minDate"
+        [max]="maxDate">
+        <ng-template kendoCalendarMonthCellTemplate let-date>
+            <span [ngClass]="isMeeting(date)">{{date.getDate()}}</span>
+        </ng-template>
+    </kendo-calendar>
+    <div class="time-picker">
+      <div class="time">
+          <label>{{"Start Time"}}</label>
+          <kendo-timepicker class="timer-value" [min]="minStartTime" [(value)]="startTime"
+              [disabled]="!dateValue" >
+          </kendo-timepicker>
+      </div>
+      <div class="reason" *ngIf="!isSchedule">
+        <label> {{"Reason"}}</label>
+        <kendo-dropdownlist class="timer-value" [disabled]="!dateValue"  [(ngModel)]="rescheduleReason"
+         [defaultItem]="rescheduledefaultItem" 
+         [data]="ReasonLookup" valuePrimitive="true" [textField]="'value'"
+        [valueField]="'key'">
+      </kendo-dropdownlist>
+      </div>
+      <div>
+        <textarea kendoTextArea *ngIf="rescheduleReason =='SOTH'" placeholder="WriteReason..."
+        maxlength="300" class="textArea" [(ngModel)]="rescheduleOther">
+      </textarea>
+      </div>
+  </div>
+</div>
+</inde-dialog>

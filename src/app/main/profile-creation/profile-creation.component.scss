@@ -1,0 +1,206 @@
+@import './../../../styles/variable';
+@import './../../../styles/mixin';
+
+.loader {
+    .k-i-loading {
+        font-size: 64px;
+    }
+}
+.data-wrap {
+    .login-container {
+        margin: 32px;
+        text-align: center;
+        .header {
+            align-self: center;
+            display: flex;
+            margin: 12px;
+            .svg-ctn {
+                margin: 8px;
+                color: $colorBlueLight;
+                display: flex;
+                align-items: center;
+                svg {
+                    height: $font-medium;
+                    border: none;
+                    border-radius: none;
+                }
+                .icon-ctn {
+                    border-radius: 50%;
+                    border: 1px solid $colorBlueLight;
+                    height: 40px;
+                    width: 40px;
+                    line-height: 45px;
+                }
+                .new-icon-ctn {
+                    height: 40px;
+                    width: 40px;
+                    line-height: 48px;
+                }
+            div {
+                margin-left: 4px;
+                font-weight: 500;
+                font-size: $font-medium;
+            }
+        }
+        .disabled {
+            color: $colorText;
+            opacity: 0.7;
+            .icon-ctn {
+                border: 1px solid $colorText;
+            }         
+        }
+        .success {
+            color: $colorSuccess;
+            .icon-ctn {
+                border: 1px solid $colorSuccess;
+            }       
+        }
+        }  
+        .sub-heading {
+            text-align: initial;
+            margin-left: 40px;
+            color: $colorPrimary;
+            font-size: $font-small;
+            font-weight: 600;
+        }
+        .sub-heading-mandatory {
+            text-align: initial;
+            margin-left: 40px;
+            font-size: $font-small;
+            padding-top: 5px;
+        }
+        .shad-card {
+            width: 650px;
+            padding: 0px;
+            margin: 0 auto;
+            text-align: center;
+        }
+    }
+}
+.checkbox {
+    margin-left: 9px;
+    margin-bottom: 14px;
+    .checkbox-ctn {
+        margin: 8px;
+        .k-checkbox-label {
+            width: auto;
+            width: initial;
+            margin-left: 5px;
+        }
+    }
+    .rate-ctn {
+        display: flex;
+        align-items: baseline;
+        margin: 8px;
+        margin-bottom: 14px;
+        .k-checkbox-label {
+            width: auto;
+        }
+        .rate-input {
+            margin-left: 5px;
+            max-width : 100px;
+        }
+        .rate-label {
+            margin-left: 5px;
+            font-size: $font-medium;
+        }
+    } 
+}
+.pointerNone{
+    pointer-events: none;
+}
+.btn {
+    @include indeButton();
+    margin: 8px 0 16px 0;
+    width: auto;
+    align-self: center;
+}
+.btn-back {
+    @include indeOutlineButton($colorBlueLight,$colorBlueLight);
+    margin: 8px 12px 16px 0;
+    width: auto;
+    align-self: center;
+}
+.section-heading {
+    background-color: $colorPrimary;
+    color: $colorTextonAccent;
+    border-radius: 0 50px 50px 0;
+    width: fit-content;
+    display: table;
+    padding: 8px;
+    padding-left: 32px;
+    padding-right: 20px;
+    font-size: $font-small;
+}
+.experience-table {
+    padding: 20px 25px;
+    .table-head {
+      top: 0;
+      color: $colorPrimary;
+      font-size: $font-extra-small;
+      font-weight: 600;
+    }
+    .table-data {
+      flex: auto;
+      margin-top: 8px;
+      font-size: $font-extra-small;
+    }
+    .table-row {
+      display: flex;
+      text-align: initial;
+     }
+    .table-item {
+      align-items: center;
+    }
+    .table-item:nth-child(1) {
+      padding: 8px;
+      width: 40%;
+      justify-content: left;
+    }
+    .table-item:nth-child(2) {
+      display: flex;
+      width: 18%;
+      justify-content: center;
+    }
+    .table-item:nth-child(3) {
+      display: flex;
+      width: 18%;
+      justify-content: center;
+    }
+    .table-item:nth-child(4) {
+      width: 18%;
+      display: flex;
+      justify-content: center;
+    }
+    .table-item:nth-child(5) {
+     width: 18%;
+     display: flex;
+     justify-content: center;
+   }
+}  
+.new-svg {
+    height: 20px;
+    color: $colorBlueLight;
+}
+.progress-ring-ctn {
+    position: relative;
+    top: -48px;
+    left: -8px;
+}
+.progress-ring-circle {
+    stroke: $colorBlueLight;
+    stroke-width: 1;
+    fill: transparent;
+    position: absolute;
+    stroke-dasharray: 177.726, 65.726;
+    stroke-dashoffset: 146.363;
+}
+.progress-ring__circle {
+    stroke: $colorBlueLight;
+    stroke-width: 1;
+    fill: transparent;
+    position: absolute;
+    stroke-dasharray: 201.726, 64.726;
+    stroke-dashoffset: 160.363;
+}
+

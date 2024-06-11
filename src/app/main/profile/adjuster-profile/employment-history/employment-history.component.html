@@ -1,0 +1,324 @@
+
+                <div class="shad-card" >
+                        <div class="heading">
+                            <div class="title">
+                                {{metaData.IH_AdjusterPage_Employment_History}} 
+                                <img  *ngIf="!addWorkExperienceFlag && !editWorkExperienceFlag" (click)=" onAddEmploymentHistory()" class='pointer' src="./../../../../assets/add.svg" style="float: right;">
+                            </div>
+                        </div>
+                        <div class="card-content">
+                       
+                      <!-- POPUP Starts-->
+                            <div class=" add" *ngIf="addWorkExperienceFlag">
+                                    <div class="certi">
+                                      <div class="heading title">                       
+                                          
+                                          <label *ngIf="!editWorkExperienceFlag">{{metaData.IH_AdjusterPage_Add_Employment}}</label>
+                                          <label *ngIf="editWorkExperienceFlag">{{metaData.IH_AdjusterPage_Edit_Employment}}</label>
+                                      </div>
+                                        <div class="edit-section">
+                                                <div [formGroup]="addWorkExperience"  style="margin-top:8px">
+                                                                <div class="form-group">
+                                                                        <input class="inde-input"
+                                                                          kendoTextBox
+                                                                          formControlName="employerName"
+                                                                          type="text"
+                                                                          placeholder="{{metaData.IH_AdjusterPage_Company_Name}}"
+                                                                          maxlength="50"
+                                                                        />
+                                                                        <div
+                                                                          class="error"
+                                                                          *ngIf="
+                                                                          keysWorkExperience['employerName'].touched &&
+                                                                          keysWorkExperience['employerName'].errors &&
+                                                                          keysWorkExperience['employerName'].errors.required
+                                                                          "
+                                                                        >
+                                                                        {{metaData.IH_AdjusterPage_Company_Name}} {{metaData.IH_AdjusterPage_Is_Required}}
+                                                                        </div>
+                                                                        <div class="error"  
+                                                                        *ngIf="
+                                                                        keysWorkExperience['employerName'].touched &&
+                                                                        keysWorkExperience['employerName'].errors && 
+                                                                        keysWorkExperience['employerName'].errors.pattern">
+                                                                        {{validationMsg.IH_FieldValidation6}}
+                                                                        </div>
+                                                    
+                                                                        
+                                                                 </div>
+
+                                                                 <div class="form-group">
+                                                                        <input class="inde-input"
+                                                                          kendoTextBox
+                                                                          formControlName="jobtitle"
+                                                                          type="text"
+                                                                          placeholder="{{metaData.IH_AdjusterPage_Job_Title}}"
+                                                                          maxlength="50"
+                                                                        />
+                                                                        <div
+                                                                          class="error"
+                                                                          *ngIf="
+                                                                          keysWorkExperience['jobtitle'].touched &&
+                                                                          keysWorkExperience['jobtitle'].errors &&
+                                                                          keysWorkExperience['jobtitle'].errors.required
+                                                                          "
+                                                                        >
+                                                                        {{metaData.IH_AdjusterPage_Job_Title}} {{metaData.IH_AdjusterPage_Is_Required}}
+                                                                        </div>
+                                                                        <div class="error"  
+                                                                        *ngIf="
+                                                                        keysWorkExperience['jobtitle'].touched &&
+                                                                        keysWorkExperience['jobtitle'].errors && 
+                                                                        keysWorkExperience['jobtitle'].errors.pattern">
+                                                                        {{validationMsg.IH_FieldValidation4}}
+                                                                        </div>
+                                                                 </div>
+
+                                                                 <div class="flex">
+                                                                        <div
+                                                                          class="form-group width3"
+                                                                        >
+                                                                        <input class="inde-input"
+                                                                        kendoTextBox
+                                                                        formControlName="city"
+                                                                        type="text"
+                                                                        placeholder="{{metaData.IH_AdjusterPage_City}}"
+                                                                        maxlength="50"
+                                                                      />
+                                                                      <div
+                                                                        class="error"
+                                                                        *ngIf="
+                                                                        keysWorkExperience['city'].touched &&
+                                                                        keysWorkExperience['city'].errors &&
+                                                                        keysWorkExperience['city'].errors.required
+                                                                        "
+                                                                      >
+                                                                      {{metaData.IH_AdjusterPage_City}} {{metaData.IH_AdjusterPage_Is_Required}}
+                                                                      </div>
+
+                                                                      <div class="error"  
+                                                                      *ngIf="
+                                                                      keysWorkExperience['city'].touched &&
+                                                                      keysWorkExperience['city'].errors && 
+                                                                      keysWorkExperience['city'].errors.pattern">
+                                                                      {{validationMsg.IH_FieldValidation3}}
+                                                                      </div>
+                                                                        </div>
+                                                                        <div
+                                                                          class="form-group width3"
+                                                                        >
+                                                                        <kendo-dropdownlist
+                                                                        class="dropdown inde-dropdown"
+                                                                        formControlName="provinceID"
+                                                                        [defaultItem]="statedefaultItem"
+                                                                        style="width:100%"
+                                                                        [data]="stateList"
+                                                                        valuePrimitive="true"
+                                                                        [textField]="'value'"
+                                                                        [valueField]="'key'"
+                                                                        [itemDisabled]="itemDisabled"
+                                                                        
+                                                                      ></kendo-dropdownlist>                                                                   
+                                                                      <div
+                                                                        class="error"
+                                                                        *ngIf="
+                                                                        keysWorkExperience['provinceID'].touched &&
+                                                                        keysWorkExperience['provinceID'].errors &&
+                                                                        keysWorkExperience['provinceID'].errors.required
+                                                                        "
+                                                                      >
+                                                                        {{metaData.IH_AdjusterPage_State_only}} {{metaData.IH_AdjusterPage_Is_Required}}
+                                                                      </div>
+                                                                        </div>
+                                                                        <div
+                                                                        class="form-group width3">
+                                                                        <kendo-dropdownlist
+                                                                        class="dropdown inde-dropdown"
+                                                                        formControlName="countryID"
+                                                                        [defaultItem]="countryDefaultItem"
+                                                                        valuePrimitive="true"
+                                                                        [data]="countryLookup"
+                                                                        [textField]="'value'"
+                                                                        [valueField]="'key'"
+                                                                      ></kendo-dropdownlist>
+                                                                    <!-- <div
+                                                                      class="error"
+                                                                      *ngIf="
+                                                                      keysWorkExperience['countryID'].touched &&
+                                                                      keysWorkExperience['countryID'].errors &&
+                                                                      keysWorkExperience['countryID'].errors.required
+                                                                      "
+                                                                    >
+                                                                    Country is required.
+                                                                    </div> -->
+                                                                      </div>
+                                                                    </div>
+                                                                 <div class="flex">
+                                                                        <div
+                                                                          class="form-group width2">
+                                                                          <kendo-datepicker class="inde-datepicker"
+                                                                            formControlName="fromDate"
+                                                                            placeholder="{{metaData.IH_AdjusterPage_Start_Date}}"
+                                                                            style="width:100%"
+                                                                            [bottomView]="'year'"
+                                                                            [topView]="'decade'"
+                                                                            [format]="'MMM/yyyy'"
+                                                                            [max]="maxexpiryDate"
+                                                                            
+                                                                          ></kendo-datepicker>
+                                                                          <div
+                                                                            class="error"
+                                                                            *ngIf="
+                                                                            keysWorkExperience['fromDate'].touched &&
+                                                                            keysWorkExperience['fromDate'].errors &&
+                                                                            keysWorkExperience['fromDate'].errors.required
+                                                                            "
+                                                                          >
+                                                                            {{metaData.IH_AdjusterPage_Start_Date}} {{metaData.IH_AdjusterPage_Is_Required}}
+                                                                          </div>
+                                                                          <div
+                                                                          class="error"
+                                                                          *ngIf="
+                                                                          keysWorkExperience['fromDate'].touched &&
+                                                                          keysWorkExperience['fromDate'].errors &&
+                                                                          keysWorkExperience['fromDate'].errors.maxError
+                                                                          "
+                                                                          >
+                                                                         {{metaData.IH_AdjusterPage_StartDateMsg}}
+                                                                        </div>
+                                                                        <div
+                                                                        class="error"
+                                                                        *ngIf="
+                                                                        keysWorkExperience['fromDate'].touched &&
+                                                                        keysWorkExperience['fromDate'].errors &&
+                                                                        keysWorkExperience['fromDate'].errors.minError
+                                                                        "
+                                                                        >
+                                                                       {{metaData.IH_AdjusterPage_Start_Date}} {{validationMsg.IH_Invalid}}
+                                                                      </div>
+                                                                        </div>
+                                                                        <div
+                                                                          class="form-group width2"
+                                                                        
+                                                                        >
+                                                                          <kendo-datepicker class="inde-datepicker"
+                                                                            formControlName="toDate"
+                                                                            placeholder="{{metaData.IH_AdjusterPage_End_Date}}"
+                                                                            style="width:100%"                                 
+                                                                            [bottomView]="'year'"
+                                                                            [topView]="'decade'"
+                                                                            [format]="'MMM/yyyy'"
+                                                                            [min]="minexpiryDate"
+                                                                            [max]="maxexpiryDate"
+                                                                          ></kendo-datepicker>
+                                                                          <div
+                                                                            class="error"
+                                                                            *ngIf="
+                                                                            keysWorkExperience['toDate'].touched &&
+                                                                            keysWorkExperience['toDate'].errors &&
+                                                                            keysWorkExperience['toDate'].hasError('required')
+                                                                            "
+                                                                          >
+                                                                          {{metaData.IH_AdjusterPage_End_Date}} {{metaData.IH_AdjusterPage_Is_Required}}
+                                                                          </div>
+                                                                          <div
+                                                                            class="error"
+                                                                            *ngIf="
+                                                                            keysWorkExperience['toDate'].touched &&
+                                                                            keysWorkExperience['toDate'].errors &&
+                                                                            keysWorkExperience['toDate'].errors.maxError
+                                                                            "
+                                                                          >
+                                                                             {{metaData.IH_AdjusterPage_FutureDateMsg}}
+                                                                          </div>
+                                                                          <div
+                                                                            class="error"
+                                                                            *ngIf="
+                                                                            keysWorkExperience['toDate'].touched &&
+                                                                            keysWorkExperience['toDate'].errors &&
+                                                                            keysWorkExperience['toDate'].errors.minError
+                                                                            "
+                                                                          >
+                                                                             {{metaData.IH_AdjusterPage_EndDateMsg}}
+                                                                          </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                            <textarea class="inde-input"
+                                                                            formControlName="notes"
+                                                                            placeholder="{{metaData.IH_AdjusterPage_Description}}"
+                                                                            maxlength="200"
+                                                                            kendoTextArea>
+                                                                           </textarea>
+                                                                           
+                                                                            <div
+                                                                              class="error"
+                                                                              *ngIf="
+                                                                              keysWorkExperience['notes'].touched &&
+                                                                              keysWorkExperience['notes'].errors &&
+                                                                              keysWorkExperience['notes'].errors.required
+                                                                              "
+                                                                            >
+                                                                             {{metaData.IH_AdjusterPage_Description}} {{metaData.IH_AdjusterPage_Is_Required}}
+                                                                            </div>
+                                                                     </div>
+                                                      
+                                                          
+                    
+                                                              <button  class="btn-cancel" [disabled]="loader" (click)="cancelEmployment()">
+                                                                    <ng-container >{{metaData.IH_AdjusterPage_Cancel}}</ng-container>
+                                                            
+                                                              </button>
+                                                              <button type="button" class="btn-save" (click)="addWorkExperience_func()" [disabled]="!addWorkExperience.valid || loader">
+                                                                    <ng-container>{{metaData.IH_AdjusterPage_Save}}</ng-container>
+                                                                    <i *ngIf="loader && addWorkExperience.valid" class="fas fa-sync spin"></i>
+                                                              </button>                                     
+                                                            </div>
+                                        </div>
+                                    </div>
+                                 </div>
+                       <!--POPUP ENDS-->
+                       <div class="nodata" *ngIf="publicView.employmentViews.length==0 && !addWorkExperienceFlag" >{{metaData.IH_AdjusterPage_No_Employment}}</div>
+                       <ng-container *ngFor="let employment of publicView.employmentViews; let i = index">
+                       <div class="card-grid" *ngIf="((!isEmploymentExpanded && i < 2) || isEmploymentExpanded) && i !== removeEmployment">
+                           <div class="logo"><i class="fas fa-briefcase"></i></div>
+                           <div class="grid-content employment-hover">
+                               <div class="content-title">
+                                   {{employment.jobTitle}}
+                                   <img *ngIf="!addWorkExperienceFlag && !editWorkExperienceFlag" src="./../../../../assets/edit.svg"  (click)="onEditEmploymentHistory(employment);removeEmployment=i" class=' pointer displaynone displayblock' style="float: right;">
+                                   <i *ngIf="!addWorkExperienceFlag && !editWorkExperienceFlag" class="fas fa-trash-alt  displaynone displayblock" (click)="showAlertBox(employment.employmentID, 3)"></i>
+                               </div>
+                               {{employment.employerName}} | {{employment.fromDate| date: 'MMM yyyy'}} - {{(employment.toDate === null) ? metaData.IH_AdjusterPage_Present : employment.toDate| date: 'MMM yyyy'}} | {{employment.employmentExperince}}<br>
+                               {{employment.city}}, {{getValueByKey(employment.provinceID, stateList)}}<br>
+                               <div class="flex-wrap">
+                                   <div class="desc" [style.white-space]="isExpDescExpanded ? 'normal' : 'nowrap'">
+                                       {{employment.notes}}
+                                   </div>
+                                   <div *ngIf="!isExpDescExpanded && employment.notes.length>100" class="more" (click)="isExpDescExpanded = true">{{metaData.IH_AdjusterPage_More}}</div>
+                               </div>
+
+                           </div>
+                       </div>
+                     </ng-container>
+                        </div>
+
+
+
+
+                        <div class="card-bottom" *ngIf="!isEmploymentExpanded && publicView.employmentViews.length > 2">
+                            <div class="show" (click)="isEmploymentExpanded = true">
+                                {{metaData.IH_AdjusterPage_see_more}}
+                                <i class="fa fa-angle-down"></i>
+                            </div>
+                        </div>
+                </div>
+
+
+
+                <inde-alert-dialog #indeAlert
+                [message]="'Are you sure you want to delete the record permanently?'"
+                (positiveButtonClick)="deleteRecord()"
+                (negativeButtonClick)="hideAlert()"
+              ></inde-alert-dialog>
+

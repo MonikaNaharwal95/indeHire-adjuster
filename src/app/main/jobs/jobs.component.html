@@ -1,0 +1,157 @@
+<div class="data-wrap" *ngIf="jobsMetadata">
+    <div class="data-ctn">
+        <div class="job-ctn" [class.pointerNone]="isLoading">
+            <div class="div-sticky page-header">
+                <div class="page-title">
+                    {{jobsMetadata.IH_AdjusterJobs_jobs }}
+                </div>
+                <div class="page-navbar">
+                    <div class="nav-item-ctn">
+                        <div class="nav-item" [ngClass]="jobStatus === 'JBMT' ? 'nav-active' : ''"
+                            (click)="jobStatus = 'JBMT';jobByStatus('JBMT')">
+                            {{jobsMetadata.IH_AdjusterJobs_Matched}}
+                        </div>
+                        <div class="nav-item" [ngClass]="jobStatus === 'JBSV' ? 'nav-active' : ''"
+                            (click)="jobStatus = 'JBSV';filterInit();jobByStatus('JBSV')">
+                            {{jobsMetadata.IH_AdjusterJobs_Saved}}
+                        </div>
+                        <div class="nav-item" [ngClass]="jobStatus === 'JBSG' ? 'nav-active' : ''"
+                            (click)="jobStatus = 'JBSG';filterInit();jobByStatus('JBSG')">
+                            {{jobsMetadata.IH_AdjusterJobs_SuggestedJob}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex">
+                <div class="filters card">
+                    <div class="heading">
+                        <div class="title">
+                            {{jobsMetadata.IH_AdjusterJobs_Refine}}
+                        </div>
+                        <button type="button" class="btn-clr" [disabled]="jobStatus !== 'JBMT'" (click)="filterInit()">{{jobsMetadata.IH_AdjusterJobs_Clear}}</button>
+                    </div>
+
+                    <div class="card-content" [formGroup]="filterForm">
+
+                        <div class="filter-control">
+                            <div class="label">{{jobsMetadata.IH_AdjusterJobs_Location}}</div>
+                            <kendo-numerictextbox class="inde-num-box" formControlName="location" min="0" decimals="0"
+                                [placeholder]="jobsMetadata.IH_AdjusterJobs_Filter + ' ' + jobsMetadata.IH_AdjusterJobs_Location"
+                                [format]="'string'" [spinners]="false"></kendo-numerictextbox>
+                        </div>
+
+                        <div class="filter-control">
+                            <div class="label">{{jobsMetadata.IH_AdjusterJobs_Distance}}</div>
+                            <div class="range">
+                                <ng5-slider [options]="sliderOptions" formControlName="distance"></ng5-slider>
+                            </div>
+                        </div>
+
+                        <div class="filter-control">
+                            <div class="label">{{jobsMetadata.IH_AdjusterJobs_Specialities}}</div>
+                            <kendo-dropdownlist [defaultItem]="defaultSpeciality" [ngClass]="formKey.specialties.value !== '' ?
+                                'filter-dropdown' : ''" formControlName="specialties" [textField]="'value'" [valueField]="'key'" valuePrimitive="true" [data]="specilitiesLookup">
+                            </kendo-dropdownlist>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="jobs-main" style="position: relative;" *ngIf="viewJobArray.length === 0">
+                    <div class="inde-error" style="text-align: center;" *ngIf="!htmlLoader">
+                        {{jobsMetadata.IH_AdjusterJobs_NoJobShow}}
+                    </div>
+                    <div class="loader" *ngIf="htmlLoader">
+                        <span class="k-icon k-i-loading" style="font-size:
+                            64px;"></span>
+                    </div>
+
+                </div>
+                <div class="jobs-main" *ngIf="viewJobArray.length > 0">
+                    <div class="filter-area">
+                        <div class="relevance" [formGroup]="filterForm">
+                            {{jobsMetadata.IH_AdjusterJobs_Relevance}}:
+                            <kendo-dropdownlist style="width: 150px !important;" [textField]="'value'" [valueField]="'key'" valuePrimitive="true" [data]="relevanceLookup" formControlName="relevance">
+                            </kendo-dropdownlist>
+                        </div>
+                    </div>
+
+                    <ng-container *ngFor="let view of viewJobArray; let i=
+                        index">
+
+                        <div class="job-card card">
+                            <div class="heading">
+                                <div class="title pointer" (click)="jobDetail(view)">
+                                    {{ view.jobCode }}
+                                </div>
+                                <i *ngIf="view.isDisLike" class="fas fa-thumbs-down"
+                                    [title]="jobsMetadata?.IH_AdjusterJobs_DislikedJob"
+                                    (click)="markAsDisLiked(view, false)" kendoTooltip tooltipClass="g-tooltip"
+                                    position="top"></i>
+                                <i *ngIf="!view.isDisLike" class="far fa-thumbs-down"
+                                    [title]="jobsMetadata?.IH_AdjusterJobs_DislikeJob"
+                                    (click)="markAsDisLiked(view, true)" kendoTooltip tooltipClass="g-tooltip"
+                                    position="top"></i>
+                                <i *ngIf="jobStatus === 'JBSV'" class="fas fa-heart"
+                                    [title]="jobsMetadata?.IH_AdjusterJobs_Saved" (click)="markAsSaved(view, false)"
+                                    kendoTooltip tooltipClass="g-tooltip" position="top"></i>
+                                <i *ngIf="jobStatus === 'JBMT'" class="far fa-heart"
+                                    [title]="jobsMetadata?.IH_AdjusterJobs_SaveJob" (click)="markAsSaved(view, true)"
+                                    kendoTooltip tooltipClass="g-tooltip" position="top"></i>
+                                <i *ngIf="jobStatus === 'JBSG'" class="far fa-heart"
+                                    [title]="jobsMetadata?.IH_AdjusterJobs_Saved" (click)="markAsSaved(view, false)"
+                                    kendoTooltip tooltipClass="g-tooltip" position="top"></i>
+                                <button type="button" class="btn-app" (click)="jobDetail(view)">{{
+                                    jobsMetadata.IH_AdjusterJobs_View }}</button>
+                            </div>
+                            <div class="card-content">
+                                <div class="job-detail">
+                                    <div class="item">
+                                        <span class="value"
+                                            *ngIf="view.postedTime > 0">{{jobsMetadata.IH_AdjusterJobs_Posted}}
+                                            {{ view.postedTime < 24 ? view.postedTime + ' ' + jobsMetadata?.IH_AdjusterJobs_HoursAgo : jobsMetadata?.IH_AdjusterJobs_On + ' ' + (view.jobPostedDate | date: 'MM/dd/yyyy') }}
+                                        </span>
+                                        <span class="value"
+                                            *ngIf="view.postedTime === 0">{{jobsMetadata.IH_AdjusterJobs_Posted}}
+                                            {{jobsMetadata?.IH_AdjusterJobs_LessHourAgo}} </span>
+                                    </div>
+                                    <div class="item" *ngIf='view.scheduleDate'>
+                                        <i class="fas fa-calendar-check"></i>
+                                        <span class="value"> {{ view.scheduleDate | date: 'fullDate' }}</span>
+                                    </div>
+                                    <div class="item" *ngIf='!view.scheduleDate'>
+                                        <i class="fas fa-calendar-check" [title]="'Inspection Schedule'" 
+                                        kendoTooltip tooltipClass="g-tooltip" position="top"></i>
+                                        <span class="value"> {{ view.inspectionScheduleChoice }}</span>
+                                    </div>
+                                </div>
+                                <div class="job-detail">
+                                    <div class="item">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span class="value">{{view.addressView}} ({{view.distance}}
+                                            {{jobsMetadata.IH_AdjusterJobs_MilesAway}})</span>
+                                    </div>
+                                    <div class="item" *ngIf='view.scheduleDate'>
+                                        <i class="fas fa-clock"></i>
+                                        <span class="value">{{ view.startTime }} {{ view.endTime ? ' - ' + view.endTime : '' }} {{ view.timezone ? view.timezone : '' }}</span>
+                                    </div>
+                                </div>
+                                <div class="job-detail" *ngIf="view.rateAmount">
+                                    <div class="item">
+                                        <i class="fas fa-dollar-sign"></i>
+                                        <span class="value">{{ view.rateAmount }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <inde-footer></inde-footer>
+    </div>
+</div>
+
+<inde-job-detail #jobDialog [location]="this.newAddress" [jobID]="this.selectedJob" [jobTitle]="selectedJobTitle" (jobDialogEvent)="refreshJobs()">
+</inde-job-detail>
+
+<inde-alert-dialog #noJobAlert [message]="jobsMetadata?.IH_AdjusterJobs_JobUnavailable" [type]="'info'" [positiveButton]="''" [negativeButton]="jobsMetadata?.IH_AdjusterJobs_Okay" (negativeButtonClick)="cancelJobAlert()"></inde-alert-dialog>

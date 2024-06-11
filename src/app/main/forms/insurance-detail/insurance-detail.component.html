@@ -1,0 +1,75 @@
+<inde-dialog #dialog [header]="metadata?.IH_PII_Insurance_Header" [infoCircleShow]="true" [dialogWidth]='400'
+    [positiveButton]="metadata?.IH_PII_Save_Button" [negativeButton]="metadata?.IH_PII_Cancel_Button"
+    (positiveButtonClickEvent)='saveDetails()' (negativeButtonClickEvent)='closeDialog()' [loader]="saveLoader"
+    [positiveButtonDisabled]="!(insuranceDetailsForm)">
+    <form [formGroup]="insuranceDetailsForm">
+        <div class="form-group">
+            <input class="inde-input" kendoTextBox formControlName="insurerName"
+                [placeholder]="metadata?.IH_PII_Insurance_Provider_Name" maxlength="80" />
+            <div *ngIf="keys.insurerName.touched && keys.insurerName.errors">
+                <div class="error" *ngIf="keys.insurerName.errors.required">
+                    {{metadata?.IH_PII_Insurance_Provider_Name}} {{validationMessage?.IH_Required }}
+                </div>
+                <div class="error" *ngIf="keys.insurerName.errors.pattern">
+                    {{validationMessage.IH_FieldValidation6}}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <kendo-numerictextbox class="inde-num-box" min="0" [format]="validatorService.formatCurrency" decimals="0"
+                [spinners]="false" formControlName="coverageAmount"
+                [placeholder]="metadata?.IH_PII_Insurance_Coverage_Amount">
+            </kendo-numerictextbox>
+            <div *ngIf="keys.coverageAmount.touched && keys.coverageAmount.errors">
+                <div class="error" *ngIf="keys.coverageAmount.errors.required">
+                    {{metadata?.IH_PII_Insurance_Coverage_Amount}} {{validationMessage?.IH_Required }}
+                </div>
+                <div class="error" *ngIf="keys.coverageAmount.hasError('min')">
+                    {{metadata?.IH_PII_Insurance_Coverage_Amount}} {{validationMessage.IH_MinError}} 1
+                </div>
+                <div class="error" *ngIf="keys.coverageAmount.hasError('max')">
+                    {{metadata?.IH_PII_Insurance_Coverage_Amount}} {{validationMessage.IH_MaxError}} 99999999
+                </div>
+            </div>
+        </div>
+        <div class="flex">
+            <div class="form-group effective-date">
+                <kendo-datepicker class="inde-datepicker" [max]="today" formControlName="startDate"
+                    [placeholder]="metadata?.IH_PII_Insurance_Effective_Date">
+                </kendo-datepicker>
+                <div *ngIf="keys.startDate.touched && keys.startDate.errors">
+                    <div class="error" *ngIf="keys.startDate.errors.required">
+                        {{metadata?.IH_PII_Insurance_Effective_Date}} {{validationMessage?.IH_Required }}
+                    </div>
+                    <div class="error" *ngIf="keys.startDate.errors.maxError">
+                        {{metadata?.IH_PII_Insurance_Effective_Date}} {{validationMessage?.IH_MaxError }}
+                        {{keys.startDate.errors.maxError.maxValue | date: 'M/d/yyyy' }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group end-date">
+                <kendo-datepicker class="inde-datepicker" formControlName="endDate" [min]="expiryMinDate"
+                    [placeholder]="metadata?.IH_PII_Insurance_End_Date"></kendo-datepicker>
+                <div *ngIf="keys.endDate.touched && keys.endDate.errors">
+                    <div class="error" *ngIf="keys.endDate.errors.required">
+                        {{metadata?.IH_PII_Insurance_End_Date}} {{validationMessage?.IH_Required }}
+                    </div>
+                    <div class="error" *ngIf="keys.endDate.errors.minError">
+                        {{metadata?.IH_PII_Insurance_End_Date}} {{validationMessage?.IH_MinError }}
+                        {{keys.endDate.errors.minError.minValue | date: 'M/d/yyyy' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <inde-document-upload #document [label]="metadata?.IH_PII_Upload_COI_Certificater"
+                [allowedFormats]="fileFormat" [buttonText]="'Upload File'" (uploadEvent)="documentResponse($event)">
+            </inde-document-upload>
+            <div *ngIf="keys.documentID.touched && keys.documentID.errors">
+                <div class="error" *ngIf="keys.documentID.errors.required">
+                    {{metadata?.IH_PII_Upload_COI_Certificater}} {{validationMessage?.IH_Required }}.
+                </div>
+            </div>
+        </div>
+    </form>
+</inde-dialog>

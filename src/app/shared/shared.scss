@@ -1,0 +1,21 @@
+@import './../../styles/variable';
+@import './../../styles/mixin';
+
+.actionButtons {
+    display: flex;
+    justify-content: flex-end;
+}
+.btn {
+    &.positive {
+        @include indeOutlineButton();
+        padding: 4px 28px;
+    }
+    &.negative {
+        @include indeOutlineButton($colorBlueLight,$colorBlueLight);
+        padding: 4px 28px;
+        margin-left: 8px;
+    }
+    &.neutral {
+        @include indeOutlineButton($colorText,$colorText);
+    }
+}

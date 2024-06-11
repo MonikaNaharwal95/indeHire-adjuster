@@ -1,0 +1,27 @@
+@import './../../../../src/styles/variable';
+@import './../../../../src/styles/mixin';
+
+// Grid Header styles overwrite
+.k-widget {
+    font-size: $font-extra-small;
+}
+.k-grid-header {
+    background-color: #fff;
+    .k-link {
+    font-weight: 600;
+    }
+
+}
+.k-grid tr.k-alt {
+    background-color: $colorTextonAccent;
+}
+.k-grid td, .k-grid th {
+    border-width: 0 0 1px 0px;
+    padding: 12px 8px;
+}
+.inde-grid {
+    border-radius: 3px;
+}
+.k-pager-first,.k-pager-last {
+    display: none !important;
+}

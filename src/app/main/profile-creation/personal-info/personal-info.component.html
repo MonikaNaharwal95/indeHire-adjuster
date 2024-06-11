@@ -1,0 +1,252 @@
+<div class="firstSection" [class.pointerNone]="loader">
+  <form [formGroup]="profileForm" (ngSubmit)="next()">
+    
+    <div class="flex">
+      <div class="form-group profile-form">
+        <div class="form-label">
+          {{ prelimMeta.IH_Prelim_Screen_1_FirstName_Label }}
+        </div>
+        <input class="inde-input" kendoTextBox formControlName="firstName" type="text" maxlength="50"
+          [placeholder]="prelimMeta.IH_Prelim_Screen_1_FirstName_Label" />
+        <div class="error" *ngIf="keysFirst['firstName'].touched &&
+          keysFirst['firstName'].errors &&
+          keysFirst['firstName'].errors.required">
+          {{ prelimMeta.IH_Prelim_Screen_1_FirstName_Label }}
+          {{ validationMessage?.IH_Required }}.
+        </div>
+        <div class="error" *ngIf="keysFirst['firstName'].errors?.pattern">
+          {{ validationMessage?.IH_FieldValidation1 }}
+        </div>
+      </div>
+      <div class="form-group profile-form">
+        <div class="form-label">
+          {{ prelimMeta.IH_Prelim_Screen_1_LastName_Label }}
+        </div>
+        <input class="inde-input" kendoTextBox type="text" formControlName="lastName" maxlength="50"
+          [placeholder]="prelimMeta.IH_Prelim_Screen_1_LastName_Label" />
+        <div class="error" *ngIf="keysFirst['lastName'].touched &&
+          keysFirst['lastName'].errors &&
+          keysFirst['lastName'].errors.required">
+          {{ prelimMeta.IH_Prelim_Screen_1_LastName_Label }}
+          {{ validationMessage?.IH_Required }}.
+        </div>
+        <div class="error" *ngIf="keysFirst['lastName'].errors?.pattern">
+          {{ validationMessage?.IH_FieldValidation1 }}
+        </div>
+      </div>
+    </div>
+
+    <div class="flex">
+      <div class="form-group profile-form">
+        <div class="form-label">
+          {{ prelimMeta.IH_Prelim_Screen_1_Email_Label }}
+        </div>
+        <input class="inde-input" kendoTextBox formControlName="email" type="email"
+          [placeholder]="prelimMeta.IH_Prelim_Screen_1_Email_Label" />
+        <div class="error" *ngIf="keysFirst['email'].touched &&
+          keysFirst['email'].errors &&
+          keysFirst['email'].errors.required">
+          {{ prelimMeta.IH_Prelim_Screen_1_Email_Label }}
+          {{ validationMessage?.IH_Required }}.
+        </div>
+      </div>
+      <div class="form-group profile-form">
+        <div class="form-label">
+          {{ prelimMeta.IH_Prelim_Screen_1_Phone_Label }}
+        </div>
+        <div>
+          <kendo-dropdownlist class="inde-dropdown calling-code"
+            [data]="callingCodeLookup" 
+            [valuePrimitive]="true" 
+            [textField]="'value'" 
+            [valueField]="'key'"
+            formControlName="callingCode"
+          ></kendo-dropdownlist>
+          <kendo-maskedtextbox class="inde-input phone-input" [mask]="phoneMask" formControlName="phone" [rules]="rules"
+            placeholder="IH_Prelim_Screen_1_Phone_Label">
+          </kendo-maskedtextbox>
+        </div>
+        <div class="error phone-error" *ngIf="keysFirst['phone'].touched &&
+          keysFirst['phone'].errors &&
+          keysFirst['phone'].errors.required">
+          {{ prelimMeta.IH_Prelim_Screen_1_Phone_Label }}
+          {{ validationMessage?.IH_Required }}.
+        </div>
+        <div class="error phone-error" *ngIf="keysFirst['phone'].touched &&
+          keysFirst['phone'].errors?.patternError">
+          {{ prelimMeta.IH_Prelim_Screen_1_Phone_Label }}
+          {{ validationMessage?.IH_Invalid }}.
+        </div>
+        <div class="error phone-error" *ngIf="keysFirst.phone.touched &&
+          keysFirst.phone.errors?.isDuplicate">
+          {{ prelimMeta?.IH_Prelim_Screen_3_PhoneNoExists }}
+        </div>
+      </div>
+    </div>
+
+    <div class="custom-label flex">
+      <div>{{ prelimMeta.IH_Prelim_Screen_1_Address_Label }}</div>
+      <div class="margin-left" title="{{
+        prelimMeta.IH_Prelim_Screen_1_Address_Tooltip }}" kendoTooltip tooltipClass="g-tooltip" position="right">
+        <svg id="information" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
+          <path id="Path_263" data-name="Path 263"
+            d="M6,0a6,6,0,1,0,6,6A6.007,6.007,0,0,0,6,0ZM6,10.909A4.909,4.909,0,1,1,10.909,6,4.915,4.915,0,0,1,6,10.909Z"
+            fill="currentColor" />
+          <path id="Path_264" data-name="Path 264" d="M145.729,70a.727.727,0,1,0,.727.728A.728.728,0,0,0,145.729,70Z"
+            transform="translate(-139.729 -67.455)" fill="currentColor" />
+          <path id="Path_265" data-name="Path 265"
+            d="M150.545,140a.545.545,0,0,0-.545.545v3.273a.545.545,0,1,0,1.091,0v-3.273A.545.545,0,0,0,150.545,140Z"
+            transform="translate(-144.545 -134.909)" fill="currentColor" />
+        </svg>
+      </div>
+    </div>
+
+    <div class="flex">
+      <div class="form-group profile-form">
+        <input class="inde-input" kendoTextBox formControlName="adressFirst" type="text" maxlength="100"
+          [placeholder]="prelimMeta.IH_Prelim_Screen_1_Address_1_Place_Holder" />
+        <div class="error" *ngIf="keysFirst['adressFirst'].touched &&
+                keysFirst['adressFirst'].errors &&
+                keysFirst['adressFirst'].errors.required">
+          {{ prelimMeta.IH_Prelim_Screen_1_Address_1_Place_Holder }}
+          {{ validationMessage?.IH_Required }}.
+        </div>
+        <div class="error" *ngIf="keysFirst['adressFirst'].errors?.pattern">
+          {{ validationMessage?.IH_FieldValidation2 }}
+        </div>
+      </div>
+      <div class="form-group profile-form">
+        <input class="inde-input" kendoTextBox type="text" formControlName="adressSecond" maxlength="100"
+          [placeholder]="prelimMeta.IH_Prelim_Screen_1_Address_2_Place_Holder" />
+        <div class="error" *ngIf="keysFirst['adressSecond'].errors?.pattern">
+          {{ validationMessage?.IH_FieldValidation2 }}
+        </div>
+      </div>
+    </div>
+
+    <div class="flex">
+      <div class="form-group profile-form-four">
+        <div class="form-label">
+          {{ prelimMeta.IH_Prelim_Screen_1_City_Label }}
+        </div>
+        <input class="inde-input" kendoTextBox type="text" maxlength="50" formControlName="city"
+          [placeholder]="prelimMeta.IH_Prelim_Screen_1_City_Label" />
+        <div class="error" *ngIf="keysFirst['city'].touched &&
+                keysFirst['city'].errors &&
+                keysFirst['city'].errors.required">
+          {{ prelimMeta.IH_Prelim_Screen_1_City_Label }}
+          {{ validationMessage?.IH_Required }}.
+        </div>
+        <div class="error" *ngIf="keysFirst['city'].errors?.pattern">
+          {{ validationMessage?.IH_FieldValidation3 }}
+        </div>
+      </div>
+      <div class="form-group profile-form-four">
+        <div class="form-label">
+          {{ prelimMeta.IH_Prelim_Screen_1_State_Label }}
+        </div>
+        <kendo-dropdownlist class="dropdown inde-dropdown" formControlName="state" [itemDisabled]="itemDisabled"
+          [defaultItem]="stateDefaultItem" valuePrimitive="true" [data]="stateLookup" [textField]="'value'"
+          [valueField]="'key'"></kendo-dropdownlist>
+        <div class="error" *ngIf="keysFirst['state'].touched &&
+                keysFirst['state'].errors &&
+                keysFirst['state'].errors.required">
+          {{ prelimMeta.IH_Prelim_Screen_1_State_Label }}
+          {{ validationMessage?.IH_Required }}.
+        </div>
+      </div>
+      <div class="form-group profile-form-four">
+        <div class="form-label">
+          {{ prelimMeta.IH_Prelim_Screen_1_Country_Label }}
+        </div>
+        <kendo-dropdownlist class="dropdown inde-dropdown" formControlName="country" [defaultItem]="countryDefaultItem"
+          valuePrimitive="true" [data]="countryLookup" [textField]="'value'" [valueField]="'key'"></kendo-dropdownlist>
+        <div class="error" *ngIf="keysFirst['country'].touched &&
+                keysFirst['country'].errors &&
+                keysFirst['country'].errors.required">
+          {{ prelimMeta.IH_Prelim_Screen_1_Country_Label }}
+          {{ validationMessage?.IH_Required }}.
+        </div>
+      </div>
+      <div class="form-group profile-form-four">
+        <div class="form-label">
+          {{ prelimMeta.IH_Prelim_Screen_1_Zip_Label }}
+        </div>
+        <input class="inde-input" kendoTextBox type="text" onkeypress="return ((event.charCode >= 48 && event.charCode <=
+                57))" oninput="validity.valid||(value='')" maxlength="5" formControlName="zip"
+          [placeholder]="prelimMeta.IH_Prelim_Screen_1_Zip_Label" />
+        <div class="error" *ngIf="keysFirst['zip'].touched &&
+                  keysFirst['zip'].errors &&
+                  keysFirst['zip'].errors.required">
+          {{ prelimMeta.IH_Prelim_Screen_1_Zip_Label }}
+          {{ validationMessage?.IH_Required }}.
+        </div>
+        <div class="error" *ngIf="(keysFirst['zip'].touched &&
+                  keysFirst['zip'].errors?.minlength) ||
+                  (keysFirst['zip'].touched && keysFirst['zip'].errors?.pattern)">
+          {{ prelimMeta.IH_Prelim_Screen_1_Zip_Label }}
+          {{ validationMessage?.IH_Invalid }}.
+        </div>
+      </div>
+    </div>
+
+    <div class="flex">
+      <div class="form-group profile-form">
+        <div class="form-label">{{ prelimMeta.IH_Prelim_Screen_1_IndustryType }}</div>
+        <kendo-dropdownlist class="dropdown inde-dropdown" formControlName="industryTypeID" valuePrimitive="true"
+          [data]="industryLookup" [textField]="'value'" [valueField]="'key'">
+        </kendo-dropdownlist>
+        <div class="error" *ngIf="keysFirst.industryTypeID.touched &&
+                  keysFirst.industryTypeID.errors &&
+                  keysFirst.industryTypeID.errors.required">
+          {{ prelimMeta.IH_Prelim_Screen_1_IndustryType }} {{ validationMessage?.IH_Required }}.
+        </div>
+      </div>
+      <div class="form-group profile-form">
+        <div class="form-label">{{prelimMeta.IH_Prelim_Screen_1_ServiceType}}</div>
+        <kendo-dropdownlist class="dropdown inde-dropdown" formControlName="contractorTypeID"
+          [itemDisabled]="itemDisabled" [defaultItem]="contractorDefaultItem" valuePrimitive="true"
+          [data]="contractorLookup" [textField]="'value'" [valueField]="'key'">
+        </kendo-dropdownlist>
+        <div class="error" *ngIf="keysFirst.contractorTypeID.touched &&
+                  keysFirst.contractorTypeID.errors &&
+                  keysFirst.contractorTypeID.errors.required">
+          {{ prelimMeta.IH_Prelim_Screen_1_ServiceType }} {{ validationMessage?.IH_Required }}.
+        </div>
+      </div>
+    </div>
+
+    <div class="custom-label">
+      {{ prelimMeta.IH_Prelim_Screen_1_How_Did_you_Hear }}
+    </div>
+
+    <div class="flex">
+      <div class="form-group profile-form">
+        <kendo-dropdownlist class="dropdown inde-dropdown" formControlName="reference" [itemDisabled]="itemDisabled"
+          [defaultItem]="refrenceDefaultItem" [data]="refrenceData" valuePrimitive="true" [textField]="'value'"
+          [valueField]="'key'"></kendo-dropdownlist>
+        <div class="error" *ngIf="keysFirst['reference'].touched &&
+                  keysFirst['reference'].errors &&
+                  keysFirst['reference'].errors.required">
+          {{ prelimMeta.IH_Prelim_Screen_1_Validation_Select1 }}
+        </div>
+      </div>
+      <div class="form-group profile-form" *ngIf="commentSelected">
+        <input class="inde-input" kendoTextBox type="text" maxlength="20" formControlName="comments"
+          [placeholder]="prelimMeta.IH_Prelim_Screen_1_Comments_Place_Holder" />
+        <div class="error" *ngIf="keysFirst['comments'].touched &&
+                  keysFirst['comments'].errors &&
+                  keysFirst['comments'].errors.required">
+          {{ prelimMeta.IH_Prelim_Screen_1_Comments_Place_Holder }}
+          {{ validationMessage?.IH_Required }}.
+        </div>
+      </div>
+    </div>
+
+    <button [class.pointerNone]="loader" type="submit" class="btn">
+      <ng-container *ngIf="!loader || !profileForm.valid">{{ prelimMeta.IH_Prelim_Screen_1_Next_Button }}</ng-container>
+      <i *ngIf="loader && profileForm.valid" class="fas fa-sync spin"></i>
+    </button>
+
+  </form>
+</div>

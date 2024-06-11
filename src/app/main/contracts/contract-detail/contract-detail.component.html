@@ -1,0 +1,42 @@
+<div class="data-wrap" *ngIf="contractDetailMetaData">
+  <div class="loader" *ngIf="htmlLoader">
+    <span class="k-icon k-i-loading" style="font-size: 64px;"></span>
+  </div>
+
+  <div class="data-ctn" *ngIf="!htmlLoader">
+    <div class="assignment-content">
+      <!-- Headers -->
+      <div class="page-header">
+        <div class="page-title">{{ 'Assignment Detail' }}</div>
+      </div>
+      <!-- Headers -->
+
+      <!-- child component -->
+      <div class="flex">
+        <div class="contracts-left">
+            <!-- <div class="div-sticky"> -->
+                <div class="card">
+                    <div class="sidebar">
+                        <div [class.nonClickable]="false" class="item" [routerLink]="['overview']" [routerLinkActive]="['active']">
+                          {{ contractDetailMetaData.IH_Adj_Contract_Detail_Overview }}
+                        </div>
+                        <!-- <div [class.nonClickable]="true" class="item">
+                          {{ contractDetailMetaData.IH_Adj_Contract_Detail_Messages }}
+                        </div> -->
+                        <!-- <div [class.nonClickable]="false" class="item" [routerLink]="['work-logs']" [routerLinkActive]="['active']">
+                          {{ contractDetailMetaData.IH_Adj_Contract_Detail_Work_Logs }}
+                        </div> -->
+                    </div>
+                </div>
+            <!-- </div> -->
+        </div>
+        <div class="contracts-main">
+            <router-outlet></router-outlet>
+        </div>
+      </div>
+      <!-- child component -->
+    </div>
+    <inde-footer></inde-footer>
+  </div>
+</div>
+  

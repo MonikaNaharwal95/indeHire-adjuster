@@ -1,0 +1,5 @@
+<kendo-calendar [navigation]='false' [value]="value" [min]="minstartDate" [max]="maxstartDate" (valueChange)="change($event)">
+    <ng-template kendoCalendarMonthCellTemplate let-date>
+        <span [ngClass]="isMeeting(date)">{{date.getDate()}}</span>
+    </ng-template>
+</kendo-calendar>

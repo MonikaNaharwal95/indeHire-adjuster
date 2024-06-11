@@ -1,0 +1,277 @@
+<div class="shad-card" *ngIf="metadata">
+    <div class="heading" *ngIf="!htmlLoader">
+        <div class="title">{{metadata.IH_Adj_Payment_Setting_Tax_Header}}</div>
+        <img *ngIf="!isEditTaxInfo && paymentMode === 'view'" kendoTooltip position="top" [title]="metadata.IH_Adj_Payment_Setting_Edit"
+            src="./../../../../assets/edit.svg" (click)="editTaxInfo('edit')">
+    </div>
+    <div class="heading" *ngIf="htmlLoader">
+        <div class="title">{{metadata.IH_Adj_Payment_Setting_Tax_Header}}</div>
+    </div>
+    <div *ngIf="htmlLoader" class="k-icon k-i-loading" style="font-size: 64px; margin: 40px; left: 35%;"></div>
+    <!-- New/Add Payment detail screen starts-->
+    <div class="new-payment" *ngIf="paymentMode === 'add' && !htmlLoader">
+        <i class="fas fa-hand-holding-usd"></i>
+        <br>
+        <a class="pay-msg" (click)="editTaxInfo('add')">{{metadata.IH_Adj_Payment_Click_Here}}</a>
+    </div>
+    <!-- New/Add Payment detail screen ends -->
+    
+    <!-- View mode of payment and taxes starts -->
+    <div class="card-content" *ngIf="paymentMode === 'view' && !htmlLoader">
+        <div class="info-grid">
+            <div class="form-group">
+                <div class="form-label">{{metadata.IH_Adj_Payment_Setting_Us_Citizen}}</div>
+                <div class="form-value">
+                  {{ paymentInfo.isUSCitizen === true ? metadata.IH_Adj_Payment_Setting_Yes : metadata.IH_Adj_Payment_Setting_No }}
+                </div>
+            </div>
+            <div class="form-group">
+            <div class="form-label">{{metadata.IH_Adj_Payment_Setting_Us_Resident}}</div>
+                <div class="form-value">{{ paymentInfo.isUSResident === true ? metadata.IH_Adj_Payment_Setting_Yes : metadata.IH_Adj_Payment_Setting_No}}</div>
+            </div>
+        </div>
+        <div class="info-grid">
+            <div class="form-group">
+                <div class="form-label">{{metadata.IH_Adj_Payment_Setting_Individual}}</div>
+                <div class="form-value">{{ getValueByKey(paymentInfo.serviceTypeID, taxPersonLookup) }}</div>
+            </div>
+            <div class="form-group" *ngIf="paymentInfo.serviceTypeID === 'PTBS'">
+                <div class="form-label">{{metadata.IH_Adj_Payment_Setting_Ein}}</div>
+                <div class="form-value">{{maskedEinNumber(paymentInfo.ein)}}</div>
+            </div>
+            <div class="form-group" *ngIf="paymentInfo.serviceTypeID === 'PTIN'">
+                <div class="form-label">{{metadata.IH_Adj_Payment_Setting_Ssn}}</div>
+                <div class="form-value">{{paymentInfo.ssn}}</div>
+            </div>
+        </div>
+        <div class="info-grid" style="margin-bottom: 12px;">
+            <div class="form-group">
+                <div class="form-label">{{metadata.IH_Adj_Payment_Setting_Legal}}</div>
+                <div class="form-value">{{ paymentInfo.legalName }}</div>
+            </div>
+        </div>
+
+        <div class="acnt-ttl">{{metadata.IH_Adj_Payment_Account_Details}}</div>
+
+        <div class="info-grid">
+            <div class="form-group">
+                <div class="form-label">{{metadata.IH_Adj_Payment_Setting_Type}}</div>
+                <div class="form-value">{{ getValueByKey(paymentInfo.accountTypeID, accountTypeLookup) }}</div>
+            </div>
+            <div class="form-group">
+                <div class="form-label">{{metadata.IH_Adj_Payment_Setting_Routing_Number}}</div>
+                <div class="form-value" >{{isDecrypted ? routingMask : paymentInfo.routingNumber}}
+                    <i class="fas fa-eye" *ngIf="isDecrypted" (click)='isDecrypted = false'></i>
+                    <i class="fas fa-eye-slash" *ngIf="!isDecrypted" (click)='isDecrypted = true'></i>
+                </div>
+            </div>
+        </div>
+        <div class="info-grid">
+            <div class="form-group">
+                <div class="form-label">{{metadata.IH_Adj_Payment_Setting_Account_Number}}</div>
+                <div class="form-value">{{isDecrypted_2 ? accntMask : paymentInfo.accountNumber }}
+                        <i class="fas fa-eye" *ngIf="isDecrypted_2" (click)='isDecrypted_2 = false'></i>
+                        <i class="fas fa-eye-slash" *ngIf="!isDecrypted_2" (click)='isDecrypted_2 = true'></i>
+                </div>
+            </div>
+            <!-- <div class="form-group">
+                <div class="form-label">{{metadata.IH_Adj_Payment_Setting_Routing_Number}}</div>
+                <div class="form-value">{{paymentInfo.ein}}</div>
+            </div> -->
+        </div>
+    </div>
+    <!-- View mode of payment and taxes ends -->
+
+    <!-- Edit mode of payment and taxes starts -->
+    <div class="card-content" 
+        [formGroup]="isEditTaxInfo ? taxInfoForm : ''" 
+        [class.pointerNone]="saveLoad" 
+        *ngIf="paymentMode === 'edit' && !htmlLoader">
+        <!-- Tax Details Starts -->
+        <div class="info-grid">
+            <div class="form-group">
+                <div class="form-label">{{metadata.IH_Adj_Payment_Setting_Us_Citizen}} ?</div>
+                <input type="radio" class="k-radio" [id]="metadata.IH_Adj_Payment_Setting_Us_Citizen + '_1'" formControlName="isUSCitizen" [value]="true" />
+                <label class="k-radio-label" [for]="metadata.IH_Adj_Payment_Setting_Us_Citizen + '_1'"> {{metadata.IH_Adj_Payment_Setting_Yes}} </label>
+                <input style="margin-left: 24px;" [id]="metadata.IH_Adj_Payment_Setting_Us_Citizen + '_2'" type="radio" class="k-radio" formControlName="isUSCitizen" [value]="false" />
+                <label class="k-radio-label" [for]="metadata.IH_Adj_Payment_Setting_Us_Citizen + '_2'"> {{metadata.IH_Adj_Payment_Setting_No}}</label>
+            </div>
+            <div class="form-group">
+                <div class="form-label">{{metadata.IH_Adj_Payment_Setting_Us_Resident}} ?</div>
+                <input type="radio" class="k-radio" [id]="metadata.IH_Adj_Payment_Setting_Us_Resident + '_1'" formControlName="isUSResident" [value]="true" />
+                <label class="k-radio-label" [for]="metadata.IH_Adj_Payment_Setting_Us_Resident + '_1'"> {{metadata.IH_Adj_Payment_Setting_Yes}} </label>
+                <input style="margin-left: 24px;"  [id]="metadata.IH_Adj_Payment_Setting_Us_Resident + '_2'" type="radio" class="k-radio" formControlName="isUSResident"
+                    [value]="false"/>
+                <label class="k-radio-label" [for]="metadata.IH_Adj_Payment_Setting_Us_Resident + '_2'"> {{metadata.IH_Adj_Payment_Setting_No}} </label>
+            </div>
+            <ng-container *ngIf="formValue.isUSCitizen || formValue.isUSResident">
+                <div class="form-group">
+                    <div class="form-label"> {{metadata.IH_Adj_Payment_Setting_Individual}} ?</div>
+                    <span *ngFor="let value of taxPersonLookup">
+                        <input type="radio" class="k-radio" [id]="value.key" formControlName="serviceTypeID" [value]="value.key" />
+                        <label class="k-radio-label" [for]="value.key" style="margin-right: 20px;">{{value.value}}</label>
+                    </span>
+                    <ng-container *ngIf="keys.serviceTypeID.touched && keys.serviceTypeID.errors">
+                        <div class="error" *ngIf="keys.serviceTypeID.errors.required">
+                            {{metadata.IH_Adj_Payment_Setting_Individual_Error }}
+                        </div>
+                    </ng-container>
+                </div>     
+                <div class="form-group" *ngIf="formValue.serviceTypeID === 'PTBS'">
+                    <div class="form-label"> {{metadata.IH_Adj_Payment_Setting_Ein}} </div>
+                    <kendo-maskedtextbox class="inde-input" [mask]="einMask" [rules]="einRules"
+                    formControlName="ein"></kendo-maskedtextbox>
+                    <ng-container *ngIf="keys.ein.touched && keys.ein.errors">
+                        <div class="error"  *ngIf="keys.ein.errors.required">
+                            {{metadata.IH_Adj_Payment_Setting_Ein}} {{ validationMsg.IH_Required }}
+                        </div>
+                        <div class="error"  *ngIf="keys.ein.errors?.patternError">
+                            {{metadata.IH_Adj_Payment_Setting_Ein}} {{ validationMsg.IH_Invalid }}
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="form-group">
+                    <div class="form-label"> {{metadata.IH_Adj_Payment_Setting_Legal}} </div>
+                    <input class="inde-input" type="text" formControlName="legalName" kendoTextBox
+                        [placeholder]="metadata.IH_Adj_Payment_Setting_Name">
+                    
+                    <ng-container *ngIf="keys.legalName.touched && keys.legalName.errors">
+                        <div class="error"  *ngIf="keys.legalName.errors.required">
+                            {{metadata.IH_Adj_Payment_Setting_Name}} {{ validationMsg.IH_Required }}
+                        </div>
+                    </ng-container>
+                </div>
+            </ng-container>
+
+        </div>
+        <!-- Tax Details Ends -->
+
+        <div class="acnt-ttl">{{metadata.IH_Adj_Payment_Account_Details}}</div>
+
+        <!-- Account Details Starts -->
+        <div class="info-grid">
+            <div class="form-group">
+                <div class="form-label">
+                    {{metadata.IH_Adj_Payment_Setting_Type}}
+                </div>
+                <kendo-dropdownlist 
+                    formControlName="accountTypeID" 
+                    [defaultItem]="accountTypeDefault"
+                    [data]="accountTypeLookup"
+                    valuePrimitive=true
+                    [textField]="'value'"
+                    [valueField]="'key'" 
+                    class="dropdown inde-dropdown">
+                </kendo-dropdownlist>
+                <ng-container *ngIf="keys.accountTypeID.touched && keys.accountTypeID.errors">
+                    <div class="error"  *ngIf="keys.accountTypeID.errors.required">
+                        {{metadata.IH_Adj_Payment_Setting_Type}} {{ validationMsg.IH_Required }}
+                    </div>
+                </ng-container>
+            </div>
+            <div class="form-group"></div>
+            <div class="form-group">
+                <div class="form-label"> {{metadata.IH_Adj_Payment_Setting_Routing_Number}} </div>
+                <input class="inde-input" type="text" formControlName="routingNumber" kendoTextBox
+                    onkeypress="return ((event.charCode >= 48 && event.charCode <= 57))"
+                    oninput="validity.valid||(value='')" maxlength="9"
+                    [placeholder]="metadata.IH_Adj_Payment_Setting_Routing_Number" (blur)="checkFormMismatch('routingNumber')">
+                <ng-container *ngIf="keys.routingNumber.touched && keys.routingNumber.errors">
+                    <div class="error"  *ngIf="keys.routingNumber.errors.required">
+                        {{metadata.IH_Adj_Payment_Setting_Routing_Number}} {{ validationMsg.IH_Required }}
+                    </div>
+                    <div class="error" *ngIf="keys.routingNumber.errors.minlength">
+                        {{metadata?.IH_Adj_Payment_Setting_Routing_Number}} {{validationMsg.IH_MinError}} 9 {{metadata?.IH_Adj_Payment_Setting_Digits}}.
+                    </div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <div class="form-label"> {{metadata.IH_Adj_Payment_Confirm}} {{metadata.IH_Adj_Payment_Setting_Routing_Number}} </div>
+                <input class="inde-input" type="text" formControlName="confirmRoutingNumber" kendoTextBox
+                    onkeypress="return ((event.charCode >= 48 && event.charCode <= 57))"
+                    oninput="validity.valid||(value='')" maxlength="9"
+                    [placeholder]="metadata.IH_Adj_Payment_Setting_Routing_Number">
+                <ng-container *ngIf="keys.confirmRoutingNumber.touched && keys.confirmRoutingNumber.errors">
+                    <div class="error"  *ngIf="keys.confirmRoutingNumber.errors.required">
+                        {{metadata.IH_Adj_Payment_Setting_Routing_Number}} {{ validationMsg.IH_Required }}
+                    </div>
+                    <div class="error"  *ngIf="keys.confirmRoutingNumber.errors.mismatch">
+                        {{metadata.IH_Adj_Payment_Setting_Routing_Number}} {{ 'mismatch' }}
+                    </div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <div class="form-label"> {{metadata.IH_Adj_Payment_Setting_Account_Number}} </div>
+                <input class="inde-input" type="text" formControlName="accountNumber" kendoTextBox
+                    onkeypress="return ((event.charCode >= 48 && event.charCode <= 57))"
+                    oninput="validity.valid||(value='')" maxlength="14"
+                    [placeholder]="metadata.IH_Adj_Payment_Setting_Account_Number" (blur)="checkFormMismatch('accountNumber')">
+                <ng-container *ngIf="keys.accountNumber.touched && keys.accountNumber.errors">
+                    <div class="error"  *ngIf="keys.accountNumber.errors.required">
+                        {{metadata.IH_Adj_Payment_Setting_Account_Number}} {{ validationMsg.IH_Required }}
+                    </div>
+                    <div class="error" *ngIf="keys.accountNumber.errors.minlength">
+                        {{metadata?.IH_Adj_Payment_Setting_Account_Number}} {{validationMsg.IH_MinError}} 10 {{metadata?.IH_Adj_Payment_Setting_Digits}}.
+                    </div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <div class="form-label"> {{metadata.IH_Adj_Payment_Confirm}} {{metadata.IH_Adj_Payment_Setting_Account_Number}} </div>
+                <input class="inde-input" type="text" formControlName="confirmAccountNumber" kendoTextBox
+                    onkeypress="return ((event.charCode >= 48 && event.charCode <= 57))"
+                    oninput="validity.valid||(value='')" maxlength="14"
+                    [placeholder]="metadata.IH_Adj_Payment_Setting_Account_Number">
+                <ng-container *ngIf="keys.confirmAccountNumber.touched && keys.confirmAccountNumber.errors">
+                    <div class="error"  *ngIf="keys.confirmAccountNumber.errors.required">
+                        {{metadata.IH_Adj_Payment_Setting_Account_Number}} {{ validationMsg.IH_Required }}
+                    </div>
+                    <!-- <div class="error"  *ngIf="keys.confirmAccountNumber.errors.mismatch">
+                        {{metadata.IH_Adj_Payment_Setting_Account_Number}} {{ 'mismatch' }}
+                    </div> -->
+                </ng-container>
+                <ng-container *ngIf="keys.confirmAccountNumber.errors && keys.confirmAccountNumber.dirty && !keys.confirmAccountNumber.errors.required">
+                    <div class="error"  *ngIf="keys.confirmAccountNumber.errors.mismatch">
+                        {{metadata.IH_Adj_Payment_Setting_Account_Number}} {{ 'mismatch' }}
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <!-- Account Details Ends -->
+        
+        <div class="form-group" *ngIf="!formValue.isUSCitizen && !formValue.isUSResident">
+            <div class="sub-heading">
+                {{metadata.IH_Adj_Payment_Setting_FollowSteps}}.
+            </div>
+            <div class="line">
+                1. {{metadata.IH_Adj_Payment_Setting_DownloadPDF}}: <a target="blank" href="https://www.irs.gov/pub/irs-pdf/fw8bene.pdf">
+                    https://www.irs.gov/pub/irs-pdf/fw8bene.pdf
+                </a>
+            </div>
+            <div class="line">
+                2. {{metadata.IH_Adj_Payment_Setting_EmailPDF}}: <a>support_crawfordinspections@us.crawco.com</a>
+            </div>
+        </div>
+
+        <div *ngIf="isEditTaxInfo" class="tnc form-group">
+            <input type="checkbox" [id]="'s1'" class="k-checkbox" formControlName="terms"/>
+            <label class="k-checkbox-label" [for]="'s1'">{{ metadata.IH_Adj_Payment_Setting_Confirmation }}</label>
+            <ng-container *ngIf="keys.terms.touched || keys.terms.dirty">
+                <div class="error" *ngIf="keys.terms.errors?.required">
+                    {{'Confirmation'}} {{ validationMsg.IH_Required }}
+                </div>
+            </ng-container>
+        </div>
+
+        <div class="btn" *ngIf="isEditTaxInfo">
+            <button type="button" class="btn-negative" (click)="cancelEditTaxInfo()">
+                {{metadata.IH_Adj_Payment_Setting_Cancel}}
+            </button>
+            <button type="button" class="btn-positive" (click)="savePaymentDetails()">
+                {{metadata.IH_Adj_Payment_Setting_Save}}
+                <i *ngIf="saveLoad" class="fas fa-sync spin"></i>
+            </button>
+        </div>
+
+    </div>
+
+</div>

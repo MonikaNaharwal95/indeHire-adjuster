@@ -1,0 +1,23 @@
+@import "./../../../../styles/mixin";
+@import "./../../../../styles/variable";
+@import "./../../../../styles/custom";
+
+.title {
+    color: $colorText;
+    padding:4px;
+    font-size: $font-extra-small;
+    font-weight: 600;
+}
+
+
+.msg {
+    color: $colorBlueLight;
+    padding: 4px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+  .viewUpdates {
+ padding: 8px;
+// margin-bottom: 10px;
+ }

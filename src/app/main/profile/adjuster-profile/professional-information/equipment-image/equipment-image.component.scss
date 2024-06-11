@@ -1,0 +1,119 @@
+@import './../../../../../../styles/variable';
+@import './../../../../../../styles/mixin';
+@import './../../../../../../styles/styles';
+.add-image {
+    @include indeOutlineButton($color: $colorAccent, $dark: $colorAccentDark);
+    padding: 4px 16px;
+    font-size: $font-extra-small;
+    float: right;
+}
+
+.status {
+    display: inline-block;
+    margin-left: 10px;
+    i {
+        font-size: $font-18;
+        vertical-align: middle;
+    }
+    .fa-check-circle {
+        color: $colorAccent;
+    }
+    .fa-times-circle {
+        color: #f7bc00;
+    }
+    .fa-exclamation-circle {
+        color: $color-icons;
+    }
+}
+
+.note-equipment span {
+    color: $colorDangerDark;
+}
+
+.error-img {
+    text-align: center;
+    color: $color-red;
+    padding: 4px 0px;
+    font-size: $font-card-header;
+}
+
+.content-wrapper {
+    margin-bottom: 15px;
+    position: relative;
+    overflow: visible;
+    .error-img {
+        position: absolute;
+        right: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 99;
+    }
+}
+
+.check-box {
+    margin-top: 15px;
+    overflow: hidden;
+    .k-checkbox-label {
+        width: fit-content;
+    }
+}
+
+.image-section {
+    margin-bottom: 15px;
+    position: relative;
+    .img-name {
+        display: inline-block;
+        max-width: 300px;
+        @include content-style($font-small, $colorText, $regular);
+        visibility: middle;
+        margin-left: 40px;
+    }
+    img {
+        border-radius: 5px;
+        vertical-align: middle;
+    }
+    button {
+        border: 0;
+        background: transparent;
+        position: absolute;
+        right: 0px;
+        top: 50%;
+        transform: translate(0%, -50%);
+        cursor: pointer;
+        &:focus {
+            outline: none;
+        }
+        i {
+            font-size: $font-large;
+        }
+    }
+}
+
+.image-list {
+    margin-top: 8px;
+}
+
+:disabled i {
+    color: $color-deleteicon-disable;
+}
+
+.no-image {
+    margin: 8px 0;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 5px;
+    text-align: center;
+    width: 180px;
+    padding: 16px 0px;
+    i {
+        font-size: 90px;
+        color: $colorAdditional;
+    }
+    .text {
+        color: $colorText;
+    }
+}
+
+.no-item {
+    text-align: center;
+    @include content-style($font-large, $colorText, $regular);
+}

@@ -1,0 +1,23 @@
+<div class="data-wrap" *ngIf="metaData">
+    <div class="data-ctn setting-wrap">
+        <div class="flex">
+            <div class="setting-left">
+                <div class="div-sticky">
+                    <div class="page-title">{{ metaData.IH_AccountSettings_Settings }}</div>
+                    <div class="shad-card">
+                        <div class="sidebar">
+                            <div class="item" routerLink='account-settings' [routerLinkActive]="'active'">{{ metaData.IH_AccountSettings_Account_Settings }}</div>
+                            <div class="item" routerLink='payments-taxes' [routerLinkActive]="'active'">{{ metaData.IH_AccountSettings_PaymentTax }}</div>
+                            <!-- <div class="item">{{ metaData.IH_AccountSettings_Password_Security }}</div> -->
+                            <!-- <div class="item">{{ metaData.IH_AccountSettings_Notification_Settings }}</div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="setting-main">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+        <inde-footer></inde-footer>
+    </div>
+</div>

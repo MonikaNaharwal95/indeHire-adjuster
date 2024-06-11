@@ -1,0 +1,113 @@
+@import './../../styles/variable';
+@import './../../styles/mixin';
+
+
+$loader--width: 150px;
+$loader-dot--size: 20px;
+
+.container {
+    height: 100vh;
+    width: 100vw;
+    // font-family: Helvetica;
+}
+
+.loader-wrap {
+  @include moveDivToCentre();
+  top: 55%;
+  width: 100%;
+  text-align: center;
+  .msg {
+    height: 150px;
+    font-size: 28px;
+    color: $colorDarkGrey;
+    i {
+      color: $colorAccent;
+    }
+  }
+}
+
+.loader {
+    height: $loader-dot--size;
+    width: $loader--width;
+    &--dot {
+        animation: {
+          name: loader;
+          timing-function: ease-in-out;
+          duration: 3s;
+          iteration-count: infinite;
+        }
+      height: $loader-dot--size;
+      width: $loader-dot--size;
+      border-radius: 100%;
+      background-color: black;
+      position: absolute;
+      border: 2px solid #f2f2f2;
+      &:first-child {
+        background-color: rgba($colorAccent, 0.5);
+        animation-delay: 0.5s;
+      }
+      &:nth-child(2) {
+        background-color: rgba($colorAccent, 0.6);
+        animation-delay: 0.4s;
+      }
+      &:nth-child(3) {
+        background-color: rgba($colorAccent, 0.7);
+        animation-delay: 0.3s;
+      }
+      &:nth-child(4) {
+        background-color: rgba($colorAccent, 0.8);
+        animation-delay: 0.2s;
+      }
+      &:nth-child(5) {
+        background-color: rgba($colorAccent, 0.9);
+        animation-delay: 0.1s;
+      }
+      &:nth-child(6) {
+        background-color: rgba($colorAccent, 1);
+        animation-delay: 0s;
+      }
+    }
+    &--text {
+        position: absolute;
+        top: 200%;
+        left: 0;
+        right: 0;
+        // width: 4rem;
+        margin: auto;
+        // &:after {
+        //     content: "Wecome to IndeHire";  
+        //     font-weight: bold;
+        //     animation: {
+        //         name: loading-text;
+        //         duration: 3s;
+        //         iteration-count: infinite;
+        //     }
+        // }
+    }
+
+      
+  @keyframes loader {
+    15% {transform: translateX(0)}      
+    45% {transform: translateX( $loader--width - $loader-dot--size )}
+    65% {transform: translateX( $loader--width - $loader-dot--size )}
+    95% {transform: translateX(0)}
+  }
+
+  @keyframes loading-text {
+    0%  {content: "Wecome to IndeHire"} 
+    
+    25% {content: "Wecome to IndeHire."}
+          
+    50% {content: "Wecome to IndeHire.."}
+      
+    75% {content: "Wecome to IndeHire..."}
+      
+  }
+
+}
+
+@media all and (min-width: 320px) and (max-width: 767px) {
+  .msg {
+    font-size: 20px !important;
+  }
+}

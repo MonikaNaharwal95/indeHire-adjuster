@@ -1,0 +1,146 @@
+@import "../../../../../styles/mixin";
+@import "../../../../../styles/variable";
+@import "../../../../../styles/styles.scss";
+
+.overview {
+  position: relative;
+  padding: 12px 18px;
+  .heading {
+    margin-bottom: 4px;
+    .title {
+      color: $colorBlueLight;
+      inde-action-button {
+        float: right;
+        margin-right: 20px;
+      }
+    }
+  }
+  .border-top {
+    border-top: 1px solid $borderColor;
+    margin-bottom: 8px;
+  }
+  .flex-wrap {
+    padding-left: 10px;
+    .form-group {
+      width: 50%;
+      .form-label {
+      font-size: $font-extra-small;
+      }
+      .form-value {
+        font-size: $font-extra-small;
+        text-transform: capitalize;
+      }
+      .expire {
+        color: $colorAccent;
+      }
+    }
+  }
+  .payment-info {
+    border-bottom: 1px solid $borderColor;
+    margin-bottom: 8px;
+    .form-group {
+      width: 25%;
+    }
+  }
+  .milestone-records {
+    padding: 15px;
+    .data-row {
+      margin-bottom: 5px;
+      overflow: hidden;
+    }
+    .data {
+      width: 25%;
+      @include content-style($font-extra-small, $colorText, $regular);
+      display: inline-block;
+      text-align: center;
+    }
+    .name {
+      text-align: left;
+    }
+    .head .data {
+      @include content-style($font-small, $colorPrimary, $semibold);
+    }
+  }
+  .tnc {
+    font-size: $font-extra-small;
+    padding: 12px 0px 0px 10px;
+    text-align: left;
+    label {
+        display: inline !important;
+    }
+}
+  .btn {
+    @include indeButton();
+    margin: 8px 0 16px 0;
+    width: auto;
+    align-self: center;
+  }
+  .btn-back {
+    @include indeOutlineButton($colorBlueLight, $colorBlueLight);
+    margin: 8px 12px 16px 0;
+    width: auto;
+    align-self: center;
+  }
+}
+.dialog-form {
+  width: 50%;
+}
+.description-box {
+  width: 50%;
+  min-height: 80px;
+}
+.timsheet-link {
+  color: $colorAccent;
+  font-size: $font-extra-small;
+  padding-bottom: 8px;
+}
+ul {
+  padding: 0px 0px 0px 2px;
+  margin: 0;
+  overflow: hidden;
+  li {
+      width: 40%;
+      float: left;
+      list-style-type: none;
+      margin-bottom: 14+px;
+      label {
+          margin-left: 8px;
+      }
+  }
+}
+.pause-reasons li {
+  width: 100%;
+}
+textarea {
+  width: 100%;
+  resize: none;
+  min-height: 120px;
+  background-color: $headingBackgroundColor;
+}
+.note {
+  color: $colorAccent;
+  font-size: $font-extra-small;
+  padding-bottom: 8px;
+}
+.terminateTextArea {
+  width: 100%;
+  margin: 8px 0px 8px 0px;
+}
+.error {
+  color: $colorDanger;
+  font-size: $font-small;
+  margin-top: 8px;
+}
+
+.mobile-app-info {
+  .mob-note-msg {
+    @include content-style($font-medium, $colorTertiary, $regular);
+  }
+  .mobile-links {
+    @include content-style($font-small, $colorText, $regular);
+    margin-top: 4px;
+    .app-link {
+      color: $colorAccent;
+    }
+  }
+}

@@ -1,0 +1,23 @@
+@import './../adjuster-profile.component.scss';
+@import './../../../../../styles/custom';
+
+
+.view-certificate{
+    color:$colorBlueLight;
+
+
+    label{
+        margin-right: 8px;
+        cursor: pointer;
+    }
+
+    i{
+        cursor: pointer;
+    }
+}
+
+
+.width2 {
+    margin-right: 8px; 
+    width: calc(50% - 8px);
+ }

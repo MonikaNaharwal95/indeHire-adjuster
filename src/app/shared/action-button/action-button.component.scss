@@ -1,0 +1,67 @@
+@import './../../../styles/mixin';
+@import './../../../styles/variable';
+@import "./../../../styles/custom";
+.ellipses {
+    position: relative;
+    display: inline-block;
+    height: 20px;
+    line-height: 16px;
+    width: 24px;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    ul {
+        margin-top: 12px;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        display: none;
+        border-radius: 5px;
+        padding: 0;
+        border: 1px solid $borderColor;
+        z-index: 1000;
+        min-width: 110px;
+        text-align: left;
+        background: $colorTextonAccent;
+        &::before {
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-bottom: 7px solid $borderColor;
+            position: absolute;
+            content: '';
+            right: 5px;
+            top: -8px
+        }
+        li {
+            list-style: none;
+            margin: 2px 4px;
+            // @include content-style(12px, $colorText, 500);
+            font-size: 12px;
+            color: $colorText;
+            font-weight: 500;
+            text-transform: capitalize;
+            padding: 2px 4px;
+            // border-bottom: 1px solid $borderColor;
+            &:last-child {
+                border: 0;
+            }
+            &:hover {
+                background-color: rgba($colorBlueLight, 0.12);
+                color: $colorBlueLight;
+                font-weight: 600;
+                // @include content-style(12px, $colorBlueLight, 600);
+            }
+        }
+    }
+    .active {
+        display: block;
+    }
+    border: 1px solid $colorAccent;
+    i.fa-ellipsis-h {
+        color: $colorAccent;
+        font-size: $font-extra-small;
+        padding: 0 6px !important;
+    }
+}

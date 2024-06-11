@@ -1,0 +1,59 @@
+@import './../../../../styles/variable';
+@import './../../../../styles/mixin';
+@import './../../../../styles/custom';
+
+.info-grid {
+    @include grid-2(1fr, 1fr);
+    grid-gap: 0rem 2rem;
+    .address {
+        margin-bottom: 8px;
+        width: 100%;
+    }
+}
+.acnt-ttl {
+   @include content-style($font-small, $colorBlueLight, $semibold);
+   margin-bottom: 8px;
+}
+.sub-heading {
+    font-size: $font-small;
+    font-weight: 600;
+    color: $colorPrimary;
+    margin-bottom: 4px;
+}
+.line {
+    font-size: $font-extra-small;
+    margin-bottom: 4px;
+}
+.btn {
+    padding: 8px 0px;
+    justify-content: flex-end;
+    display: flex;
+}
+.btn-positive {
+    @include indeButton();
+    width: max-content;
+}
+.btn-negative {
+    @include indeOutlineButton($colorBlueLight, $colorBlueLight);
+    margin-right: 8px;
+}
+
+.new-payment {
+    text-align: center;
+    margin: 120px auto;
+    color: $colorAccent;
+    .fa-hand-holding-usd {
+        font-size: $icon-max;
+        margin-bottom: 16px;
+    }
+    .pay-msg {
+        margin: 16px 0;
+        font-size: $font-small;
+    }
+}
+.form-value{
+    .fas {
+        margin-left: 8px;
+        cursor: pointer;
+    }
+}

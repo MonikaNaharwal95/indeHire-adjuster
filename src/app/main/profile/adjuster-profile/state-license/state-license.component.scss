@@ -1,0 +1,48 @@
+@import './../adjuster-profile.component.scss';
+
+
+.state-license-wrapper{
+    border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.state-grid-header {
+    @include grid-6(calc(15% - 1rem), calc(20% - 1rem), calc(22%),calc(13% - 1rem), calc(15% - 1rem), calc(15% - 1rem));
+    margin: 8px 0px 8px 4px;
+    font-size: 14px;
+    font-weight: 600;
+    color: $colorBlueLight;
+    word-break: break-word;
+}
+
+.state-grid-data {
+    @include grid-6(calc(15% - 1rem), calc(20% - 1rem), calc(22%),calc(13% - 1rem), calc(15% - 1rem), calc(15% - 1rem));
+    margin: 8px 0px 8px 4px;
+    font-size: 14px;
+    font-weight: 600;
+    color: $colorText;
+    word-break: break-word;
+
+    .far{
+        cursor: pointer;
+    }
+
+    .far:hover{
+        color: $colorBlueLight;
+    }
+}
+
+.state-grid-header-popup {
+    @include grid-2(calc(50% - 0.5rem), calc(50% - 1rem));
+    margin: 8px 0px 8px 0px;
+    font-size: 14px;
+    font-weight: 600;
+    color: $colorBlueLight;
+}
+
+.state-grid-data-popup {
+    @include grid-2(calc(50% - 0.5rem), calc(50% - 1rem));
+    margin: 8px 0px 8px 2px;
+    font-size: 14px;
+
+    color: $colorText;
+}

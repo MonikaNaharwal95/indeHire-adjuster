@@ -1,0 +1,49 @@
+@import './../adjuster-profile.component.scss';
+@import './../../../../../styles/range-bar';
+@import './../../../../../styles/variable';
+@import './../../../../../styles/mixin';
+@import './../../../../../styles/custom';
+.other {
+    font-size: 12px;
+}
+
+.edit-other {
+    width: 35%;
+}
+
+.travel {
+    border: 1px solid $borderColor;
+    margin: 8px;
+    padding: 8px;
+    border-radius: 3px;
+    z-index: 0;
+    .tra-head {
+        font-size: $font-card-header;
+        color: $colorPrimary;
+        font-weight: 600;
+    }
+    .tra-ques {
+        color: $colorPrimary;
+        font-weight: 600;
+        font-size: $font-extra-small;
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+    .tra-value {
+        font-size: $font-extra-small;
+        font-weight: 600;
+    }
+    .btn-ctn {
+        padding-top: 18px;
+        text-align: center;
+    }
+    ng5-slider {
+        z-index: 0;
+    }
+}
+
+.note {
+    span {
+        color: $colorAccent;
+    }
+}

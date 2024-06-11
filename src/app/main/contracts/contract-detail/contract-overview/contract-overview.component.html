@@ -1,0 +1,72 @@
+<div class="loader" *ngIf="!contractDetailMetaData  || !schemJson">
+  <span class="k-icon k-i-loading" style="font-size: 64px;"></span>
+</div>
+
+<!-- Contractdetails starts here -->
+<div class="card overview" *ngIf="contractDetailMetaData && schemJson">
+  <div class="heading">
+    <div class="title" style="padding-left: 0;">
+      {{ reportHeaderInfo[0].AssignmentReferenceNo }}
+    </div>
+
+    <inde-action-button
+    *ngIf='isCanUserterminate'
+      [actionArray]="actionMenu"
+      (actionButtonClicked)="actionButtonClick($event)"
+    ></inde-action-button>
+  </div>
+
+  <div class="mobile-app-info">
+    <div class="mob-note-msg">{{ contractDetailMetaData.IH_Adj_Contract_Detail_AsgmtCompleteApp }}</div>
+    <div class="mobile-links">
+      {{contractDetailMetaData.IH_Adj_Contract_Detail_DownloadOur}} 
+      <a class="app-link" [href]="iosPath" target="_blank">{{ contractDetailMetaData.IH_Adj_Contract_Detail_IOS }}</a> 
+      {{ contractDetailMetaData.IH_Adj_Contract_Detail_Or }} 
+      <a class="app-link" [href]="androidPath" target="_blank">{{ contractDetailMetaData.IH_Adj_Contract_Detail_Android }}</a> 
+      {{ contractDetailMetaData.IH_Adj_Contract_Detail_App }}.
+    </div>
+  </div>
+  
+  <div class="view-job" *ngIf="schemJson">
+    <!-- <cis-form-render [schemaJson]="schemJson" [viewMode]="true" [formData]="formJson" [context]="'looker-app'"></cis-form-render> -->
+  </div>
+
+</div>
+
+<!-- <inde-alert-dialog 
+  #cancelAlert 
+  [message]="contractDetailMetaData?.IH_Adj_Contract_Detail_AsgmtTerminateConfirm" 
+  (positiveButtonClick)="cancelAssignment()" 
+  (negativeButtonClick)="hideDialog()">
+</inde-alert-dialog> -->
+<!-- Contract trmination popup starts -->
+<inde-dialog 
+    #cancelAlert 
+    [loader]="terminating"
+    [header]="contractDetailMetaData?.IH_Adj_Contract_Detail_TerminateContract"
+    [positiveButton]="contractDetailMetaData?.IH_Adj_Contract_Detail_Terminate" 
+    [negativeButton]="contractDetailMetaData?.IH_Adj_Contract_Detail_Cancel"
+    (positiveButtonClickEvent)='cancelAssignment()' 
+    (negativeButtonClickEvent)='hideDialog()'
+    [positiveButtonDisabled]="terminateReason == '' || terminateReason == null">
+    <kendo-dropdownlist class="inde-dropdown" [(ngModel)]="terminateReason" [defaultItem]="reasondefaultItem"
+        style="width:100%" [data]="terminateReasonLookup" valuePrimitive="true" [textField]="'value'"
+        [valueField]="'key'"></kendo-dropdownlist>
+    <textarea 
+      *ngIf="terminateReason === 'ATOT'" 
+      class="terminateTextArea"
+      [(ngModel)]="terminateOtherReason" 
+      kendoTextArea 
+      placeholder="{{contractDetailMetaData?.IH_Adj_Contract_Detail_OtherReason}}" 
+      maxlength="100">
+    </textarea>
+    <div class="error" *ngIf="this.terminateReason === 'ATOT' && terminateOtherReason === '' && reasonError">{{contractDetailMetaData?.IH_Adj_Contract_Detail_OtherReason}} {{ validationMsg.IH_Required }}</div>
+</inde-dialog>
+
+<!-- reschedule calendar -->
+<inde-reschedule-dialog #indeRescheduleDialog  class="job-dialog" [header]="header"
+ [timezone]="timezone"
+(dataSavedEvent)="rescheduleUser()" (negativeButtonClickEvent)="closeRescheduleDialog()"
+ [rescheduleJobID]= "rescheduleJobID"
+>
+</inde-reschedule-dialog>
