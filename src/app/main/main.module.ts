@@ -19,7 +19,7 @@ import { ProfessionalInfo2Component } from './profile-creation/professional-info
 import { InsuranceDetailComponent } from './forms/insurance-detail/insurance-detail.component';
 import { SsnDialogComponent } from './forms/ssn-dialog/ssn-dialog.component';
 import { LayoutModule } from '@progress/kendo-angular-layout';
-import { UploadModule } from '@progress/kendo-angular-upload';
+// import { UploadModule } from '@progress/kendo-angular-upload';
 import { SettingsComponent } from './settings/settings.component';
 import { AccountSettingComponent } from './settings/account-setting/account-setting.component';
 import { ProfessionalSummaryComponent } from './profile/adjuster-profile/professional-summary/professional-summary.component';
@@ -107,7 +107,7 @@ import { RescheduleDialogComponent } from './forms/reschedule-dialog/reschedule-
     TooltipModule,
     LayoutModule,
     Ng5SliderModule,
-    UploadModule,
+    // UploadModule,
     PdfViewerModule,
     DateRangeModule,
     DateInputsModule,

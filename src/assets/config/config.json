@@ -10,8 +10,8 @@
             "read": "https://us-continuousdeployment-api.claims.global/contentread/"
         },
         "adjuster": {
-            "read": "https://us-continuousdeployment-api.claims.global/adjusterread/",
-            "command": "https://us-continuousdeployment-api.claims.global/adjustercommand/"
+            "read": "https://app-ais-adjuster-read-api-dev.azurewebsites.net/",
+            "command": "https://app-ais-adjuster-command-api-dev.azurewebsites.net/"
         }
     },
     "splashScreenStatus": "everytime",

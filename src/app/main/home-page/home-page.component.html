@@ -61,14 +61,14 @@
                         <inde-grid *ngIf="index.tilesTypeID == 'AD_MJ'" [scrollable]="'none'" [dataSource]="newJob" [loading]="loader" [noData]="this.metaData.IH_AdjLanding_NoData" [cssClass]="'lead-grid'" [pageable]="false" [pageSize]="'10'" [scrollable]="false" [columns]="NewJobDetailColumn"
                             [filterable]="false">
                         </inde-grid>
-                        <div class="view" *ngIf="index.tilesTypeID == 'AD_MJ'" routerLink="/jobs">
+                        <div class="view" *ngIf="index.tilesTypeID == 'AD_MJ'" routerLink="/main/jobs">
                             {{ metaData.IH_AdjLanding_ViewMore }}
                         </div>
                         <!-- Recent Messages Grid -->
                         <inde-grid *ngIf="index.tilesTypeID == 'AD_RM'" [scrollable]="'none'" [dataSource]="recent" [loading]="loader" [noData]="this.metaData.IH_AdjLanding_NoData" [cssClass]="'lead-grid'" [pageable]="false" [pageSize]="'10'" [scrollable]="false" [columns]="RecentMessagesColumn"
                             [filterable]="false">
                         </inde-grid>
-                        <div class="view" routerLink="/message-center" *ngIf="index.tilesTypeID == 'AD_RM'">
+                        <div class="view" routerLink="/main/message-center" *ngIf="index.tilesTypeID == 'AD_RM'">
                             {{ metaData.IH_AdjLanding_ViewMore }}
                         </div>
                     </div>

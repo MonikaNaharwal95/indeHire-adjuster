@@ -28,14 +28,13 @@ const mainRoutes: Routes = [
     component: MainComponent,
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'home-page' },
-      { path: 'home-page', canActivate: [IndehireAuthGuard],  component: HomePageComponent },
-      { path: 'client-view', canActivate: [IndehireAuthGuard],  component: CarrierViewComponent },
-      { path: 'contractor-profile', canActivate: [IndehireAuthGuard], component: AdjusterProfileComponent },
-      { path: 'profile-creation', canActivate: [IndehireAuthGuard], component: ProfileCreationComponent },
-      { path: 'qa-report', canActivate: [IndehireAuthGuard], component: QaFailuresComponent },
+      { path: 'home-page',   component: HomePageComponent },
+      { path: 'client-view',   component: CarrierViewComponent },
+      { path: 'contractor-profile',  component: AdjusterProfileComponent },
+      { path: 'profile-creation', component: ProfileCreationComponent },
+      { path: 'qa-report',  component: QaFailuresComponent },
       {
         path: 'settings',
-        canActivate: [IndehireAuthGuard],
         component: SettingsComponent,
         children: [
           { path: '', pathMatch: 'full', redirectTo: 'account-settings' },
@@ -43,19 +42,19 @@ const mainRoutes: Routes = [
           { path: 'payments-taxes', component: PaymentTaxesComponent }
         ]
       },
-      { path: 'jobs', canActivate: [IndehireAuthGuard], component: JobsComponent },
-      { path: 'jobs/:notification', canActivate: [IndehireAuthGuard], component: JobsComponent },
-      {path: 'contracts', pathMatch: 'full', redirectTo: 'contracts/posted-contracts/ASCH', component: ContractsComponent},
-      { path: 'contracts/:type/:status', canActivate: [IndehireAuthGuard], component: ContractsComponent },
+      { path: 'jobs', component: JobsComponent },
+      { path: 'jobs/:notification', component: JobsComponent },
+      // { path: 'contracts', pathMatch: 'full', redirectTo: 'contracts/posted-contracts/ASCH', component: ContractsComponent},
+      // { path: 'contracts/:type/:status', canActivate: [IndehireAuthGuard], component: ContractsComponent },
+      // {
+      //   path: 'contracts/:type/:status/:id', component: ContractDetailComponent,
+      //   children: [
+      //     { path: '', pathMatch: 'full', redirectTo: 'overview' },
+      //     { path: 'overview', component: ContractOverviewComponent },
+      //   ]
+      // },
       {
-        path: 'contracts/:type/:status/:id', component: ContractDetailComponent,
-        children: [
-          { path: '', pathMatch: 'full', redirectTo: 'overview' },
-          { path: 'overview', component: ContractOverviewComponent },
-        ]
-      },
-      {
-        path: 'message-center', canActivate: [IndehireAuthGuard], component: MessageCenterComponent,
+        path: 'message-center',  component: MessageCenterComponent,
         children: [
           { path: '', pathMatch: 'full', redirectTo: 'inmails' },
           {

@@ -438,7 +438,7 @@ export class HomePageComponent implements OnInit {
 
   // This Function will route from Matched Jobs  of home page to Particular job details .
   public routeAssignments(type: string): void {
-    this.router.navigate([`/contracts/posted-contracts/${type}`]);
+    this.router.navigate([`/main/contracts/posted-contracts/${type}`]);
   }
 
   public routeQafail(): void {

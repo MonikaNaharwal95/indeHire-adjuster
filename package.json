@@ -10,15 +10,15 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~13.3.0",
-    "@angular/common": "~13.3.0",
-    "@angular/compiler": "~13.3.0",
-    "@angular/core": "~13.3.0",
-    "@angular/forms": "~13.3.0",
-    "@angular/localize": "~13.3.0",
-    "@angular/platform-browser": "~13.3.0",
-    "@angular/platform-browser-dynamic": "~13.3.0",
-    "@angular/router": "~13.3.0",
+    "@angular/animations": "~14.3.0",
+    "@angular/common": "~14.3.0",
+    "@angular/compiler": "~14.3.0",
+    "@angular/core": "~14.3.0",
+    "@angular/forms": "~14.3.0",
+    "@angular/localize": "~14.3.0",
+    "@angular/platform-browser": "~14.3.0",
+    "@angular/platform-browser-dynamic": "~14.3.0",
+    "@angular/router": "~14.3.0",
     "@microsoft/signalr": "^5.0.4",
     "@progress/kendo-angular-buttons": "^5.0.0",
     "@progress/kendo-angular-common": "^1.0.0",
@@ -42,7 +42,6 @@
     "@progress/kendo-angular-tooltip": "^2.1.6",
     "@progress/kendo-angular-treelist": "^2.0.1",
     "@progress/kendo-angular-treeview": "^4.3.2",
-    "@progress/kendo-angular-upload": "^16.2.0",
     "@progress/kendo-data-query": "^1.0.0",
     "@progress/kendo-drawing": "^1.0.0",
     "@progress/kendo-file-saver": "^1.1.0",
@@ -51,14 +50,15 @@
     "ng2-pdf-viewer": "^6.0.2",
     "ng5-slider": "^1.2.4",
     "rxjs": "~7.5.0",
+    "rxjs-compat": "^6.6.7",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~13.3.11",
-    "@angular/cli": "~13.3.11",
-    "@angular/compiler-cli": "~13.3.0",
-    "@angular/language-service": "~13.3.0",
+    "@angular-devkit/build-angular": "~14.2.13",
+    "@angular/cli": "~14.2.13",
+    "@angular/compiler-cli": "~14.3.0",
+    "@angular/language-service": "~14.3.0",
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.11.1",
@@ -74,4 +74,3 @@
     "typescript": "~4.6.2"
   }
 }
-

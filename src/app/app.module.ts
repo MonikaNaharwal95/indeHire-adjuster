@@ -17,7 +17,7 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
 import { ValidatorService } from './services/validator.service';
 import { IndehireAuthGuard } from './auth/auth.guard';
 import { TokenInterceptor } from './auth/token.interceptor';
-import { UploadModule } from '@progress/kendo-angular-upload';
+// import { UploadModule } from '@progress/kendo-angular-upload';
 import { UnverifiedUserActionComponent } from './unverified-user-action/unverified-user-action.component';
 import { DataChangeService } from './services/data-change.service';
 import { NotificationModule } from '@progress/kendo-angular-notification';
@@ -50,7 +50,7 @@ import { GeoLocationService } from './services/geo-location.service';
     HttpClientModule,
     LayoutModule,
     NotificationModule,
-    UploadModule,
+    // UploadModule,
     PDFExportModule,
     DateInputsModule,
     GridModule,

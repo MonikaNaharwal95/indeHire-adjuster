@@ -33,7 +33,7 @@
                         <span class="g-text">{{ loginMeta.IH_Login_ContAppleID }}</span>
                     </div>
                     <div class="universal-login">
-                        <button class="btn-login" (click)="universalLogin()">{{loginMeta.IH_Login_LoginEmail }}</button>
+                        <button class="btn-login" [routerLink]="['/main/home-page']">{{loginMeta.IH_Login_LoginEmail }}</button>
                     </div>
                     <div class="fp" [class.disable]="loader" [routerLink]="['/auth/forget-password']">
                         {{ loginMeta.IH_Forgot_Password }}

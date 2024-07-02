@@ -7,9 +7,7 @@ import { ResetPasswordComponent } from './auth/reset-password/reset-password.com
 import { CrossOriginFallbackComponent } from './cross-origin-fallback/cross-origin-fallback.component';
 
 const routes: Routes = [
-  { path: 'callback', component: AuthCallbackComponent, pathMatch: 'full' },
-  { path: `update-password/:id`, component: ResetPasswordComponent },
-  { path: 'unverifieduser-fallback', component: UnverifiedUserActionComponent },
+
   // { path: 'cross-origin-fallback', component: CrossOriginFallbackComponent},
   {
     path: 'auth',
@@ -17,9 +15,12 @@ const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   },
   {
-    path: '',
+    path: 'main',
     loadChildren: () => import('./main/main.module').then(m => m.MainModule)
   },
+  { path: 'callback', component: AuthCallbackComponent, pathMatch: 'full' },
+  { path: `update-password/:id`, component: ResetPasswordComponent },
+  { path: 'unverifieduser-fallback', component: UnverifiedUserActionComponent },
   { path: '**', redirectTo: '' }
 ];
 
